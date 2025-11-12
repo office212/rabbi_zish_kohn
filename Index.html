@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Weekly Shiur - Mekor Chaim Staten Island</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Weekly Shiur - Mekor Chaim Staten Island. Watch the shiur video inside this page.">
+  <style>
+    :root { --w: 900px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif; background: #fafbfe; color: #111; }
+    header, main, footer { max-width: var(--w); margin: 0 auto; padding: 16px; }
+    header { padding-top: 28px; }
+    h1 { margin: 0 0 6px; font-size: 1.6rem; }
+    .sub { color:#666; margin-bottom: 14px; }
+    .card { background:#fff; border:1px solid #e7e9f0; border-radius:14px; box-shadow:0 6px 20px rgba(0,0,0,.05); overflow:hidden; }
+    .pad { padding: 14px 16px; }
+    .note { color:#444; line-height: 1.5; }
+    .note em { font-style: italic; }
+    .frame { position: relative; width: 100%; padding-top: 56.25%; border-top:1px solid #eef1f6; }
+    .frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    a { color:#0f77cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { text-align:center; color:#777; font-size:.9rem; padding-bottom: 32px; }
+    .sr { position:absolute; left:-9999px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Weekly Shiur - Mekor Chaim Staten Island</h1>
+    <div class="sub">Watch the weekly shiur inside this page.</div>
+  </header>
+
+  <main>
+    <section class="card">
+      <div class="pad">
+        <!-- The lines below are rendered from the VIDEOS[0] object -->
+        <div id="top-text" class="note">
+          <p><em>Mekor Chaim Staten Island</em></p>
+          <p id="line2">Monday shiur Rabbi Zish Kohn 11/10/2025</p>
+          <p><strong>YouTube:</strong><br>
+            <a id="yt-link" href="https://youtu.be/PpV8jBfptk4?si=wWoVNHwL4r7HhH9i" target="_blank" rel="noopener">https://youtu.be/PpV8jBfptk4?si=wWoVNHwL4r7HhH9i</a>
+          </p>
+        </div>
+      </div>
+      <div class="frame">
+        <iframe id="player" title="Weekly shiur video"
+          src=""
+          loading="lazy"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="pad" aria-hidden="true"><!-- spacer --></div>
+    </section>
+  </main>
+
+  <footer>© <span id="y"></span> Weekly Shiur - Mekor Chaim Staten Island</footer>
+
+  <script>
+    // ====== SIMPLE WEEKLY CONFIG ======
+    // Add a new object AT THE START of this array every week (newest first).
+    // Only three fields are needed: labelLine2 (the second line above the frame), url (YouTube link),
+    // and optionally displayUrl if you want to show a shorter/cleaner link.
+    const VIDEOS = [
+      {
+        // WEEK 1 (provided by you):
+        labelLine2: "Monday shiur Rabbi Zish Kohn 11/10/2025",
+        url: "https://youtu.be/PpV8jBfptk4?si=wWoVNHwL4r7HhH9i",
+        displayUrl: "https://youtu.be/PpV8jBfptk4"
+      }
+      // Example for next week (put ABOVE the previous object):
+      // ,{
+      //   labelLine2: "Monday shiur Rabbi Zish Kohn 11/17/2025",
+      //   url: "https://youtu.be/NEW_VIDEO_ID",
+      //   displayUrl: "https://youtu.be/NEW_VIDEO_ID"
+      // }
+    ];
+
+    // ====== RENDER ======
+    const $ = (s)=>document.querySelector(s);
+    $("#y").textContent = new Date().getFullYear();
+
+    // Extract YT ID from multiple formats (youtu.be / watch?v= / shorts)
+    function extractYouTubeId(url) {
+      try {
+        const u = new URL(url);
+        if (u.hostname.includes("youtu.be")) return u.pathname.slice(1);
+        if (u.searchParams.get("v")) return u.searchParams.get("v");
+        if (u.pathname.startsWith("/shorts/")) return u.pathname.split("/")[2];
+      } catch(e) {}
+      return url; // fallback: treat as raw id
+    }
+    function embedUrl(id) {
+      return `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&playsinline=1`;
+    }
+
+    const latest = VIDEOS[0];
+    if (!latest) {
+      $("#line2").textContent = "No video yet.";
+    } else {
+      // Text lines
+      $("#line2").textContent = latest.labelLine2 || "";
+      const showUrl = latest.displayUrl || latest.url;
+      $("#yt-link").href = latest.url;
+      $("#yt-link").textContent = showUrl;
+
+      // Player
+      const id = extractYouTubeId(latest.url);
+      $("#player").src = embedUrl(id);
+    }
+  </script>
+</body>
+</html>
