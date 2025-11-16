@@ -678,8 +678,8 @@
           dateEl.prepend(badge, " ");
         }
 
-        const activate = (scrollToTop) =>
-          setActive(item.id, item.title, item.dateNice, li, scrollToTop);
+        const activate = (scrollToPlayer) =>
+          setActive(item.id, item.title, item.dateNice, li, scrollToPlayer);
 
         li.addEventListener("click", () => activate(true));
         li.addEventListener("keydown", (e) => {
@@ -705,7 +705,7 @@
       }
     }
 
-    function setActive(videoId, title, date, li, scrollToTop = true) {
+    function setActive(videoId, title, date, li, scrollToPlayer = true) {
       const iframe = document.getElementById("player");
       iframe.src = embedUrl(videoId);
 
@@ -724,8 +724,19 @@
         li.setAttribute("aria-pressed", "true");
       }
 
-      if (scrollToTop) {
-        window.scrollTo({ top: 0, behavior: "smooth" });
+      if (scrollToPlayer) {
+        const playerCard = document.querySelector(".player-card");
+        if (playerCard) {
+          const rect = playerCard.getBoundingClientRect();
+          const headerOffset = 10; // leave small space above the card
+          const targetY = window.pageYOffset + rect.top - headerOffset;
+          window.scrollTo({
+            top: targetY < 0 ? 0 : targetY,
+            behavior: "smooth"
+          });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
       }
     }
 
