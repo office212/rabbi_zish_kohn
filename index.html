@@ -35,46 +35,46 @@
     }
 
     header {
-      padding-top: 24px;
-      padding-bottom: 16px;
+      padding-top: 18px;
+      padding-bottom: 12px;
     }
 
     .header-inner {
       background: linear-gradient(135deg, #eef2ff 0, #e0f2fe 40%, #fef9c3 100%);
       border-radius: 18px;
-      padding: 18px 18px 16px;
-      box-shadow: 0 12px 25px rgba(148,163,184,0.45);
+      padding: 14px 16px 12px;
+      box-shadow: 0 10px 22px rgba(148,163,184,0.4);
       border: 1px solid rgba(148,163,184,0.5);
     }
 
     .title-wrap {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
       align-items: flex-start;
     }
 
     h1 {
       margin: 0;
-      font-size: 1.9rem;
+      font-size: 1.7rem;
       letter-spacing: 0.02em;
     }
 
     .sub {
-      font-size: 0.98rem;
+      font-size: 0.96rem;
       color: #374151;
     }
 
     .pill {
-      margin-top: 10px;
+      margin-top: 8px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 999px;
       background: rgba(15, 118, 255, 0.08);
       border: 1px solid rgba(37, 99, 235, 0.4);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: #1d4ed8;
     }
 
@@ -87,16 +87,16 @@
 
     /* How it works */
     .how {
-      margin-top: 16px;
+      margin-top: 12px;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
+      gap: 8px;
     }
 
     .how-step {
       background: #f9fafb;
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 8px 10px;
       border: 1px solid #d1d5db;
       color: #374151;
       font-size: 0.78rem;
@@ -104,7 +104,7 @@
 
     .how-step strong {
       display: block;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       font-size: 0.8rem;
       color: #111827;
     }
@@ -121,16 +121,18 @@
     }
 
     .layout {
-      margin-top: 20px;
+      margin-top: 16px;
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 18px;
+      column-gap: 18px;
+      row-gap: 18px;
       align-items: flex-start;
     }
 
     @media (max-width: 880px) {
       .layout {
         grid-template-columns: 1fr;
+        row-gap: 24px;
       }
     }
 
@@ -140,26 +142,26 @@
       background: var(--card);
       border-radius: 18px;
       border: 1px solid var(--border-soft);
-      box-shadow: 0 10px 30px rgba(148,163,184,0.5);
+      box-shadow: 0 8px 24px rgba(148,163,184,0.45);
       overflow: hidden;
     }
 
     .player-header {
-      padding: 14px 18px 10px;
+      padding: 12px 16px 8px;
       border-bottom: 1px solid #e5e7eb;
       background: linear-gradient(135deg, #f9fafb 0, #fef9c3 50%, #f9fafb 100%);
     }
 
     .player-title {
-      font-size: 1.05rem;
+      font-size: 1.03rem;
       font-weight: 600;
-      margin: 0 0 4px;
+      margin: 0 0 3px;
       color: var(--text-main);
     }
 
     .player-meta {
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
@@ -199,25 +201,25 @@
 
     /* List card */
     .list-header {
-      padding: 10px 12px;
+      padding: 8px 10px;
       border-bottom: 1px solid #e5e7eb;
       background: #f9fafb;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       justify-content: space-between;
     }
 
     .list-header-title {
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text-main);
     }
 
     .list-header-title span {
       font-weight: 400;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
     }
 
@@ -232,14 +234,14 @@
     .filters select {
       border-radius: 999px;
       border: 1px solid #d1d5db;
-      padding: 4px 10px;
-      font-size: 0.82rem;
+      padding: 4px 9px;
+      font-size: 0.8rem;
       background: #ffffff;
       color: var(--text-main);
     }
 
     .filters input {
-      min-width: 120px;
+      min-width: 140px;
     }
 
     .filters select {
@@ -266,7 +268,7 @@
     .item {
       display: flex;
       gap: 10px;
-      padding: 10px 14px;
+      padding: 9px 12px;
       border-bottom: 1px solid #f1f5f9;
       cursor: pointer;
       transition: background 0.12s ease, transform 0.08s ease;
@@ -318,7 +320,7 @@
     }
 
     .item-title {
-      font-size: 0.95rem;
+      font-size: 0.93rem;
       font-weight: 600;
       margin: 0;
       color: var(--text-main);
@@ -331,7 +333,7 @@
     }
 
     .item-desc {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: #4b5563;
       line-height: 1.3;
       max-height: 3em;
@@ -387,19 +389,19 @@
     /* Back to top button */
     #back-to-top {
       position: fixed;
-      bottom: 22px;
-      right: 18px;
-      padding: 8px 12px;
+      bottom: 32px;
+      right: 24px;
+      padding: 8px 13px;
       border-radius: 999px;
       border: none;
-      background: #111827;
+      background: rgba(17,24,39,0.9);
       color: #f9fafb;
       font-size: 0.8rem;
       display: none;
       align-items: center;
       gap: 6px;
       cursor: pointer;
-      box-shadow: 0 10px 25px rgba(15,23,42,0.55);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.65);
       z-index: 40;
     }
 
@@ -429,16 +431,16 @@
 
       <div class="how">
         <div class="how-step">
-          <strong>1 · Press a shiur</strong>
-          Click any shiur in the list to play it in the big player.
+          <strong>1 · Pick a shiur</strong>
+          Click any shiur in the list to start playing it.
         </div>
         <div class="how-step">
-          <strong>2 · Latest on top</strong>
-          The newest shiur appears first in the list and loads by default.
+          <strong>2 · Newest on top</strong>
+          The most recent shiur is always shown first and loads by default.
         </div>
         <div class="how-step">
-          <strong>3 · Auto-updated</strong>
-          When new shiurim are added to the YouTube playlist, they will appear here automatically.
+          <strong>3 · Always up to date</strong>
+          When the YouTube playlist is updated, this page updates automatically.
         </div>
       </div>
     </div>
@@ -478,7 +480,9 @@
             <span>(sorted by date - newest first)</span>
           </div>
           <div class="filters" aria-label="Filter shiurim">
-            <input id="search-input" type="search" placeholder="Search..." aria-label="Search by title or description">
+            <input id="search-input" type="search"
+                   placeholder="Search shiurim (title or topic)..."
+                   aria-label="Search by title or description">
             <select id="year-filter" aria-label="Filter by year">
               <option value="">All years</option>
             </select>
@@ -663,8 +667,8 @@
           dateEl.prepend(badge, " ");
         }
 
-        const activate = (scrollToPlayer) =>
-          setActive(item.id, item.title, item.dateNice, li, scrollToPlayer);
+        const activate = (scrollToTop) =>
+          setActive(item.id, item.title, item.dateNice, li, scrollToTop);
 
         li.addEventListener("click", () => activate(true));
         li.addEventListener("keydown", (e) => {
@@ -690,7 +694,7 @@
       }
     }
 
-    function setActive(videoId, title, date, li, scrollToPlayer = true) {
+    function setActive(videoId, title, date, li, scrollToTop = true) {
       const iframe = document.getElementById("player");
       iframe.src = embedUrl(videoId);
 
@@ -709,11 +713,8 @@
         li.setAttribute("aria-pressed", "true");
       }
 
-      if (scrollToPlayer) {
-        const playerCard = document.querySelector(".player-card");
-        if (playerCard) {
-          playerCard.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
+      if (scrollToTop) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     }
 
@@ -747,12 +748,7 @@
       }
     });
     backBtn.addEventListener("click", () => {
-      const playerCard = document.querySelector(".player-card");
-      if (playerCard) {
-        playerCard.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
     init();
