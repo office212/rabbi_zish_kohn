@@ -14,8 +14,6 @@
       --w: 1080px;
       --card: #ffffff;
       --accent: #2166ff;
-      --accent-soft: #e3edff;
-      --accent-warm: #f7b733;
       --border-soft: #e3e6f0;
       --text-main: #111827;
       --text-muted: #6b7280;
@@ -201,20 +199,51 @@
 
     /* List card */
     .list-header {
-      padding: 12px 16px;
+      padding: 10px 12px;
       border-bottom: 1px solid #e5e7eb;
-      font-weight: 600;
-      font-size: 0.95rem;
       background: #f9fafb;
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
       align-items: center;
+      justify-content: space-between;
     }
 
-    .list-header span {
+    .list-header-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .list-header-title span {
       font-weight: 400;
       font-size: 0.82rem;
       color: var(--text-muted);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .filters input,
+    .filters select {
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      padding: 4px 10px;
+      font-size: 0.82rem;
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .filters input {
+      min-width: 120px;
+    }
+
+    .filters select {
+      min-width: 90px;
     }
 
     .list {
@@ -250,6 +279,11 @@
     .item:hover {
       background: #f3f4ff;
       transform: translateY(-1px);
+    }
+
+    .item:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
     }
 
     .item.active {
@@ -349,6 +383,35 @@
         margin-left: auto;
       }
     }
+
+    /* Back to top button */
+    #back-to-top {
+      position: fixed;
+      bottom: 22px;
+      right: 18px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: none;
+      background: #111827;
+      color: #f9fafb;
+      font-size: 0.8rem;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(15,23,42,0.55);
+      z-index: 40;
+    }
+
+    #back-to-top span {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    #back-to-top:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
   </style>
 </head>
 
@@ -410,8 +473,16 @@
       <!-- LIST -->
       <section class="list-card">
         <div class="list-header">
-          All shiurim
-          <span>(sorted by date - newest first)</span>
+          <div class="list-header-title">
+            All shiurim
+            <span>(sorted by date - newest first)</span>
+          </div>
+          <div class="filters" aria-label="Filter shiurim">
+            <input id="search-input" type="search" placeholder="Search..." aria-label="Search by title or description">
+            <select id="year-filter" aria-label="Filter by year">
+              <option value="">All years</option>
+            </select>
+          </div>
         </div>
         <ul id="shiur-list" class="list"></ul>
       </section>
@@ -430,12 +501,23 @@
     © <span id="y"></span> Mekor Chaim Staten Island - Weekly Shiur
   </footer>
 
+  <!-- Back to top button -->
+  <button id="back-to-top" type="button" aria-label="Back to top">
+    <span>↑</span> Top
+  </button>
+
   <script>
     // ---------------- BASIC CONFIG ----------------
     const API_KEY     = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
     const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
     document.getElementById("y").textContent = new Date().getFullYear();
+
+    const listEl = document.getElementById("shiur-list");
+    const searchInput = document.getElementById("search-input");
+    const yearFilter = document.getElementById("year-filter");
+    let allShiurData = [];
+    let currentVideoId = null;
 
     function formatDate(iso) {
       const d = new Date(iso);
@@ -479,43 +561,101 @@
       return acc;
     }
 
-    function render(items) {
+    function buildData(items) {
+      // sort newest first
       items.sort((a,b) =>
         new Date(b.contentDetails.videoPublishedAt || b.snippet.publishedAt) -
         new Date(a.contentDetails.videoPublishedAt || a.snippet.publishedAt)
       );
 
-      const listEl = document.getElementById("shiur-list");
+      allShiurData = items.map((item, index) => {
+        const id       = item.contentDetails.videoId;
+        const title    = item.snippet.title || "Untitled shiur";
+        const descLine = (item.snippet.description || "").split(/\r?\n/)[0];
+        const rawDate  = item.contentDetails.videoPublishedAt || item.snippet.publishedAt;
+        const dateNice = formatDate(rawDate);
+        const year     = rawDate ? new Date(rawDate).getFullYear().toString() : "";
+        return {
+          id,
+          title,
+          desc: descLine,
+          dateRaw: rawDate,
+          dateNice,
+          year,
+          isNewest: index === 0
+        };
+      });
+
+      populateYearFilter();
+    }
+
+    function populateYearFilter() {
+      const years = Array.from(new Set(
+        allShiurData
+          .map(s => s.year)
+          .filter(Boolean)
+      )).sort((a,b) => b - a);
+      years.forEach(y => {
+        const opt = document.createElement("option");
+        opt.value = y;
+        opt.textContent = y;
+        yearFilter.appendChild(opt);
+      });
+    }
+
+    function applyFilters() {
+      const q = (searchInput.value || "").toLowerCase().trim();
+      const year = yearFilter.value;
+
+      let filtered = allShiurData.filter(item => {
+        const text = (item.title + " " + item.desc).toLowerCase();
+        const matchesSearch = !q || text.includes(q);
+        const matchesYear   = !year || item.year === year;
+        return matchesSearch && matchesYear;
+      });
+
+      renderList(filtered);
+    }
+
+    function renderList(data) {
       listEl.innerHTML = "";
 
-      items.forEach((item, index) => {
-        const id     = item.contentDetails.videoId;
-        const title  = item.snippet.title || "Untitled shiur";
-        const desc   = (item.snippet.description || "").split(/\r?\n/)[0];
-        const rawDate = item.contentDetails.videoPublishedAt || item.snippet.publishedAt;
-        const date   = formatDate(rawDate);
+      if (!data.length) {
+        document.getElementById("player-title").textContent =
+          "No shiurim match the current filters.";
+        document.getElementById("player-date").textContent = "";
+        return;
+      }
 
+      let activeIdInList = currentVideoId && data.some(s => s.id === currentVideoId)
+        ? currentVideoId
+        : data[0].id;
+
+      let firstLi = null;
+
+      data.forEach((item, index) => {
         const li  = document.createElement("li");
         li.className = "item";
-        li.dataset.videoId = id;
+        li.dataset.videoId = item.id;
+        li.setAttribute("role", "button");
+        li.setAttribute("tabindex", "0");
+        li.setAttribute("aria-pressed", "false");
 
         li.innerHTML = `
           <div class="item-thumb">
-            <img src="${thumbUrl(id)}" alt="Thumbnail">
+            <img src="${thumbUrl(item.id)}" alt="Thumbnail for ${item.title}" loading="lazy">
           </div>
           <div class="item-body">
             <div class="item-topline">
-              <p class="item-title">${title}</p>
-              <p class="item-date">
-                ${date ? date : ""}
-              </p>
+              <p class="item-title">${item.title}</p>
+              <p class="item-date">${item.dateNice || ""}</p>
             </div>
-            <p class="item-desc">${desc || ""}</p>
+            <p class="item-desc">${item.desc || ""}</p>
           </div>
         `;
 
-        // Add NEWEST badge for the first (newest) shiur
-        if (index === 0) {
+        // newest badge
+        if (item.isNewest) {
           const badge = document.createElement("span");
           badge.className = "badge-newest";
           badge.innerHTML = `<span class="badge-newest-dot"></span>Newest`;
@@ -523,23 +663,50 @@
           dateEl.prepend(badge, " ");
         }
 
-        li.addEventListener("click", () => setActive(id, title, date, li, true));
+        const activate = (scrollToPlayer) =>
+          setActive(item.id, item.title, item.dateNice, li, scrollToPlayer);
+
+        li.addEventListener("click", () => activate(true));
+        li.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            activate(true);
+          }
+        });
+
         listEl.appendChild(li);
 
-        if (index === 0) setActive(id, title, date, li, false); // first load - no scroll
+        if (!firstLi) firstLi = li;
+
+        if (item.id === activeIdInList) {
+          setActive(item.id, item.title, item.dateNice, li, false);
+        }
       });
+
+      // If currentVideoId not set yet, activate first item without scroll
+      if (!currentVideoId && firstLi) {
+        const first = data[0];
+        setActive(first.id, first.title, first.dateNice, firstLi, false);
+      }
     }
 
     function setActive(videoId, title, date, li, scrollToPlayer = true) {
       const iframe = document.getElementById("player");
       iframe.src = embedUrl(videoId);
 
+      currentVideoId = videoId;
+
       document.getElementById("player-title").textContent = title;
       document.getElementById("player-date").textContent = date ? date : "";
 
-      document.querySelectorAll(".item").forEach(el => el.classList.remove("active"));
+      document.querySelectorAll(".item").forEach(el => {
+        el.classList.remove("active");
+        el.setAttribute("aria-pressed", "false");
+      });
+
       if (li) {
         li.classList.add("active");
+        li.setAttribute("aria-pressed", "true");
       }
 
       if (scrollToPlayer) {
@@ -557,13 +724,36 @@
           document.getElementById("player-title").textContent = "No shiurim found in playlist.";
           return;
         }
-        render(items);
+        buildData(items);
+        applyFilters();
       } catch (err) {
         console.error(err);
         document.getElementById("player-title").textContent =
           "Error loading shiurim (check API key / quota).";
       }
     }
+
+    // Filters events
+    searchInput.addEventListener("input", () => applyFilters());
+    yearFilter.addEventListener("change", () => applyFilters());
+
+    // Back to top button logic
+    const backBtn = document.getElementById("back-to-top");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 250) {
+        backBtn.style.display = "flex";
+      } else {
+        backBtn.style.display = "none";
+      }
+    });
+    backBtn.addEventListener("click", () => {
+      const playerCard = document.querySelector(".player-card");
+      if (playerCard) {
+        playerCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
 
     init();
   </script>
