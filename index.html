@@ -7,70 +7,183 @@
 
   <meta name="robots" content="noindex,nofollow" />
   <meta name="description"
-        content="Weekly shiur from Mekor Chaim Staten Island - Rabbi Zish Kohn. Watch all shiurim on one page, updated from the YouTube playlist.">
+        content="Weekly shiur from Mekor Chaim Staten Island - Rabbi Zish Kohn. Clean, modern page with all shiurim, updated from the YouTube playlist.">
 
   <style>
-    :root { --w: 960px; }
+    :root {
+      --w: 1080px;
+      --bg: #05091a;
+      --card: #ffffff;
+      --accent: #2166ff;
+      --accent-soft: #e3edff;
+      --accent-warm: #f7b733;
+      --border-soft: #e3e6f0;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+    }
+
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-      background: #f6f7fb;
-      color: #111;
+      background:
+        radial-gradient(circle at top left, #1f2937 0, #020617 40%, #000 100%);
+      color: var(--text-main);
     }
 
     header, main, footer {
       max-width: var(--w);
       margin: 0 auto;
-      padding: 16px;
+      padding: 0 16px;
     }
 
     header {
       padding-top: 32px;
-      text-align: center;
+      padding-bottom: 16px;
+      color: #f9fafb;
+    }
+
+    .title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      align-items: flex-start;
     }
 
     h1 {
-      margin: 0 0 6px;
-      font-size: 1.7rem;
+      margin: 0;
+      font-size: 1.9rem;
+      letter-spacing: 0.02em;
     }
 
     .sub {
-      color: #666;
-      font-size: 0.95rem;
-      margin-bottom: 14px;
+      font-size: 0.98rem;
+      color: #e5e7eb;
     }
 
-    .player-card {
-      background: #ffffff;
-      border: 1px solid #e3e6f0;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,.05);
+    .pill {
+      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 118, 255, 0.12);
+      border: 1px solid rgba(129, 140, 248, 0.45);
+      font-size: 0.82rem;
+      color: #e0f2fe;
+    }
+
+    .pill-dot {
+      width: 7px; height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34,197,94,0.3);
+    }
+
+    /* How it works */
+    .how {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .how-step {
+      background: rgba(15,23,42,0.7);
+      border-radius: 12px;
+      padding: 10px 12px;
+      border: 1px solid rgba(148,163,184,0.4);
+      color: #e5e7eb;
+      font-size: 0.78rem;
+    }
+
+    .how-step strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 0.8rem;
+      color: #fef9c3;
+    }
+
+    @media (max-width: 720px) {
+      .how { grid-template-columns: 1fr; }
+      header { text-align: left; }
+      .title-wrap { align-items: flex-start; }
+    }
+
+    /* Layout */
+    main {
+      padding-bottom: 24px;
+    }
+
+    .layout {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 880px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cards */
+    .player-card,
+    .list-card {
+      background: var(--card);
+      border-radius: 18px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 14px 45px rgba(15,23,42,0.32);
       overflow: hidden;
-      margin-bottom: 22px;
     }
 
     .player-header {
-      padding: 14px 18px 8px;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      background: linear-gradient(135deg, #eff6ff 0, #fef9c3 50%, #f9fafb 100%);
     }
 
     .player-title {
       font-size: 1.05rem;
       font-weight: 600;
       margin: 0 0 4px;
+      color: var(--text-main);
     }
 
     .player-meta {
-      color: #666;
+      color: var(--text-muted);
       font-size: 0.9rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .badge-main {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(30,64,175,0.08);
+      border: 1px solid rgba(30,64,175,0.35);
+      font-size: 0.75rem;
+      color: #1d4ed8;
+    }
+
+    .badge-dot {
+      width: 6px;height:6px;border-radius:999px;background:#1d4ed8;
     }
 
     .frame {
       position: relative;
       width: 100%;
       padding-top: 56.25%; /* 16:9 */
-      border-top: 1px solid #eef1f6;
+      background: #020617;
     }
 
     .frame iframe {
@@ -81,36 +194,48 @@
       border: 0;
     }
 
-    .list-card {
-      background: #ffffff;
-      border: 1px solid #e3e6f0;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,.05);
-      overflow: hidden;
-    }
-
+    /* List card */
     .list-header {
       padding: 12px 16px;
-      border-bottom: 1px solid #eef1f6;
+      border-bottom: 1px solid #e5e7eb;
       font-weight: 600;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
+      background: #f9fafb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .list-header span {
+      font-weight: 400;
+      font-size: 0.82rem;
+      color: var(--text-muted);
     }
 
     .list {
       list-style: none;
       margin: 0;
       padding: 0;
-      max-height: 540px;
+      max-height: 560px;
       overflow-y: auto;
+      background: #ffffff;
+    }
+
+    .list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .list::-webkit-scrollbar-thumb {
+      background: #cbd5f5;
+      border-radius: 999px;
     }
 
     .item {
       display: flex;
       gap: 10px;
       padding: 10px 14px;
-      border-bottom: 1px solid #f0f2f7;
+      border-bottom: 1px solid #f1f5f9;
       cursor: pointer;
-      transition: background 0.12s ease;
+      transition: background 0.12s ease, transform 0.08s ease;
     }
 
     .item:last-child {
@@ -118,51 +243,81 @@
     }
 
     .item:hover {
-      background: #f4f7ff;
+      background: #f3f4ff;
+      transform: translateY(-1px);
+    }
+
+    .item.active {
+      background: #e0ecff;
+      box-shadow: inset 3px 0 0 0 var(--accent);
     }
 
     .item-thumb {
-      flex: 0 0 120px;
+      flex: 0 0 110px;
     }
 
     .item-thumb img {
       width: 100%;
       display: block;
-      border-radius: 8px;
+      border-radius: 10px;
       object-fit: cover;
     }
 
     .item-body {
       flex: 1;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .item-topline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: space-between;
     }
 
     .item-title {
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      margin: 0 0 4px;
+      margin: 0;
+      color: var(--text-main);
     }
 
     .item-date {
-      font-size: 0.85rem;
-      color: #666;
-      margin-bottom: 3px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
     }
 
     .item-desc {
-      font-size: 0.85rem;
-      color: #555;
+      font-size: 0.82rem;
+      color: #4b5563;
       line-height: 1.3;
       max-height: 3em;
       overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .item.active {
-      background: #e7f1ff;
+    .badge-newest {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 1px 7px;
+      border-radius: 999px;
+      background: rgba(245,158,11,0.12);
+      border: 1px solid rgba(245,158,11,0.6);
+      font-size: 0.75rem;
+      color: #b45309;
+    }
+
+    .badge-newest-dot {
+      width: 6px;height:6px;border-radius:999px;background:#f59e0b;
     }
 
     a {
-      color: #0f77cc;
+      color: #1d4ed8;
       text-decoration: none;
     }
 
@@ -172,12 +327,12 @@
 
     footer {
       text-align: center;
-      color: #777;
-      font-size: 0.9rem;
-      padding: 24px 0 32px;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      padding: 16px 0 28px;
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 720px) {
       .item {
         flex-direction: column;
       }
@@ -185,48 +340,78 @@
         flex-basis: auto;
         max-width: 100%;
       }
+      .item-date {
+        margin-left: auto;
+      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <h1>Weekly Shiur - Mekor Chaim Staten Island</h1>
-    <div class="sub">Rabbi Zish Kohn · Monday shiurim · updated automatically</div>
+    <div class="title-wrap">
+      <h1>Weekly Shiur – Mekor Chaim Staten Island</h1>
+      <div class="sub">Rabbi Zish Kohn · Monday night shiurim · auto-updated from YouTube playlist</div>
+      <div class="pill">
+        <span class="pill-dot"></span>
+        Live archive – newest shiur always on top
+      </div>
+    </div>
+
+    <div class="how">
+      <div class="how-step">
+        <strong>1 · Press a shiur</strong>
+        Click any shiur on the right to start playing it in the big player.
+      </div>
+      <div class="how-step">
+        <strong>2 · Latest on top</strong>
+        The newest shiur appears first in the list and loads by default.
+      </div>
+      <div class="how-step">
+        <strong>3 · Auto-updated</strong>
+        When the YouTube playlist is updated, this page updates by itself.
+      </div>
+    </div>
   </header>
 
   <main>
-    <!-- PLAYER -->
-    <section class="player-card">
-      <div class="player-header">
-        <p class="player-title" id="player-title">Loading shiur…</p>
-        <p class="player-meta" id="player-meta">
-          <em>Mekor Chaim Staten Island</em>
-        </p>
-      </div>
-      <div class="frame">
-        <iframe
-          id="player"
-          title="Weekly shiur video"
-          src=""
-          loading="lazy"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
-      </div>
-    </section>
+    <div class="layout">
+      <!-- PLAYER -->
+      <section class="player-card">
+        <div class="player-header">
+          <p class="player-title" id="player-title">Loading shiur…</p>
+          <p class="player-meta" id="player-meta">
+            <span class="badge-main">
+              <span class="badge-dot"></span>
+              Mekor Chaim Staten Island
+            </span>
+            <span id="player-date"></span>
+          </p>
+        </div>
+        <div class="frame">
+          <iframe
+            id="player"
+            title="Weekly shiur video"
+            src=""
+            loading="lazy"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>
+      </section>
 
-    <!-- LIST -->
-    <section class="list-card">
-      <div class="list-header">
-        All shiurim from the playlist
-        <span style="font-weight:400;color:#888;">(newest first)</span>
-      </div>
-      <ul id="shiur-list" class="list"></ul>
-    </section>
+      <!-- LIST -->
+      <section class="list-card">
+        <div class="list-header">
+          All shiurim
+          <span>(sorted by date – newest first)</span>
+        </div>
+        <ul id="shiur-list" class="list"></ul>
+      </section>
+    </div>
 
-    <p style="margin-top:10px;font-size:0.9rem;color:#666;">
-      Source playlist:
+    <p style="margin-top:12px;font-size:0.85rem;color:#e5e7eb;text-align:center;">
+      Playlist source:&nbsp;
       <a href="https://youtube.com/playlist?list=PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q"
          target="_blank" rel="noopener">
         Mekor Chaim Staten Island – Monday shiurim
@@ -274,6 +459,11 @@
       const res = await fetch(url);
       const data = await res.json();
 
+      if (!res.ok) {
+        console.error("YouTube API error:", data);
+        throw new Error("YouTube API error");
+      }
+
       acc.push(...data.items);
 
       if (data.nextPageToken) {
@@ -295,7 +485,8 @@
         const id     = item.contentDetails.videoId;
         const title  = item.snippet.title || "Untitled shiur";
         const desc   = (item.snippet.description || "").split(/\r?\n/)[0];
-        const date   = formatDate(item.contentDetails.videoPublishedAt || item.snippet.publishedAt);
+        const rawDate = item.contentDetails.videoPublishedAt || item.snippet.publishedAt;
+        const date   = formatDate(rawDate);
 
         const li  = document.createElement("li");
         li.className = "item";
@@ -306,11 +497,25 @@
             <img src="${thumbUrl(id)}" alt="Thumbnail">
           </div>
           <div class="item-body">
-            <p class="item-title">${title}</p>
-            <p class="item-date">${date ? date : ""}</p>
+            <div class="item-topline">
+              <p class="item-title">${title}</p>
+              <p class="item-date">
+                ${date ? date : ""}
+                ${index === 0 ? "" : ""}
+              </p>
+            </div>
             <p class="item-desc">${desc || ""}</p>
           </div>
         `;
+
+        // Add NEWEST badge for the first (newest) shiur
+        if (index === 0) {
+          const badge = document.createElement("span");
+          badge.className = "badge-newest";
+          badge.innerHTML = `<span class="badge-newest-dot"></span>Newest`;
+          const dateEl = li.querySelector(".item-date");
+          dateEl.prepend(badge, " ");
+        }
 
         li.addEventListener("click", () => setActive(id, title, date, li));
         listEl.appendChild(li);
@@ -324,8 +529,7 @@
       iframe.src = embedUrl(videoId);
 
       document.getElementById("player-title").textContent = title;
-      document.getElementById("player-meta").innerHTML =
-        `<em>Mekor Chaim Staten Island</em>${date ? " · " + date : ""}`;
+      document.getElementById("player-date").textContent = date ? date : "";
 
       document.querySelectorAll(".item").forEach(el => el.classList.remove("active"));
       if (li) {
@@ -339,11 +543,15 @@
     async function init() {
       try {
         const items = await fetchPlaylistItems();
+        if (!items.length) {
+          document.getElementById("player-title").textContent = "No shiurim found in playlist.";
+          return;
+        }
         render(items);
       } catch (err) {
         console.error(err);
         document.getElementById("player-title").textContent =
-          "Error loading shiurim (check API key).";
+          "Error loading shiurim (check API key / quota).";
       }
     }
 
