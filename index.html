@@ -12,7 +12,6 @@
   <style>
     :root {
       --w: 1080px;
-      --bg: #05091a;
       --card: #ffffff;
       --accent: #2166ff;
       --accent-soft: #e3edff;
@@ -27,8 +26,7 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, #1f2937 0, #020617 40%, #000 100%);
+      background: #f3f4f6;
       color: var(--text-main);
     }
 
@@ -39,9 +37,16 @@
     }
 
     header {
-      padding-top: 32px;
+      padding-top: 24px;
       padding-bottom: 16px;
-      color: #f9fafb;
+    }
+
+    .header-inner {
+      background: linear-gradient(135deg, #eef2ff 0, #e0f2fe 40%, #fef9c3 100%);
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 12px 25px rgba(148,163,184,0.45);
+      border: 1px solid rgba(148,163,184,0.5);
     }
 
     .title-wrap {
@@ -59,7 +64,7 @@
 
     .sub {
       font-size: 0.98rem;
-      color: #e5e7eb;
+      color: #374151;
     }
 
     .pill {
@@ -69,10 +74,10 @@
       gap: 6px;
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15, 118, 255, 0.12);
-      border: 1px solid rgba(129, 140, 248, 0.45);
+      background: rgba(15, 118, 255, 0.08);
+      border: 1px solid rgba(37, 99, 235, 0.4);
       font-size: 0.82rem;
-      color: #e0f2fe;
+      color: #1d4ed8;
     }
 
     .pill-dot {
@@ -84,18 +89,18 @@
 
     /* How it works */
     .how {
-      margin-top: 18px;
+      margin-top: 16px;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
     }
 
     .how-step {
-      background: rgba(15,23,42,0.7);
+      background: #f9fafb;
       border-radius: 12px;
       padding: 10px 12px;
-      border: 1px solid rgba(148,163,184,0.4);
-      color: #e5e7eb;
+      border: 1px solid #d1d5db;
+      color: #374151;
       font-size: 0.78rem;
     }
 
@@ -103,7 +108,7 @@
       display: block;
       margin-bottom: 3px;
       font-size: 0.8rem;
-      color: #fef9c3;
+      color: #111827;
     }
 
     @media (max-width: 720px) {
@@ -137,14 +142,14 @@
       background: var(--card);
       border-radius: 18px;
       border: 1px solid var(--border-soft);
-      box-shadow: 0 14px 45px rgba(15,23,42,0.32);
+      box-shadow: 0 10px 30px rgba(148,163,184,0.5);
       overflow: hidden;
     }
 
     .player-header {
       padding: 14px 18px 10px;
       border-bottom: 1px solid #e5e7eb;
-      background: linear-gradient(135deg, #eff6ff 0, #fef9c3 50%, #f9fafb 100%);
+      background: linear-gradient(135deg, #f9fafb 0, #fef9c3 50%, #f9fafb 100%);
     }
 
     .player-title {
@@ -327,7 +332,7 @@
 
     footer {
       text-align: center;
-      color: #9ca3af;
+      color: #6b7280;
       font-size: 0.85rem;
       padding: 16px 0 28px;
     }
@@ -349,27 +354,29 @@
 
 <body>
   <header>
-    <div class="title-wrap">
-      <h1>Weekly Shiur – Mekor Chaim Staten Island</h1>
-      <div class="sub">Rabbi Zish Kohn · Monday night shiurim · auto-updated from YouTube playlist</div>
-      <div class="pill">
-        <span class="pill-dot"></span>
-        Live archive – newest shiur always on top
+    <div class="header-inner">
+      <div class="title-wrap">
+        <h1>Weekly Shiur - Mekor Chaim Staten Island</h1>
+        <div class="sub">Rabbi Zish Kohn - Monday night shiurim - auto-updated from YouTube playlist</div>
+        <div class="pill">
+          <span class="pill-dot"></span>
+          Live archive - newest shiur always on top
+        </div>
       </div>
-    </div>
 
-    <div class="how">
-      <div class="how-step">
-        <strong>1 · Press a shiur</strong>
-        Click any shiur on the right to start playing it in the big player.
-      </div>
-      <div class="how-step">
-        <strong>2 · Latest on top</strong>
-        The newest shiur appears first in the list and loads by default.
-      </div>
-      <div class="how-step">
-        <strong>3 · Auto-updated</strong>
-        When the YouTube playlist is updated, this page updates by itself.
+      <div class="how">
+        <div class="how-step">
+          <strong>1 · Press a shiur</strong>
+          Click any shiur in the list to play it in the big player.
+        </div>
+        <div class="how-step">
+          <strong>2 · Latest on top</strong>
+          The newest shiur appears first in the list and loads by default.
+        </div>
+        <div class="how-step">
+          <strong>3 · Auto-updated</strong>
+          When new shiurim are added to the YouTube playlist, they will appear here automatically.
+        </div>
       </div>
     </div>
   </header>
@@ -379,7 +386,7 @@
       <!-- PLAYER -->
       <section class="player-card">
         <div class="player-header">
-          <p class="player-title" id="player-title">Loading shiur…</p>
+          <p class="player-title" id="player-title">Loading shiur...</p>
           <p class="player-meta" id="player-meta">
             <span class="badge-main">
               <span class="badge-dot"></span>
@@ -404,23 +411,23 @@
       <section class="list-card">
         <div class="list-header">
           All shiurim
-          <span>(sorted by date – newest first)</span>
+          <span>(sorted by date - newest first)</span>
         </div>
         <ul id="shiur-list" class="list"></ul>
       </section>
     </div>
 
-    <p style="margin-top:12px;font-size:0.85rem;color:#e5e7eb;text-align:center;">
-      Playlist source:&nbsp;
+    <p style="margin-top:12px;font-size:0.85rem;color:#4b5563;text-align:center;">
+      Playlist source:
       <a href="https://youtube.com/playlist?list=PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q"
          target="_blank" rel="noopener">
-        Mekor Chaim Staten Island – Monday shiurim
+        Mekor Chaim Staten Island - Monday shiurim
       </a>
     </p>
   </main>
 
   <footer>
-    © <span id="y"></span> Mekor Chaim Staten Island – Weekly Shiur
+    © <span id="y"></span> Mekor Chaim Staten Island - Weekly Shiur
   </footer>
 
   <script>
@@ -501,7 +508,6 @@
               <p class="item-title">${title}</p>
               <p class="item-date">
                 ${date ? date : ""}
-                ${index === 0 ? "" : ""}
               </p>
             </div>
             <p class="item-desc">${desc || ""}</p>
