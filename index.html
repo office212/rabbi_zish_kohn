@@ -271,7 +271,12 @@
       padding: 9px 12px;
       border-bottom: 1px solid #f1f5f9;
       cursor: pointer;
-      transition: background 0.12s ease, transform 0.08s ease;
+      transition:
+        background 0.12s ease,
+        transform 0.08s ease,
+        opacity 0.18s ease-out;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .item:last-child {
@@ -291,6 +296,12 @@
     .item.active {
       background: #e0ecff;
       box-shadow: inset 3px 0 0 0 var(--accent);
+    }
+
+    /* מצב התחלה לאפקט Stagger */
+    .item.stagger-hidden {
+      opacity: 0;
+      transform: translateY(4px);
     }
 
     .item-thumb {
@@ -383,6 +394,13 @@
       }
       .item-date {
         margin-left: auto;
+      }
+    }
+
+    /* אם המשתמש ביקש פחות אנימציות במערכת – מבטלים */
+    @media (prefers-reduced-motion: reduce) {
+      .item {
+        transition: none !important;
       }
     }
 
@@ -534,6 +552,13 @@
     let allShiurData = [];
     let currentVideoId = null;
 
+    // האם המשתמש ביקש פחות אנימציות במערכת?
+    const reduceMotion = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // כדי שה-stagger יקרה רק פעם אחת בטעינה הראשונה
+    let isFirstRender = true;
+
     function formatDate(iso) {
       const d = new Date(iso);
       if (Number.isNaN(d.getTime())) return "";
@@ -629,10 +654,12 @@
         return matchesSearch && matchesYear;
       });
 
-      renderList(filtered);
+      const animate = isFirstRender;
+      renderList(filtered, animate);
+      if (isFirstRender) isFirstRender = false;
     }
 
-    function renderList(data) {
+    function renderList(data, animate = false) {
       listEl.innerHTML = "";
 
       if (!data.length) {
@@ -690,6 +717,18 @@
         });
 
         listEl.appendChild(li);
+
+        // Staggered fade-in בטעינה הראשונה בלבד (ולא כשיש reduce-motion)
+        if (animate && !reduceMotion) {
+          li.classList.add("stagger-hidden");
+          li.style.transitionDelay = (index * 60) + "ms"; // 60ms בין פריטים
+          requestAnimationFrame(() => {
+            li.classList.remove("stagger-hidden");
+          });
+        } else {
+          li.classList.remove("stagger-hidden");
+          li.style.transitionDelay = "";
+        }
 
         if (!firstLi) firstLi = li;
 
