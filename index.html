@@ -523,14 +523,14 @@
           dateEl.prepend(badge, " ");
         }
 
-        li.addEventListener("click", () => setActive(id, title, date, li));
+        li.addEventListener("click", () => setActive(id, title, date, li, true));
         listEl.appendChild(li);
 
-        if (index === 0) setActive(id, title, date, li, false);
+        if (index === 0) setActive(id, title, date, li, false); // first load - no scroll
       });
     }
 
-    function setActive(videoId, title, date, li, scroll = true) {
+    function setActive(videoId, title, date, li, scrollToPlayer = true) {
       const iframe = document.getElementById("player");
       iframe.src = embedUrl(videoId);
 
@@ -540,8 +540,12 @@
       document.querySelectorAll(".item").forEach(el => el.classList.remove("active"));
       if (li) {
         li.classList.add("active");
-        if (scroll && window.innerWidth < 768) {
-          li.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      if (scrollToPlayer) {
+        const playerCard = document.querySelector(".player-card");
+        if (playerCard) {
+          playerCard.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
     }
