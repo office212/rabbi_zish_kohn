@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Weekly Shiur - Mekor Chaim Staten Island</title>
 
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2166ff">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
   <meta name="robots" content="noindex,nofollow" />
   <meta name="description"
-        content="Weekly shiur from Mekor Chaim Staten Island - Rabbi Zish Kohn. Clean, modern page with all shiurim, updated from the YouTube playlist.">
+        content="Weekly shiur from Mekor Chaim Staten Island - Rabbi Zish Kohn. Updated automatically.">
 
   <style>
     :root {
@@ -26,6 +30,7 @@
       font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
       background: #f3f4f6;
       color: var(--text-main);
+      padding-bottom: 80px; /* Space for FAB */
     }
 
     header, main, footer {
@@ -42,168 +47,58 @@
     .header-inner {
       background: linear-gradient(135deg, #eef2ff 0, #e0f2fe 40%, #fef9c3 100%);
       border-radius: 18px;
-      padding: 14px 16px 12px;
+      padding: 18px 20px;
       box-shadow: 0 10px 22px rgba(148,163,184,0.4);
       border: 1px solid rgba(148,163,184,0.5);
     }
 
-    .title-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      align-items: flex-start;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.7rem;
-      letter-spacing: 0.02em;
-    }
-
-    .sub {
-      font-size: 0.96rem;
-      color: #374151;
-    }
-
-    .pill {
-      margin-top: 8px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: rgba(15, 118, 255, 0.08);
-      border: 1px solid rgba(37, 99, 235, 0.4);
-      font-size: 0.8rem;
-      color: #1d4ed8;
-    }
-
-    .pill-dot {
-      width: 7px; height: 7px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34,197,94,0.3);
-    }
-
-    /* How it works */
-    .how {
-      margin-top: 12px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .how-step {
-      background: #f9fafb;
-      border-radius: 12px;
-      padding: 8px 10px;
-      border: 1px solid #d1d5db;
-      color: #374151;
-      font-size: 0.78rem;
-    }
-
-    .how-step strong {
-      display: block;
-      margin-bottom: 2px;
-      font-size: 0.8rem;
-      color: #111827;
-    }
-
-    @media (max-width: 720px) {
-      .how { grid-template-columns: 1fr; }
-      header { text-align: left; }
-      .title-wrap { align-items: flex-start; }
-    }
+    h1 { margin: 0; font-size: 1.6rem; letter-spacing: -0.01em; }
+    .sub { font-size: 0.95rem; color: #374151; margin-top: 4px; }
 
     /* Layout */
-    main {
-      padding-bottom: 24px;
-    }
-
     .layout {
       margin-top: 20px;
       display: grid;
       grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      column-gap: 26px;
-      row-gap: 26px;
+      gap: 24px;
       align-items: flex-start;
     }
 
     @media (max-width: 880px) {
-      .layout {
-        grid-template-columns: 1fr;
-        row-gap: 28px;
-      }
+      .layout { grid-template-columns: 1fr; }
     }
 
     /* Cards */
-    .player-card,
-    .list-card {
+    .player-card, .list-card {
       background: var(--card);
       border-radius: 18px;
       border: 1px solid var(--border-soft);
       box-shadow: 0 8px 24px rgba(148,163,184,0.45);
       overflow: hidden;
+      transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Active Player Glow */
+    .player-card.is-playing {
+      box-shadow: 0 15px 40px -5px rgba(33, 102, 255, 0.2);
+      border-color: rgba(33, 102, 255, 0.4);
     }
 
     .player-header {
-      padding: 12px 16px 8px;
+      padding: 14px 16px 10px;
       border-bottom: 1px solid #e5e7eb;
-      background: linear-gradient(135deg, #f9fafb 0, #fef9c3 50%, #f9fafb 100%);
+      background: #fff;
     }
 
     .player-title {
-      font-size: 1.03rem;
-      font-weight: 600;
-      margin: 0 0 3px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0 0 6px;
       color: var(--text-main);
+      line-height: 1.3;
     }
 
-    .player-meta {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .badge-main {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(30,64,175,0.08);
-      border: 1px solid rgba(30,64,175,0.35);
-      font-size: 0.75rem;
-      color: #1d4ed8;
-    }
-
-    .badge-dot {
-      width: 6px;height:6px;border-radius:999px;background:#1d4ed8;
-    }
-
-    .frame {
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%; /* 16:9 */
-      background: #020617;
-    }
-
-    .frame iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    /* List card */
-    .list-header {
-      padding: 8px 10px;
-      border-bottom: 1px solid #e5e7eb;
-      background: #f9fafb;
+    .player-meta-row {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -211,237 +106,133 @@
       justify-content: space-between;
     }
 
-    .list-header-title {
-      font-weight: 600;
-      font-size: 0.92rem;
-      color: var(--text-main);
+    .meta-left { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); }
+    
+    .badge-main {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 2px 8px; border-radius: 999px;
+      background: rgba(30,64,175,0.08); border: 1px solid rgba(30,64,175,0.2);
+      font-size: 0.75rem; color: #1d4ed8; font-weight: 500;
+    }
+    
+    /* WhatsApp Share Button */
+    .share-btn {
+      background: #25D366; color: white;
+      border: none; border-radius: 20px;
+      padding: 4px 12px; font-size: 0.8rem;
+      display: flex; align-items: center; gap: 6px;
+      cursor: pointer; transition: background 0.2s;
+      font-weight: 500; text-decoration: none;
+    }
+    .share-btn:hover { background: #128C7E; }
+
+    .frame {
+      position: relative; width: 100%; padding-top: 56.25%; background: #000;
+    }
+    .frame iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
     }
 
-    .list-header-title span {
-      font-weight: 400;
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    /* Skeleton Loading */
+    .skeleton-wrapper { padding: 16px; background: #fff; display: none; }
+    .skeleton-wrapper.active { display: block; }
+    .skel-line {
+      height: 20px; margin-bottom: 10px; border-radius: 6px;
+      background: #f1f5f9;
+      background-image: linear-gradient(to right, #f1f5f9 0%, #e2e8f0 20%, #f1f5f9 40%, #f1f5f9 100%);
+      background-size: 1000px 100%;
+      animation: shimmer 1.5s infinite linear;
     }
+    .skel-video { width: 100%; padding-top: 56.25%; border-radius: 12px; margin-top: 10px; }
+    @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
 
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
+    /* List Area */
+    .list-header {
+      padding: 10px 12px;
+      background: #f9fafb;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex; flex-wrap: wrap; gap: 10px;
+      justify-content: space-between; align-items: center;
     }
-
-    .filters input,
-    .filters select {
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      padding: 4px 9px;
-      font-size: 0.8rem;
-      background: #ffffff;
-      color: var(--text-main);
-    }
-
+    .list-title { font-weight: 600; font-size: 0.95rem; }
+    
+    .filters { display: flex; gap: 6px; flex: 1; max-width: 100%; }
     .filters input {
-      min-width: 140px;
+      flex: 1; min-width: 0;
+      border-radius: 99px; border: 1px solid #d1d5db;
+      padding: 6px 12px; font-size: 0.85rem;
     }
-
     .filters select {
-      min-width: 90px;
+      border-radius: 99px; border: 1px solid #d1d5db;
+      padding: 6px 10px; font-size: 0.85rem;
     }
 
     .list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      max-height: 560px;
-      overflow-y: auto;
-      background: #ffffff;
+      list-style: none; margin: 0; padding: 0;
+      max-height: 560px; overflow-y: auto; background: #fff;
     }
 
-    .list::-webkit-scrollbar {
-      width: 6px;
-    }
-    .list::-webkit-scrollbar-thumb {
-      background: #cbd5f5;
-      border-radius: 999px;
-    }
+    /* Styled Scrollbar */
+    .list::-webkit-scrollbar { width: 8px; }
+    .list::-webkit-scrollbar-track { background: #f1f5f9; }
+    .list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; border: 2px solid #f1f5f9; }
+    .list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
     .item {
-      display: flex;
-      gap: 10px;
-      padding: 9px 12px;
-      border-bottom: 1px solid #f1f5f9;
-      cursor: pointer;
-      transition:
-        background 0.12s ease,
-        transform 0.08s ease,
-        opacity 0.18s ease-out;
-      opacity: 1;
-      transform: translateY(0);
+      display: flex; gap: 12px; padding: 10px 12px;
+      border-bottom: 1px solid #f1f5f9; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .item:hover { background: #f8fafc; }
+    .item.active { background: #eff6ff; border-left: 3px solid var(--accent); }
+
+    .item-thumb { flex: 0 0 110px; }
+    .item-thumb img { width: 100%; border-radius: 8px; display: block; object-fit: cover; aspect-ratio: 16/9; }
+    
+    .item-body { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .item-title { font-size: 0.9rem; font-weight: 600; color: #111827; line-height: 1.3; }
+    .item-date { font-size: 0.75rem; color: #6b7280; }
+    .item-desc { font-size: 0.75rem; color: #4b5563; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Newest Badge Pulse */
+    .badge-new {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 1px 6px; border-radius: 99px;
+      background: #fffbeb; border: 1px solid #fcd34d;
+      color: #b45309; font-size: 0.7rem; font-weight: 600; margin-right: 6px;
+    }
+    .badge-dot {
+      width: 6px; height: 6px; background: #f59e0b; border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+      70% { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
     }
 
-    .item:last-child {
-      border-bottom: none;
-    }
-
-    .item:hover {
-      background: #f3f4ff;
-      transform: translateY(-1px);
-    }
-
-    .item:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 2px;
-    }
-
-    .item.active {
-      background: #e0ecff;
-      box-shadow: inset 3px 0 0 0 var(--accent);
-    }
-
-    /* מצב התחלה לאפקט Stagger */
-    .item.stagger-hidden {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-
-    .item-thumb {
-      flex: 0 0 110px;
-    }
-
-    .item-thumb img {
-      width: 100%;
-      display: block;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-
-    .item-body {
-      flex: 1;
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .item-topline {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      justify-content: space-between;
-    }
-
-    .item-title {
-      font-size: 0.93rem;
-      font-weight: 600;
-      margin: 0;
-      color: var(--text-main);
-    }
-
-    .item-date {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-    }
-
-    .item-desc {
-      font-size: 0.8rem;
-      color: #4b5563;
-      line-height: 1.3;
-      max-height: 3em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .badge-newest {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 1px 7px;
-      border-radius: 999px;
-      background: rgba(245,158,11,0.12);
-      border: 1px solid rgba(245,158,11,0.6);
-      font-size: 0.75rem;
-      color: #b45309;
-    }
-
-    .badge-newest-dot {
-      width: 6px;height:6px;border-radius:999px;background:#f59e0b;
-    }
-
-    a {
-      color: #1d4ed8;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      text-align: center;
-      color: #6b7280;
-      font-size: 0.85rem;
-      padding: 16px 0 28px;
-    }
-
-    @media (max-width: 720px) {
-      .item {
-        flex-direction: column;
-      }
-      .item-thumb {
-        flex-basis: auto;
-        max-width: 100%;
-      }
-      .item-date {
-        margin-left: auto;
-      }
-    }
-
-    /* אם המשתמש ביקש פחות אנימציות במערכת – מבטלים */
-    @media (prefers-reduced-motion: reduce) {
-      .item {
-        transition: none !important;
-      }
-    }
-
-    /* Back to top FAB button */
+    /* Back to Top Pill */
     #back-to-top {
-      position: fixed;
-      bottom: 26px;
-      right: 20px;
-
-      width: 54px;
-      height: 54px;
-      border-radius: 999px;
-      border: 1px solid rgba(250, 204, 21, 0.75); /* soft gold border */
-
-      background: rgba(33, 102, 255, 0.95); /* blue FAB */
-      color: #ffffff;
-
-      display: none;
-      align-items: center;
-      justify-content: center;
-
-      font-size: 1.4rem;
-      font-weight: 600;
-
-      cursor: pointer;
-
-      box-shadow: 0 12px 28px rgba(33, 102, 255, 0.45);
-      z-index: 40;
-
-      transition: transform 0.15s ease, opacity 0.15s ease, box-shadow 0.15s ease;
+      position: fixed; bottom: 30px; right: 20px;
+      padding: 10px 20px; border-radius: 50px;
+      background: linear-gradient(135deg, #2166ff, #1d4ed8);
+      color: #fff; border: none;
+      box-shadow: 0 8px 20px rgba(33, 102, 255, 0.35);
+      font-size: 0.9rem; font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; z-index: 50;
+      opacity: 0; transform: translateY(20px); pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #back-to-top:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(33, 102, 255, 0.45); }
 
-    #back-to-top:hover {
-      transform: translateY(-2px);
-      opacity: 0.96;
-      box-shadow: 0 15px 32px rgba(33, 102, 255, 0.55);
-    }
+    footer { text-align: center; font-size: 0.8rem; color: #9ca3af; padding: 40px 0; }
 
-    #back-to-top:focus-visible {
-      outline: 2px solid #ffffff;
-      outline-offset: 3px;
+    @media (max-width: 600px) {
+      .item { flex-direction: column; }
+      .item-thumb img { width: 100%; max-width: 160px; }
+      .header-inner { padding: 16px; }
     }
   </style>
 </head>
@@ -449,370 +240,266 @@
 <body>
   <header>
     <div class="header-inner">
-      <div class="title-wrap">
-        <h1>Weekly Shiur - Mekor Chaim Staten Island</h1>
-        <div class="sub">Rabbi Zish Kohn - Monday night shiurim - auto-updated from YouTube playlist</div>
-        <div class="pill">
-          <span class="pill-dot"></span>
-          Live archive - newest shiur always on top
-        </div>
-      </div>
-
-      <div class="how">
-        <div class="how-step">
-          <strong>1 · Pick a shiur</strong>
-          Click any shiur in the list to start playing it.
-        </div>
-        <div class="how-step">
-          <strong>2 · Newest on top</strong>
-          The most recent shiur is always shown first and loads by default.
-        </div>
-        <div class="how-step">
-          <strong>3 · Always up to date</strong>
-          When the YouTube playlist is updated, this page updates automatically.
-        </div>
-      </div>
+      <h1>Mekor Chaim Staten Island</h1>
+      <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
     </div>
   </header>
 
   <main>
     <div class="layout">
-      <!-- PLAYER -->
-      <section class="player-card">
-        <div class="player-header">
-          <p class="player-title" id="player-title">Loading shiur...</p>
-          <p class="player-meta" id="player-meta">
-            <span class="badge-main">
-              <span class="badge-dot"></span>
-              Mekor Chaim Staten Island
-            </span>
-            <span id="player-date"></span>
-          </p>
+      <section class="player-card" id="player-card">
+        <div id="skeleton" class="skeleton-wrapper active">
+          <div class="skel-line" style="width: 70%"></div>
+          <div class="skel-line" style="width: 40%; height:16px;"></div>
+          <div class="skel-line skel-video"></div>
         </div>
-        <div class="frame">
-          <iframe
-            id="player"
-            title="Weekly shiur video"
-            src=""
-            loading="lazy"
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen></iframe>
+
+        <div id="player-content" style="display:none;">
+          <div class="player-header">
+            <h2 class="player-title" id="player-title">Select a shiur</h2>
+            <div class="player-meta-row">
+              <div class="meta-left">
+                <span class="badge-main">Torah</span>
+                <span id="player-date"></span>
+              </div>
+              <button id="share-btn" class="share-btn">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                Share
+              </button>
+            </div>
+          </div>
+          <div class="frame">
+            <iframe id="player" src="" allowfullscreen title="Video player"></iframe>
+          </div>
         </div>
       </section>
 
-      <!-- LIST -->
       <section class="list-card">
         <div class="list-header">
-          <div class="list-header-title">
-            All shiurim
-            <span>(sorted by date - newest first)</span>
-          </div>
-          <div class="filters" aria-label="Filter shiurim">
-            <input id="search-input" type="search"
-                   placeholder="Search shiurim (title or topic)..."
-                   aria-label="Search by title or description">
-            <select id="year-filter" aria-label="Filter by year">
-              <option value="">All years</option>
-            </select>
+          <div class="list-title">All Shiurim</div>
+          <div class="filters">
+            <input id="search-input" type="search" placeholder="Search title or topic...">
+            <select id="year-filter"><option value="">Year</option></select>
           </div>
         </div>
-        <ul id="shiur-list" class="list"></ul>
+        <ul id="shiur-list" class="list">
+          </ul>
       </section>
     </div>
-
-    <p style="margin-top:12px;font-size:0.85rem;color:#4b5563;text-align:center;">
-      Playlist source:
-      <a href="https://youtube.com/playlist?list=PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q"
-         target="_blank" rel="noopener">
-        Mekor Chaim Staten Island - Monday shiurim
-      </a>
-    </p>
   </main>
 
   <footer>
-    © <span id="y"></span> Mekor Chaim Staten Island - Weekly Shiur
+    &copy; <span id="year-copy"></span> Mekor Chaim Staten Island
   </footer>
 
-  <!-- Back to top FAB -->
-  <button id="back-to-top" type="button" aria-label="Back to top">
-    ↑
+  <button id="back-to-top">
+    <span style="font-size:1.2rem">↑</span> Back to Top
   </button>
 
   <script>
-    // ---------------- BASIC CONFIG ----------------
-    const API_KEY     = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
+    // --- CONFIGURATION ---
+    const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I"; 
     const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
+    const CACHE_KEY = "mck_shiurim_v2";
+    const CACHE_TIME = 1000 * 60 * 60; // 1 hour cache
 
-    document.getElementById("y").textContent = new Date().getFullYear();
-
+    // --- ELEMENTS ---
     const listEl = document.getElementById("shiur-list");
     const searchInput = document.getElementById("search-input");
     const yearFilter = document.getElementById("year-filter");
-    let allShiurData = [];
-    let currentVideoId = null;
+    const playerCard = document.getElementById("player-card");
+    const backToTopBtn = document.getElementById("back-to-top");
+    
+    let allData = [];
+    let currentId = null;
 
-    // האם המשתמש ביקש פחות אנימציות במערכת?
-    const reduceMotion = window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // --- INIT ---
+    document.getElementById("year-copy").textContent = new Date().getFullYear();
+    
+    // Check URL for specific video (?v=XYZ)
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialVideoId = urlParams.get('v');
 
-    // כדי שה-stagger יקרה רק פעם אחת בטעינה הראשונה
-    let isFirstRender = true;
+    initApp();
 
-    function formatDate(iso) {
-      const d = new Date(iso);
-      if (Number.isNaN(d.getTime())) return "";
-      return d.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "short",
-        day: "numeric"
-      });
+    async function initApp() {
+      await loadData();
+      
+      // Auto-play if ID in URL, otherwise first one
+      if (allData.length > 0) {
+        const startId = initialVideoId && allData.find(d => d.id === initialVideoId) 
+                        ? initialVideoId 
+                        : allData[0].id;
+        playVideo(startId, false); // Don't scroll on load
+      }
+
+      setupEventListeners();
     }
 
-    function embedUrl(id) {
-      return `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&playsinline=1`;
+    // --- DATA LOADING WITH CACHE ---
+    async function loadData() {
+      // 1. Try Cache
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        try {
+          const { timestamp, items } = JSON.parse(cached);
+          if (Date.now() - timestamp < CACHE_TIME) {
+            console.log("Using cached data");
+            processData(items);
+            return;
+          }
+        } catch (e) { localStorage.removeItem(CACHE_KEY); }
+      }
+
+      // 2. Fetch API
+      try {
+        const items = await fetchAllItems();
+        // Save to cache
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          timestamp: Date.now(),
+          items: items
+        }));
+        processData(items);
+      } catch (err) {
+        console.error("API Error", err);
+        // Fallback to expired cache if available
+        if (cached) {
+          alert("Network error. Showing cached data.");
+          processData(JSON.parse(cached).items);
+        } else {
+          document.getElementById("player-title").textContent = "Error loading shiurim. Please refresh.";
+          document.getElementById("skeleton").style.display = "none";
+          document.getElementById("player-content").style.display = "block";
+        }
+      }
     }
 
-    function thumbUrl(id) {
-      return `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-    }
-
-    async function fetchPlaylistItems(pageToken = "", acc = []) {
-      const url = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
-      url.searchParams.set("part", "snippet,contentDetails");
-      url.searchParams.set("maxResults", "50");
-      url.searchParams.set("playlistId", PLAYLIST_ID);
-      url.searchParams.set("key", API_KEY);
-      if (pageToken) url.searchParams.set("pageToken", pageToken);
-
+    async function fetchAllItems(token = "", acc = []) {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
       const res = await fetch(url);
+      if (!res.ok) throw new Error("Fetch failed");
       const data = await res.json();
-
-      if (!res.ok) {
-        console.error("YouTube API error:", data);
-        throw new Error("YouTube API error");
-      }
-
       acc.push(...data.items);
-
-      if (data.nextPageToken) {
-        return fetchPlaylistItems(data.nextPageToken, acc);
-      }
+      if (data.nextPageToken) return fetchAllItems(data.nextPageToken, acc);
       return acc;
     }
 
-    function buildData(items) {
-      // sort newest first
-      items.sort((a,b) =>
-        new Date(b.contentDetails.videoPublishedAt || b.snippet.publishedAt) -
-        new Date(a.contentDetails.videoPublishedAt || a.snippet.publishedAt)
-      );
-
-      allShiurData = items.map((item, index) => {
-        const id       = item.contentDetails.videoId;
-        const title    = item.snippet.title || "Untitled shiur";
-        const descLine = (item.snippet.description || "").split(/\r?\n/)[0];
-        const rawDate  = item.contentDetails.videoPublishedAt || item.snippet.publishedAt;
-        const dateNice = formatDate(rawDate);
-        const year     = rawDate ? new Date(rawDate).getFullYear().toString() : "";
+    function processData(items) {
+      // Sort newest first
+      items.sort((a,b) => new Date(b.contentDetails.videoPublishedAt) - new Date(a.contentDetails.videoPublishedAt));
+      
+      allData = items.map((item, idx) => {
+        const d = new Date(item.contentDetails.videoPublishedAt || item.snippet.publishedAt);
         return {
-          id,
-          title,
-          desc: descLine,
-          dateRaw: rawDate,
-          dateNice,
-          year,
-          isNewest: index === 0
+          id: item.contentDetails.videoId,
+          title: item.snippet.title,
+          desc: item.snippet.description || "",
+          dateNice: d.toLocaleDateString("en-US", { year:"numeric", month:"short", day:"numeric" }),
+          year: d.getFullYear().toString(),
+          isNew: idx === 0
         };
       });
 
-      populateYearFilter();
-    }
-
-    function populateYearFilter() {
-      const years = Array.from(new Set(
-        allShiurData
-          .map(s => s.year)
-          .filter(Boolean)
-      )).sort((a,b) => b - a);
+      // Populate Year Filter
+      const years = [...new Set(allData.map(d => d.year))];
       years.forEach(y => {
         const opt = document.createElement("option");
-        opt.value = y;
-        opt.textContent = y;
+        opt.value = y; opt.textContent = y;
         yearFilter.appendChild(opt);
       });
+
+      renderList(allData);
     }
 
-    function applyFilters() {
-      const q = (searchInput.value || "").toLowerCase().trim();
-      const year = yearFilter.value;
-
-      let filtered = allShiurData.filter(item => {
-        const text = (item.title + " " + item.desc).toLowerCase();
-        const matchesSearch = !q || text.includes(q);
-        const matchesYear   = !year || item.year === year;
-        return matchesSearch && matchesYear;
-      });
-
-      const animate = isFirstRender;
-      renderList(filtered, animate);
-      if (isFirstRender) isFirstRender = false;
-    }
-
-    function renderList(data, animate = false) {
+    // --- RENDER & LOGIC ---
+    function renderList(items) {
       listEl.innerHTML = "";
-
-      if (!data.length) {
-        document.getElementById("player-title").textContent =
-          "No shiurim match the current filters.";
-        document.getElementById("player-date").textContent = "";
-        return;
-      }
-
-      let activeIdInList = currentVideoId && data.some(s => s.id === currentVideoId)
-        ? currentVideoId
-        : data[0].id;
-
-      let firstLi = null;
-
-      data.forEach((item, index) => {
-        const li  = document.createElement("li");
+      items.forEach(item => {
+        const li = document.createElement("li");
         li.className = "item";
-        li.dataset.videoId = item.id;
-        li.setAttribute("role", "button");
-        li.setAttribute("tabindex", "0");
-        li.setAttribute("aria-pressed", "false");
-
+        if (item.id === currentId) li.classList.add("active");
+        
         li.innerHTML = `
           <div class="item-thumb">
-            <img src="${thumbUrl(item.id)}" alt="Thumbnail for ${item.title}" loading="lazy">
+            <img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy" alt="">
           </div>
           <div class="item-body">
-            <div class="item-topline">
-              <p class="item-title">${item.title}</p>
-              <p class="item-date">${item.dateNice || ""}</p>
+            <div class="item-title">
+              ${item.isNew ? '<span class="badge-new"><span class="badge-dot"></span>New</span>' : ''}
+              ${item.title}
             </div>
-            <p class="item-desc">${item.desc || ""}</p>
+            <div class="item-date">${item.dateNice}</div>
+            <div class="item-desc">${item.desc}</div>
           </div>
         `;
-
-        // newest badge
-        if (item.isNewest) {
-          const badge = document.createElement("span");
-          badge.className = "badge-newest";
-          badge.innerHTML = `<span class="badge-newest-dot"></span>Newest`;
-          const dateEl = li.querySelector(".item-date");
-          dateEl.prepend(badge, " ");
-        }
-
-        const activate = (scrollToPlayer) =>
-          setActive(item.id, item.title, item.dateNice, li, scrollToPlayer);
-
-        li.addEventListener("click", () => activate(true));
-        li.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            activate(true);
-          }
-        });
-
+        li.onclick = () => playVideo(item.id, true);
         listEl.appendChild(li);
-
-        // Staggered fade-in בטעינה הראשונה בלבד (ולא כשיש reduce-motion)
-        if (animate && !reduceMotion) {
-          li.classList.add("stagger-hidden");
-          li.style.transitionDelay = (index * 60) + "ms"; // 60ms בין פריטים
-          requestAnimationFrame(() => {
-            li.classList.remove("stagger-hidden");
-          });
-        } else {
-          li.classList.remove("stagger-hidden");
-          li.style.transitionDelay = "";
-        }
-
-        if (!firstLi) firstLi = li;
-
-        if (item.id === activeIdInList) {
-          setActive(item.id, item.title, item.dateNice, li, false);
-        }
       });
-
-      // If currentVideoId not set yet, activate first item without scroll
-      if (!currentVideoId && firstLi) {
-        const first = data[0];
-        setActive(first.id, first.title, first.dateNice, firstLi, false);
-      }
     }
 
-    function setActive(videoId, title, date, li, scrollToPlayer = true) {
-      const iframe = document.getElementById("player");
-      iframe.src = embedUrl(videoId);
+    function playVideo(id, doScroll) {
+      const item = allData.find(d => d.id === id);
+      if (!item) return;
 
-      currentVideoId = videoId;
+      currentId = id;
 
-      document.getElementById("player-title").textContent = title;
-      document.getElementById("player-date").textContent = date ? date : "";
+      // Swap Skeleton -> Content
+      document.getElementById("skeleton").classList.remove("active");
+      document.getElementById("player-content").style.display = "block";
 
-      document.querySelectorAll(".item").forEach(el => {
-        el.classList.remove("active");
-        el.setAttribute("aria-pressed", "false");
+      // Update Player
+      document.getElementById("player").src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&autoplay=1`;
+      document.getElementById("player-title").textContent = item.title;
+      document.getElementById("player-date").textContent = item.dateNice;
+      
+      // Highlight in list
+      document.querySelectorAll(".item").forEach(el => el.classList.remove("active"));
+      // Re-render list to update active state (or just find element)
+      renderList(getFilteredItems()); 
+
+      // Glow effect
+      playerCard.classList.add("is-playing");
+
+      // Update URL (for sharing)
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.set('v', id);
+      window.history.replaceState({}, '', newUrl);
+
+      // Scroll
+      if (doScroll) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Setup Share Button
+      const shareBtn = document.getElementById("share-btn");
+      shareBtn.onclick = () => {
+        const text = `Listen to this shiur: ${item.title}`;
+        const link = window.location.href; 
+        window.open(`https://wa.me/?text=${encodeURIComponent(text + " " + link)}`, '_blank');
+      };
+    }
+
+    function getFilteredItems() {
+      const q = searchInput.value.toLowerCase();
+      const y = yearFilter.value;
+      return allData.filter(d => {
+        const text = (d.title + " " + d.desc).toLowerCase();
+        return (text.includes(q)) && (!y || d.year === y);
       });
-
-      if (li) {
-        li.classList.add("active");
-        li.setAttribute("aria-pressed", "true");
-      }
-
-      if (scrollToPlayer) {
-        const playerCard = document.querySelector(".player-card");
-        if (playerCard) {
-          const rect = playerCard.getBoundingClientRect();
-          const headerOffset = 10; // leave small space above the card
-          const targetY = window.pageYOffset + rect.top - headerOffset;
-          window.scrollTo({
-            top: targetY < 0 ? 0 : targetY,
-            behavior: "smooth"
-          });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-      }
     }
 
-    async function init() {
-      try {
-        const items = await fetchPlaylistItems();
-        if (!items.length) {
-          document.getElementById("player-title").textContent = "No shiurim found in playlist.";
-          return;
-        }
-        buildData(items);
-        applyFilters();
-      } catch (err) {
-        console.error(err);
-        document.getElementById("player-title").textContent =
-          "Error loading shiurim (check API key / quota).";
-      }
+    function setupEventListeners() {
+      const filterHandler = () => renderList(getFilteredItems());
+      searchInput.addEventListener("input", filterHandler);
+      yearFilter.addEventListener("change", filterHandler);
+
+      // Back to top logic
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) backToTopBtn.classList.add("visible");
+        else backToTopBtn.classList.remove("visible");
+      });
+      backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
     }
-
-    // Filters events
-    searchInput.addEventListener("input", () => applyFilters());
-    yearFilter.addEventListener("change", () => applyFilters());
-
-    // Back to top FAB logic
-    const backBtn = document.getElementById("back-to-top");
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 250) {
-        backBtn.style.display = "flex";
-      } else {
-        backBtn.style.display = "none";
-      }
-    });
-    backBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    init();
   </script>
 </body>
 </html>
