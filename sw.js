@@ -1,7 +1,14 @@
-self.addEventListener('install', (e) => {
-  console.log('[Service Worker] Install');
+// Service Worker Force Active
+self.addEventListener('install', (event) => {
+  // מדלג על שלב ההמתנה ומפעיל מיד
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', (e) => {
-  // Pass through
+self.addEventListener('activate', (event) => {
+  // משתלט על הדף מיד בלי רענון
+  event.waitUntil(clients.claim());
+});
+
+self.addEventListener('fetch', (event) => {
+  // חייב להיות כאן כדי שהדפדפן יזהה שזו PWA
 });
