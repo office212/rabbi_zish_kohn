@@ -3,6 +3,5 @@ self.addEventListener('install', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
-  // כאן אפשר להוסיף בעתיד יכולות אופליין מתקדמות
-  // כרגע זה רק נדרש כדי שההתקנה תעבוד
+  // Pass through
 });
