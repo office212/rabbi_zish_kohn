@@ -297,6 +297,13 @@
   </button>
 
   <script>
+    // --- PWA SERVICE WORKER REGISTRATION ---
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('Service Worker Registered'))
+      .catch((err) => console.log('SW Failed', err));
+    }
+
     // --- CONFIGURATION ---
     const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I"; 
     const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
