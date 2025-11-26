@@ -84,7 +84,7 @@
       100% { transform: scale(1); opacity: 1; }
     }
 
-    /* iOS Instructions Popup (ENGLISH VERSION) */
+    /* iOS Instructions Popup (ENGLISH & LTR) */
     .ios-prompt {
       background: rgba(255, 255, 255, 0.95);
       border: 1px solid #e5e7eb;
@@ -100,8 +100,8 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-      /* Changed to LTR for English */
       text-align: left; 
+      direction: ltr;
     }
 
     @keyframes slideUp {
@@ -122,7 +122,7 @@
     .ios-close {
       position: absolute;
       top: 12px;
-      right: 12px; /* Moved to right for English */
+      right: 12px;
       background: #f3f4f6;
       border-radius: 50%;
       width: 24px; height: 24px;
@@ -426,23 +426,18 @@
 
     if (isIos && !isInStandaloneMode) {
       const iosPrompt = document.getElementById('ios-install-prompt');
-      // Show after 2 seconds
       setTimeout(() => {
         iosPrompt.style.display = 'block';
       }, 2000);
 
-      // Close button
       document.querySelector('.ios-close').addEventListener('click', () => {
         iosPrompt.style.display = 'none';
       });
     }
 
-
     // --- APP CONFIGURATION ---
     const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I"; 
     const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
-    const CACHE_KEY = "mck_shiurim_v2";
-    const CACHE_TIME = 1000 * 60 * 60; // 1 hour cache
 
     // --- ELEMENTS ---
     const listEl = document.getElementById("shiur-list");
@@ -472,36 +467,16 @@
       setupEventListeners();
     }
 
+    // --- DATA LOADING (DIRECT MODE - NO CACHE) ---
     async function loadData() {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        try {
-          const { timestamp, items } = JSON.parse(cached);
-          if (Date.now() - timestamp < CACHE_TIME) {
-            console.log("Using cached data");
-            processData(items);
-            return;
-          }
-        } catch (e) { localStorage.removeItem(CACHE_KEY); }
-      }
-
       try {
         const items = await fetchAllItems();
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-          timestamp: Date.now(),
-          items: items
-        }));
         processData(items);
       } catch (err) {
         console.error("API Error", err);
-        if (cached) {
-          alert("Network error. Showing cached data.");
-          processData(JSON.parse(cached).items);
-        } else {
-          document.getElementById("player-title").textContent = "Error loading shiurim. Please refresh.";
-          document.getElementById("skeleton").style.display = "none";
-          document.getElementById("player-content").style.display = "block";
-        }
+        document.getElementById("player-title").textContent = "Error loading shiurim. Please refresh.";
+        document.getElementById("skeleton").style.display = "none";
+        document.getElementById("player-content").style.display = "block";
       }
     }
 
