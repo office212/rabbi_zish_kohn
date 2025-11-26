@@ -29,21 +29,15 @@
     .header-inner { background: linear-gradient(135deg, #eef2ff 0, #e0f2fe 40%, #fef9c3 100%); border-radius: 18px; padding: 18px 20px; box-shadow: 0 10px 22px rgba(148,163,184,0.4); border: 1px solid rgba(148,163,184,0.5); position: relative; }
     h1 { margin: 0; font-size: 1.6rem; letter-spacing: -0.01em; }
     .sub { font-size: 0.95rem; color: #374151; margin-top: 4px; }
-    
-    /* Install Button */
     .install-btn { margin-top: 12px; background: #111827; color: #fff; border: none; padding: 8px 16px; border-radius: 99px; font-weight: 600; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s, box-shadow 0.2s; animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     .install-btn:active { transform: scale(0.95); }
     @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
-    /* iOS Instructions */
     .ios-prompt { background: rgba(255, 255, 255, 0.95); border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; position: fixed; bottom: 24px; left: 16px; right: 16px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.95rem; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; direction: ltr; }
     @keyframes slideUp { from { transform: translateY(120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .ios-prompt p { margin: 0 0 10px; font-weight: 700; color: #111827; font-size: 1rem; }
     .ios-steps { line-height: 1.6; color: #374151; font-size: 0.9rem; }
     .ios-icon { display: inline-flex; vertical-align: middle; background: #f3f4f6; padding: 2px; border-radius: 4px; }
     .ios-close { position: absolute; top: 12px; right: 12px; background: #f3f4f6; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #6b7280; cursor: pointer; line-height: 1; }
-
-    /* Layout */
     .layout { margin-top: 20px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px; align-items: flex-start; }
     @media (max-width: 880px) { .layout { grid-template-columns: 1fr; } }
     .player-card, .list-card { background: var(--card); border-radius: 18px; border: 1px solid var(--border-soft); box-shadow: 0 8px 24px rgba(148,163,184,0.45); overflow: hidden; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
@@ -97,7 +91,10 @@
     <div class="header-inner">
       <h1>Mekor Chaim Staten Island</h1>
       <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
-      <button id="install-btn" class="install-btn" style="display: none;">📲 Install App</button>
+      
+      <button id="install-btn" class="install-btn" style="display: none;">
+        📲 Install App
+      </button>
     </div>
   </header>
 
@@ -155,17 +152,15 @@
   </div>
 
   <script>
-    // --- PWA LOGIC (For Install Button Only) ---
+    // --- PWA INSTALL LOGIC (ONLY) ---
     if ('serviceWorker' in navigator) {
-      // Registering a dummy service worker just to satisfy PWA requirements
-      // We are NOT using OneSignal here anymore
+      // Just standard registration for PWA, no Push Notifications
       navigator.serviceWorker.register('./sw.js').then(() => console.log('SW Registered')).catch((err) => console.log('SW Failed', err));
     }
 
     let deferredPrompt;
     const installBtn = document.getElementById('install-btn');
 
-    // Install Prompt logic
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex';
     });
@@ -190,7 +185,7 @@
       document.querySelector('.ios-close').addEventListener('click', () => { iosPrompt.style.display = 'none'; });
     }
 
-    // --- APP CONFIG ---
+    // --- APP DATA CONFIG ---
     const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I"; 
     const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
