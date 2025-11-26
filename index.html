@@ -21,17 +21,17 @@
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       
-      // משאיר דיבוג דולק
+      // דיבוג
       OneSignal.Debug.setLogLevel("trace");
 
       try {
         await OneSignal.init({
           appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
           
-          // --- התיקון: רק הגדרת התיקייה ---
-          // בלי נתיבים ידניים לקבצים, תן ל-SDK לעשות את העבודה
+          // --- ההגדרה היחידה שקובעת את המיקום ---
+          // זה אומר למערכת: אנחנו נמצאים בתוך התיקייה הזו
           path: "/rabbi_zish_kohn/",
-          // ------------------------------
+          // -------------------------------------
 
           notifyButton: {
             enable: true, 
@@ -42,27 +42,29 @@
               'badge.background': '#2166ff',
               'badge.foreground': 'white',
               'badge.bordercolor': 'white',
-              'pulse.color': 'white'
+              'pulse.color': 'white',
+              'dialog.button.background.hovering': '#2166ff',
+              'dialog.button.background.active': '#2166ff',
+              'dialog.button.background': '#2166ff',
+              'dialog.button.foreground': 'white'
             }
           },
           allowLocalhostAsSecureOrigin: true,
         });
 
-        // הודעת הצלחה
+        // הודעה כשההרשמה מצליחה
         OneSignal.User.PushSubscription.addEventListener("change", function(event) {
           if (event.current.optedIn) {
-            alert("SUCCESS! You are subscribed!");
+            alert("SUCCESS! Registration Complete.");
           }
         });
 
       } catch (error) {
-        // מציג הודעה רק אם יש שגיאה קריטית
-        console.error("Init Error:", error);
-        alert("Init Error: " + error.message);
+        alert("Error: " + error.message);
       }
     });
 
-    // כפתור בדיקה ידני
+    // פונקציית הרשמה ידנית לכפתור האדום
     async function manualSubscribe() {
       try {
         await OneSignal.User.PushSubscription.optIn();
