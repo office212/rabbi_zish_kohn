@@ -9,26 +9,25 @@
   <meta property="og:description" content="Listen to weekly shiurim by Rabbi Zish Kohn. App available for download.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://office212.github.io/rabbi_zish_kohn/">
-  <meta property="og:image" content="https://office212.github.io/rabbi_zish_kohn/icon-512.png">
+  <meta property="og:image" content="https://office212.github.io/rabbi_zish_kohn/icon-512(1).png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2166ff">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
         
-        // --- התיקון: הגדרת מיקום מדויקת ---
-        // 1. איפה הקובץ נמצא? בתוך התיקייה
-        serviceWorkerPath: "rabbi_zish_kohn/OneSignalSDKWorker.js",
-        // 2. איפה ההתראות עובדות? בתוך התיקייה
+        // --- תיקון נתיבים קריטי ---
+        // אומר לוואן סיגנל לחפש את הקובץ בתוך התיקייה הספציפית
         serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
-        // --------------------------------
+        serviceWorkerPath: "rabbi_zish_kohn/OneSignalSDKWorker.js",
+        // -------------------------
 
         notifyButton: {
           enable: true, 
@@ -39,7 +38,11 @@
             'badge.background': '#2166ff',
             'badge.foreground': 'white',
             'badge.bordercolor': 'white',
-            'pulse.color': 'white'
+            'pulse.color': 'white',
+            'dialog.button.background.hovering': '#2166ff',
+            'dialog.button.background.active': '#2166ff',
+            'dialog.button.background': '#2166ff',
+            'dialog.button.foreground': 'white'
           }
         },
         allowLocalhostAsSecureOrigin: true,
