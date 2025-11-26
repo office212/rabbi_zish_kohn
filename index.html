@@ -20,20 +20,17 @@
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
-      
-      // --- מצב דיבוג: מדפיס הכל לקונסול ---
+      // דיבוג מופעל למקרה הצורך
       OneSignal.Debug.setLogLevel("trace");
-      // ----------------------------------
 
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
         
-        // הגדרה קריטית לתיקייה
+        // --- הגדרות נתיב קריטיות לתיקייה ב-GitHub ---
         path: "/rabbi_zish_kohn/",
-        
-        // ניסיון לכפות את המיקום המדויק
-        serviceWorkerPath: "rabbi_zish_kohn/OneSignalSDKWorker.js",
-        serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        serviceWorkerUpdaterPath: "OneSignalSDKUpdaterWorker.js",
+        // -------------------------------------------
 
         notifyButton: {
           enable: true, 
