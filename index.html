@@ -20,18 +20,22 @@
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
-      // דיבוג מופעל למקרה הצורך
+      // משאיר את הדיבוג דולק ליתר ביטחון
       OneSignal.Debug.setLogLevel("trace");
 
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
         
-        // --- הגדרות נתיב קריטיות לתיקייה ב-GitHub ---
+        // --- התיקון שחייבים להוסיף לקוד הגנרי ---
+        // אומר לדפדפן: "אנחנו בתוך תיקייה, לא בראשי"
         path: "/rabbi_zish_kohn/",
+        
+        // מכריח אותו למצוא את הקבצים בשמות הנכונים
         serviceWorkerPath: "OneSignalSDKWorker.js",
         serviceWorkerUpdaterPath: "OneSignalSDKUpdaterWorker.js",
-        // -------------------------------------------
+        // ---------------------------------------
 
+        // הגדרת הפעמון הכחול
         notifyButton: {
           enable: true, 
           position: 'bottom-left',
