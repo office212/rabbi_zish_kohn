@@ -16,16 +16,19 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
         
-        // --- התיקון: הגדרת התיקייה הראשית ---
-        path: "/rabbi_zish_kohn/",
-        // -----------------------------------
+        // --- התיקון: הגדרת מיקום מדויקת ---
+        // 1. איפה הקובץ נמצא? בתוך התיקייה
+        serviceWorkerPath: "rabbi_zish_kohn/OneSignalSDKWorker.js",
+        // 2. איפה ההתראות עובדות? בתוך התיקייה
+        serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
+        // --------------------------------
 
         notifyButton: {
           enable: true, 
