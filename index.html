@@ -21,49 +21,45 @@
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       
-      // לוגים דולקים כדי לראות שגיאות
+      // משאיר דיבוג דולק כדי שנוכל לראות שגיאות אם יהיו
       OneSignal.Debug.setLogLevel("trace");
 
-      try {
-        await OneSignal.init({
-          appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
-          
-          // --- התיקון: כתובת אבסולוטית מלאה ---
-          // זה מכריח את הדפדפן לחפש בתיקייה הנכונה ולא בראשי
-          path: "https://office212.github.io/rabbi_zish_kohn/",
-          
-          serviceWorkerPath: "OneSignalSDKWorker.js",
-          serviceWorkerUpdaterPath: "OneSignalSDKUpdaterWorker.js",
-          serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
-          // ---------------------------------------
+      await OneSignal.init({
+        appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
+        
+        // --- התיקון הסופי: נתיבים מפורשים ---
+        // זה אומר לדפדפן: הקבצים נמצאים בתוך התיקייה הזו בדיוק
+        serviceWorkerPath: "rabbi_zish_kohn/OneSignalSDKWorker.js",
+        serviceWorkerUpdaterPath: "rabbi_zish_kohn/OneSignalSDKUpdaterWorker.js",
+        serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
+        // -----------------------------------
 
-          notifyButton: {
-            enable: true, 
-            position: 'bottom-left',
-            colors: { 
-              'circle.background': '#2166ff',
-              'circle.foreground': 'white',
-              'badge.background': '#2166ff',
-              'badge.foreground': 'white',
-              'badge.bordercolor': 'white',
-              'pulse.color': 'white'
-            }
-          },
-          allowLocalhostAsSecureOrigin: true,
-        });
-
-        // האזנה להרשמה - תקפיץ הודעה אם הצליח
-        OneSignal.User.PushSubscription.addEventListener("change", function(event) {
-          if (event.current.optedIn) {
-            alert("SUCCESS! You are subscribed! ID generated.");
+        notifyButton: {
+          enable: true, 
+          position: 'bottom-left',
+          colors: { 
+            'circle.background': '#2166ff',
+            'circle.foreground': 'white',
+            'badge.background': '#2166ff',
+            'badge.foreground': 'white',
+            'badge.bordercolor': 'white',
+            'pulse.color': 'white',
+            'dialog.button.background.hovering': '#2166ff',
+            'dialog.button.background.active': '#2166ff',
+            'dialog.button.background': '#2166ff',
+            'dialog.button.foreground': 'white'
           }
-        });
-
-      } catch (error) {
-        // הודעה אם נכשל
-        alert("Error Init: " + JSON.stringify(error));
-        console.error("OneSignal Init Error:", error);
-      }
+        },
+        allowLocalhostAsSecureOrigin: true,
+      });
+      
+      // קופץ אם ההרשמה הצליחה
+      OneSignal.User.PushSubscription.addEventListener("change", function(event) {
+        if (event.current.optedIn) {
+          console.log("Subscribed! ID:", event.current.id);
+          alert("Success! You are now subscribed to updates.");
+        }
+      });
     });
   </script>
 
