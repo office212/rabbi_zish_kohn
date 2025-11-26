@@ -22,16 +22,17 @@
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       
-      // דיבוג
       OneSignal.Debug.setLogLevel("trace");
 
       try {
         await OneSignal.init({
           appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
           
-          // --- הגדרת התיקייה בלבד (הכי בטוח) ---
-          path: "/rabbi_zish_kohn/",
-          // ------------------------------------
+          // --- השינוי: שימוש בנקודה (.) כדי לסמן "התיקייה הנוכחית" ---
+          // בלי הגדרות path או scope מסובכות
+          serviceWorkerPath: "./OneSignalSDKWorker.js",
+          serviceWorkerUpdaterPath: "./OneSignalSDKUpdaterWorker.js",
+          // ---------------------------------------------------------
 
           notifyButton: {
             enable: true, 
@@ -42,13 +43,16 @@
               'badge.background': '#2166ff',
               'badge.foreground': 'white',
               'badge.bordercolor': 'white',
-              'pulse.color': 'white'
+              'pulse.color': 'white',
+              'dialog.button.background.hovering': '#2166ff',
+              'dialog.button.background.active': '#2166ff',
+              'dialog.button.background': '#2166ff',
+              'dialog.button.foreground': 'white'
             }
           },
           allowLocalhostAsSecureOrigin: true,
         });
 
-        // הודעת הצלחה
         OneSignal.User.PushSubscription.addEventListener("change", function(event) {
           if (event.current.optedIn) {
             alert("SUCCESS! You are subscribed!");
@@ -56,11 +60,10 @@
         });
 
       } catch (error) {
-        alert("Error: " + error.message);
+        alert("Init Error: " + error.message);
       }
     });
 
-    // כפתור בדיקה
     async function manualSubscribe() {
       try {
         await OneSignal.User.PushSubscription.optIn();
