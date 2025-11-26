@@ -19,8 +19,28 @@
 
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
+    // פונקציה לניקוי שאריות ישנות לפני שמתחילים
+    async function cleanOldWorkers() {
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (let registration of registrations) {
+          // מוחק רק אם זה לא בנתיב הנוכחי
+          if (!registration.scope.includes(window.location.pathname)) {
+             await registration.unregister();
+          }
+        }
+      }
+    }
+
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
+      
+      // 1. נקה זבל ישן
+      await cleanOldWorkers();
+
+      // 2. חישוב אוטומטי של התיקייה הנוכחית
+      // זה ייתן לנו בדיוק: "/rabbi_zish_kohn/" בלי שגיאות כתיב
+      var myPath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
       
       OneSignal.Debug.setLogLevel("trace");
 
@@ -28,11 +48,12 @@
         await OneSignal.init({
           appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
           
-          // --- השינוי: שימוש בנקודה (.) כדי לסמן "התיקייה הנוכחית" ---
-          // בלי הגדרות path או scope מסובכות
-          serviceWorkerPath: "./OneSignalSDKWorker.js",
-          serviceWorkerUpdaterPath: "./OneSignalSDKUpdaterWorker.js",
-          // ---------------------------------------------------------
+          // --- שימוש בנתיב האוטומטי ---
+          path: myPath,
+          // --------------------------
+
+          // נותן לוואן סיגנל למצוא את הקבצים לבד לפי הנתיב
+          // מחקנו את ההגדרות הידניות שמפריעות
 
           notifyButton: {
             enable: true, 
@@ -43,14 +64,9 @@
               'badge.background': '#2166ff',
               'badge.foreground': 'white',
               'badge.bordercolor': 'white',
-              'pulse.color': 'white',
-              'dialog.button.background.hovering': '#2166ff',
-              'dialog.button.background.active': '#2166ff',
-              'dialog.button.background': '#2166ff',
-              'dialog.button.foreground': 'white'
+              'pulse.color': 'white'
             }
-          },
-          allowLocalhostAsSecureOrigin: true,
+          }
         });
 
         OneSignal.User.PushSubscription.addEventListener("change", function(event) {
@@ -64,6 +80,7 @@
       }
     });
 
+    // כפתור בדיקה ידני
     async function manualSubscribe() {
       try {
         await OneSignal.User.PushSubscription.optIn();
