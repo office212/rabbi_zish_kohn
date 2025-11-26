@@ -9,7 +9,7 @@
   <meta property="og:description" content="Listen to weekly shiurim by Rabbi Zish Kohn. App available for download.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://office212.github.io/rabbi_zish_kohn/">
-  <meta property="og:image" content="https://office212.github.io/rabbi_zish_kohn/icon-512(1).png">
+  <meta property="og:image" content="https://office212.github.io/rabbi_zish_kohn/icon-512.png">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2166ff">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -23,11 +23,9 @@
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
         
-        // --- תיקון נתיבים קריטי ---
-        // אומר לוואן סיגנל לחפש את הקובץ בתוך התיקייה הספציפית
-        serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
-        serviceWorkerPath: "rabbi_zish_kohn/OneSignalSDKWorker.js",
-        // -------------------------
+        // --- התיקון: אומרים לוואן סיגנל שזה בתוך תיקייה ---
+        path: "/rabbi_zish_kohn/",
+        // ------------------------------------------------
 
         notifyButton: {
           enable: true, 
