@@ -16,18 +16,16 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
         
-        // --- התיקון הקריטי לתיקייה ב-GitHub ---
-        // זה אומר לוואן סיגנל איפה בדיוק לחפש את הקובץ
-        serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
-        serviceWorkerPath: "rabbi_zish_kohn/OneSignalSDKWorker.js",
-        // -------------------------------------
+        // --- התיקון: הגדרת התיקייה הראשית ---
+        path: "/rabbi_zish_kohn/",
+        // -----------------------------------
 
         notifyButton: {
           enable: true, 
@@ -38,11 +36,7 @@
             'badge.background': '#2166ff',
             'badge.foreground': 'white',
             'badge.bordercolor': 'white',
-            'pulse.color': 'white',
-            'dialog.button.background.hovering': '#2166ff',
-            'dialog.button.background.active': '#2166ff',
-            'dialog.button.background': '#2166ff',
-            'dialog.button.foreground': 'white'
+            'pulse.color': 'white'
           }
         },
         allowLocalhostAsSecureOrigin: true,
