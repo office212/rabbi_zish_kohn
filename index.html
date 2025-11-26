@@ -16,15 +16,20 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal) {
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
-        safari_web_id: "web.onesignal.auto.xxxxx",
+        
+        // --- התיקון הקריטי לתיקייה ב-GitHub ---
+        serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
+        serviceWorkerPath: "OneSignalSDKWorker.js",
+        // -------------------------------------
+
         notifyButton: {
-          enable: true, /* Show bell icon */
+          enable: true, 
           position: 'bottom-left',
           colors: { 
             'circle.background': '#2166ff',
@@ -32,11 +37,7 @@
             'badge.background': '#2166ff',
             'badge.foreground': 'white',
             'badge.bordercolor': 'white',
-            'pulse.color': 'white',
-            'dialog.button.background.hovering': '#2166ff',
-            'dialog.button.background.active': '#2166ff',
-            'dialog.button.background': '#2166ff',
-            'dialog.button.foreground': 'white'
+            'pulse.color': 'white'
           }
         },
         allowLocalhostAsSecureOrigin: true,
