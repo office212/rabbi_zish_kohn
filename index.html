@@ -73,8 +73,16 @@
     .share-menu button:hover { background: var(--bg-main); }
     .share-menu button:last-child { border-bottom: none; }
 
-    /* PLAYER CARD */
-    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); position: sticky; top: 20px; z-index: 10; overflow: hidden; }
+    /* PLAYER CARD - FIXED: Removed Sticky Positioning */
+    .player-card { 
+      background: var(--card-bg); 
+      border-radius: 24px; 
+      box-shadow: var(--shadow-card); 
+      border: 1px solid var(--border-soft); 
+      position: relative; /* Changed from sticky to relative */
+      overflow: hidden; 
+    }
+    
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     .player-meta-row { display: flex; justify-content: space-between; align-items: center; }
@@ -411,12 +419,11 @@
 
     if(autoScroll) {
       const card = document.getElementById("player-card");
-      if (window.innerWidth < 900 && card) {
-        // Mobile: Scroll to player with 20px breathing room
+      if(card && window.innerWidth < 900) {
+        // Scroll to player but leave 20px gap
         const y = card.getBoundingClientRect().top + window.pageYOffset - 20;
         window.scrollTo({top: y, behavior: 'smooth'});
       } else {
-        // Desktop: Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     }
