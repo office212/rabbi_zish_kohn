@@ -21,190 +21,122 @@
     /* --- VARIABLES --- */
     :root {
       --w: 1000px;
-      --bg-main: #f8fafc;
-      --card-bg: #ffffff;
-      --accent: #2563eb;
-      --accent-glow: rgba(37, 99, 235, 0.15);
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border-soft: #e2e8f0;
+      --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.15);
+      --text-main: #0f172a; --text-muted: #64748b; --border-soft: #e2e8f0;
       --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-      --fav-color: #ef4444; /* Red for heart */
-      --watched-color: #10b981; /* Green for check */
+      --fav-color: #ef4444; --watched-color: #10b981;
     }
-
     body.dark-mode {
-      --bg-main: #020617;
-      --card-bg: #0f172a;
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
-      --border-soft: #1e293b;
-      --accent: #60a5fa;
-      --accent-glow: rgba(96, 165, 250, 0.2);
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-      --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      --bg-main: #020617; --card-bg: #0f172a; --text-main: #f1f5f9; --text-muted: #94a3b8;
+      --border-soft: #1e293b; --accent: #60a5fa; --accent-glow: rgba(96, 165, 250, 0.2);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3); --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
 
-    /* --- BASE --- */
     * { box-sizing: border-box; }
     body {
       margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main);
       padding-bottom: 80px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;
     }
 
-    /* --- LAYOUT --- */
     header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
     header { padding-top: 20px; padding-bottom: 24px; }
-    
-    .layout {
-      margin-top: 10px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: flex-start;
-    }
+    .layout { margin-top: 10px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: flex-start; }
     @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
 
-    /* --- HEADER --- */
-    .header-inner {
-      background: var(--header-bg); border-radius: 24px; padding: 24px 28px; color: white;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); position: relative; overflow: hidden;
-    }
+    /* HEADER */
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px 28px; color: white; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
     h1 { margin: 0; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
     .sub { font-size: 0.95rem; opacity: 0.9; margin-top: 6px; }
     .header-controls { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
 
-    /* --- BUTTONS --- */
+    /* BUTTONS */
     button { font-family: inherit; }
-    .theme-toggle, .install-btn {
-      border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s;
-    }
+    .theme-toggle, .install-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
-    
-    .share-btn {
-      background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px;
-      font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s;
-    }
+    .share-btn { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; }
     body.dark-mode .share-btn { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
 
-    /* --- PLAYER --- */
-    .player-card {
-      background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-soft); position: sticky; top: 20px; z-index: 10; overflow: hidden;
-    }
+    /* PLAYER */
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); position: sticky; top: 20px; z-index: 10; overflow: hidden; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     .player-meta-row { display: flex; justify-content: space-between; align-items: center; }
     .badge-main { background: var(--accent-glow); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
-    
     .frame { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
-    .frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    #player-placeholder { position: absolute; inset: 0; width: 100%; height: 100%; }
 
     .player-controls { display: flex; gap: 8px; margin-top: 12px; }
-    .control-btn {
-      background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted);
-      padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s;
-    }
+    .control-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
     .control-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-    /* --- LIST & FILTERS --- */
-    .list-header {
-      background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px;
-      border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap;
+    /* RESUME BAR */
+    .resume-notify {
+      background: var(--accent); color: white; padding: 8px 16px; font-size: 0.85rem; font-weight: 600; 
+      display: flex; justify-content: space-between; align-items: center; display: none;
     }
+    .resume-notify button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 2px 8px; border-radius: 4px; cursor: pointer; margin-left: 10px; font-size: 0.75rem; }
+
+    /* LIST */
+    .list-header { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap; }
     .filters { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
-    .filters input, .filters select {
-      border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px 14px;
-      font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none; flex: 1;
-    }
-    
-    /* Favorites Toggle Button */
-    .btn-fav-filter {
-      background: var(--bg-main); border: 1px solid var(--border-soft); color: var(--text-muted);
-      padding: 10px 14px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
-      display: flex; align-items: center; gap: 6px; transition: all 0.2s;
-    }
-    .btn-fav-filter.active {
-      background: #fef2f2; color: var(--fav-color); border-color: #fca5a5;
-    }
+    .filters input, .filters select { border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px 14px; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none; flex: 1; }
+    .btn-fav-filter { background: var(--bg-main); border: 1px solid var(--border-soft); color: var(--text-muted); padding: 10px 14px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+    .btn-fav-filter.active { background: #fef2f2; color: var(--fav-color); border-color: #fca5a5; }
     body.dark-mode .btn-fav-filter.active { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
 
     .list { list-style: none; margin: 0; padding: 0; }
-    .item {
-      display: flex; gap: 16px; padding: 12px; background: var(--card-bg);
-      border: 1px solid var(--border-soft); border-radius: 16px; margin-bottom: 12px;
-      cursor: pointer; transition: all 0.2s; position: relative;
-    }
+    .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
     .item:hover { transform: translateY(-2px); border-color: var(--accent); }
     .item.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
     
-    /* Watched State Styling */
-    .item.watched .item-title { color: var(--text-muted); font-weight: 500; }
-    .item.watched .item-thumb { opacity: 0.8; }
+    /* Progress bar on item */
+    .item-progress-bg { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: transparent; }
+    .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
 
-    /* Item Thumb & Overlay */
     .item-thumb { flex: 0 0 130px; position: relative; border-radius: 10px; overflow: hidden; }
     .item-thumb img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
-    .play-overlay {
-      position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: 0.2s;
-    }
+    .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; }
     .item:hover .play-overlay { opacity: 1; }
     .play-overlay svg { width: 32px; height: 32px; fill: white; }
 
-    /* Item Content */
     .item-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0; }
     .item-top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
     .item-title { font-size: 1rem; font-weight: 600; line-height: 1.4; color: var(--text-main); }
     .item-date { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-
-    /* Action Buttons inside item */
-    .item-actions { display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; }
-    .btn-fav {
-      background: transparent; border: none; cursor: pointer; color: #cbd5e1; padding: 4px; transition: transform 0.2s;
-    }
+    
+    .btn-fav { background: transparent; border: none; cursor: pointer; color: #cbd5e1; padding: 4px; }
     .btn-fav.active { color: var(--fav-color); }
-    .btn-fav:hover { transform: scale(1.2); }
     .btn-fav svg { width: 22px; height: 22px; fill: currentColor; }
 
-    /* Search Highlight */
     mark { background: #fef08a; color: #854d0e; padding: 0 2px; border-radius: 2px; }
     body.dark-mode mark { background: #854d0e; color: #fef08a; }
 
-    /* Badges */
-    .badge-watched { color: var(--watched-color); display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem; }
     .badge-new { background: #f59e0b; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
-
-    /* Equalizer */
     .equalizer { display: flex; align-items: flex-end; gap: 2px; height: 12px; width: 12px; margin-left: auto; }
     .bar { width: 3px; background: var(--accent); animation: bounce 1s infinite ease-in-out; }
     .bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
     .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
-    /* Skeleton Loader */
-    .skeleton-wrapper { padding: 20px; background: var(--card-bg); }
-    .skel-line { height: 24px; margin-bottom: 12px; border-radius: 8px; background: var(--border-soft); animation: pulse 1.5s infinite; }
-    .skel-video { border-radius: 16px; height: 250px; width: 100%; }
-    /* List Skeleton */
-    .skel-list-item { display: flex; gap: 16px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-soft); border-radius: 16px; }
-    .skel-thumb { width: 130px; height: 75px; background: var(--border-soft); border-radius: 10px; animation: pulse 1.5s infinite; }
-    .skel-content { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
-    .skel-text { height: 16px; background: var(--border-soft); border-radius: 4px; animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } }
-
-    /* Toast */
-    .toast {
-      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
-      background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px;
-      font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transition: all 0.4s; z-index: 1000;
-    }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transition: all 0.4s; z-index: 1000; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* Footer & Utils */
     #back-to-top { position: fixed; bottom: 30px; right: 20px; padding: 12px 18px; border-radius: 99px; background: var(--text-main); color: var(--bg-main); border: none; font-weight: 600; cursor: pointer; display: none; z-index: 50; }
     .ios-prompt { background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); padding: 30px 20px 40px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; border-radius: 24px 24px 0 0; display: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
     .ios-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
     
+    /* SKELETON */
+    .skeleton-wrapper { padding: 20px; background: var(--card-bg); }
+    .skel-line { height: 24px; margin-bottom: 12px; border-radius: 8px; background: var(--border-soft); animation: pulse 1.5s infinite; }
+    .skel-video { border-radius: 16px; height: 250px; width: 100%; }
+    .skel-list-item { display: flex; gap: 16px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-soft); border-radius: 16px; }
+    .skel-thumb { width: 130px; height: 75px; background: var(--border-soft); border-radius: 10px; animation: pulse 1.5s infinite; }
+    .skel-content { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } }
+
     @media(max-width: 600px) { .item-thumb { flex: 0 0 100px; } .player-card { border-radius: 0 0 24px 24px; margin: 0 -16px; width: auto; border: none; } }
   </style>
 </head>
@@ -245,8 +177,17 @@
             <button class="control-btn" data-speed="2" onclick="setSpeed(2)">2x</button>
           </div>
         </div>
+        
+        <div id="resume-notify" class="resume-notify">
+          <span id="resume-text">Resume from 10:00?</span>
+          <div>
+            <button onclick="confirmResume()">Yes</button>
+            <button onclick="cancelResume()">No</button>
+          </div>
+        </div>
+
         <div class="frame">
-          <iframe id="player" src="" allowfullscreen title="Video player" allow="autoplay"></iframe>
+          <div id="player-placeholder"></div>
         </div>
       </div>
     </section>
@@ -257,8 +198,7 @@
           <input id="search-input" type="search" placeholder="Search shiurim..." aria-label="Search">
           <select id="year-filter"><option value="">All Years</option></select>
           <button id="fav-filter-btn" class="btn-fav-filter">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            Saved
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Saved
           </button>
         </div>
       </div>
@@ -266,7 +206,6 @@
       <div id="list-skeleton">
         <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:60%"></div><div class="skel-text" style="width:30%"></div></div></div>
         <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:70%"></div><div class="skel-text" style="width:40%"></div></div></div>
-        <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:50%"></div><div class="skel-text" style="width:30%"></div></div></div>
       </div>
 
       <ul id="shiur-list" class="list" style="display:none"></ul>
@@ -286,68 +225,172 @@
   </div>
 </div>
 
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
   // --- CONFIG ---
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
-  // --- DOM & STATE ---
+  // --- STATE ---
+  let allData = [];
+  let currentId = null;
+  let showFavoritesOnly = false;
+  let player = null; // YT Player instance
+  let progressInterval = null;
+  let savedTime = 0; // For resume logic
+  
+  // LocalStorage
+  let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
+  let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}'); // { videoId: seconds }
+  let totalDuration = 0; // Duration of current video
+
+  // DOM
   const listEl = document.getElementById("shiur-list");
   const listSkeleton = document.getElementById("list-skeleton");
   const searchInput = document.getElementById("search-input");
   const yearFilter = document.getElementById("year-filter");
   const favFilterBtn = document.getElementById("fav-filter-btn");
+  const resumeNotify = document.getElementById("resume-notify");
+  const resumeText = document.getElementById("resume-text");
   const toast = document.getElementById("toast");
-  
-  let allData = [];
-  let currentId = null;
-  let showFavoritesOnly = false;
-  
-  // Load State from LocalStorage
-  let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
-  let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
 
   document.getElementById("year-copy").textContent = new Date().getFullYear();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.log);
 
-  // --- INIT ---
-  initApp();
+  // --- YT API INIT ---
+  // The API will call this function when it's ready
+  function onYouTubeIframeAPIReady() {
+    initApp();
+  }
 
   async function initApp() {
     await loadData();
     
+    // Init Player
+    player = new YT.Player('player-placeholder', {
+      height: '100%',
+      width: '100%',
+      videoId: '', // Will load later
+      playerVars: {
+        'playsinline': 1,
+        'rel': 0,
+        'modestbranding': 1
+      },
+      events: {
+        'onStateChange': onPlayerStateChange,
+        'onReady': onPlayerReady
+      }
+    });
+  }
+
+  function onPlayerReady(event) {
+    // Check URL or Auto-load first
     const urlParams = new URLSearchParams(window.location.search);
     const urlVideo = urlParams.get('v');
-    // We prefer the URL video, otherwise just init list (don't autoplay last watched to be polite)
+    const lastWatched = localStorage.getItem('lastWatched');
+
     if (allData.length > 0) {
       if (urlVideo && allData.find(d => d.id === urlVideo)) {
         playVideo(urlVideo, false);
+      } else if (lastWatched && allData.find(d => d.id === lastWatched)) {
+        // Just load metadata, don't autoplay if restoring from history
+        const vid = allData.find(d => d.id === lastWatched);
+        updatePlayerMeta(vid.title, vid.dateNice);
+        player.cueVideoById(lastWatched);
+        currentId = lastWatched;
+        renderList(allData);
       } else {
         const first = allData[0];
         updatePlayerMeta(first.title, first.dateNice);
-        document.getElementById("player").src = `https://www.youtube-nocookie.com/embed/${first.id}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1`;
+        player.cueVideoById(first.id);
         currentId = first.id;
-        renderList(allData); 
+        renderList(allData);
       }
     }
   }
 
-  // --- DATA LOADING ---
+  // --- SMART PLAYER LOGIC ---
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+      // Start tracking progress
+      startProgressTracking();
+      totalDuration = player.getDuration();
+    } else {
+      stopProgressTracking();
+    }
+
+    if (event.data == YT.PlayerState.ENDED) {
+      playNextVideo();
+    }
+  }
+
+  function startProgressTracking() {
+    stopProgressTracking();
+    progressInterval = setInterval(() => {
+      if(player && player.getCurrentTime) {
+        const currentTime = player.getCurrentTime();
+        if (currentTime > 5) { // Only save after 5 seconds
+          progressMap[currentId] = Math.floor(currentTime);
+          localStorage.setItem('mc_progress', JSON.stringify(progressMap));
+          // Update visual progress bar (optional optimization: don't re-render list, just update width)
+          // For simplicity we won't re-render list constantly.
+        }
+      }
+    }, 5000); // Save every 5s
+  }
+
+  function stopProgressTracking() {
+    if (progressInterval) clearInterval(progressInterval);
+  }
+
+  function playNextVideo() {
+    const currentIndex = allData.findIndex(d => d.id === currentId);
+    if (currentIndex >= 0 && currentIndex < allData.length - 1) {
+      const nextVid = allData[currentIndex + 1]; // Next in list (older usually, or newer depending on sort)
+      // Actually, list is Newest First. So "Next" usually means the one below it (older).
+      playVideo(nextVid.id, true);
+      showToast(`Autoplaying: ${nextVid.title.substring(0, 20)}...`);
+    }
+  }
+
+  function checkResume(id) {
+    const time = progressMap[id];
+    // If saved time exists and is more than 60 seconds and less than end
+    if (time && time > 30 && (player.getDuration() - time > 60)) {
+      savedTime = time;
+      const mins = Math.floor(time / 60);
+      const secs = (time % 60).toString().padStart(2, '0');
+      resumeText.textContent = `Resume from ${mins}:${secs}?`;
+      resumeNotify.style.display = 'flex';
+      
+      // Auto-hide after 10s
+      setTimeout(() => { resumeNotify.style.display = 'none'; }, 10000);
+    } else {
+      resumeNotify.style.display = 'none';
+    }
+  }
+
+  window.confirmResume = function() {
+    player.seekTo(savedTime, true);
+    player.playVideo();
+    resumeNotify.style.display = 'none';
+  }
+  window.cancelResume = function() {
+    resumeNotify.style.display = 'none';
+  }
+
+
+  // --- DATA & RENDER ---
   async function loadData() {
     try {
       const items = await fetchAllItems();
       processData(items);
-      
-      // Hide Skeletons, Show Content
       document.getElementById("skeleton").style.display = "none";
       document.getElementById("player-content").style.display = "block";
       listSkeleton.style.display = "none";
       listEl.style.display = "block";
-      
-    } catch(err) {
-      console.error(err);
-      document.getElementById("player-title").textContent = "Error loading content.";
-    }
+    } catch(err) { console.error(err); }
   }
 
   async function fetchAllItems(token = "", acc = []) {
@@ -361,7 +404,6 @@
 
   function processData(items) {
     items.sort((a,b) => new Date(b.contentDetails.videoPublishedAt) - new Date(a.contentDetails.videoPublishedAt));
-    
     allData = items.map((item, idx) => {
       const d = new Date(item.contentDetails.videoPublishedAt || item.snippet.publishedAt);
       return {
@@ -373,45 +415,36 @@
         isNew: idx === 0
       };
     });
-
     const years = [...new Set(allData.map(d => d.year))];
-    years.forEach(y => {
-      const opt = document.createElement("option");
-      opt.value = y;
-      opt.textContent = y;
-      yearFilter.appendChild(opt);
-    });
-
-    renderList(allData);
+    years.forEach(y => { const opt = document.createElement("option"); opt.value = y; opt.textContent = y; yearFilter.appendChild(opt); });
   }
 
-  // --- RENDERING ---
   function renderList(items) {
     listEl.innerHTML = "";
+    if (items.length === 0) { listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`; return; }
     
-    if (items.length === 0) {
-      listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`;
-      return;
-    }
-
-    // Prepare regex for highlighting if search exists
     const searchVal = searchInput.value.trim();
     const regex = searchVal ? new RegExp(`(${searchVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi') : null;
 
     items.forEach(item => {
       const li = document.createElement("li");
       const isFav = favorites.has(item.id);
-      const isWatched = watchedHistory.has(item.id);
       
-      li.className = `item ${item.id === currentId ? 'active' : ''} ${isWatched ? 'watched' : ''}`;
-      
-      let badgeHTML = "";
-      if (item.isNew) badgeHTML += `<span class="badge-new">New</span>`;
-      if (isWatched) badgeHTML += `<span class="badge-watched"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Played</span>`;
-      
-      let eqHTML = (item.id === currentId) ? `<div class="equalizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>` : "";
+      // Calculate progress width
+      let progressWidth = 0;
+      if (progressMap[item.id]) {
+         // We don't have total duration for unplayed videos easily, so we assume 45m (2700s) for visual bar or just show 100% if done.
+         // Better: just check if it exists in map.
+         progressWidth = (progressMap[item.id] > 60) ? '15%' : '0%'; // Just a small indicator that started
+         // If we really wanted exact %, we'd need duration for all videos from API. Overkill for now.
+         if (progressMap[item.id] > 60) progressWidth = '40%'; 
+      }
 
-      // Highlighting logic
+      li.className = `item ${item.id === currentId ? 'active' : ''}`;
+      
+      let badgeHTML = item.isNew ? `<span class="badge-new">New</span>` : "";
+      let eqHTML = (item.id === currentId) ? `<div class="equalizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>` : "";
+      
       let displayTitle = item.title;
       if (regex) displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
 
@@ -419,171 +452,120 @@
         <div class="item-thumb">
           <img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy" alt="thumb">
           <div class="play-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+          <div class="item-progress-bg"><div class="item-progress-fill" style="width:${progressWidth}"></div></div>
         </div>
         <div class="item-body">
           <div class="item-top-row">
             <div class="item-title">${displayTitle}</div>
-            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${item.id}')" aria-label="Favorite">
-              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </button>
+            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
           </div>
-          <div class="item-date">
-             ${badgeHTML} ${item.dateNice} ${eqHTML}
-          </div>
+          <div class="item-date">${badgeHTML} ${item.dateNice} ${eqHTML}</div>
         </div>
       `;
-      
-      // Click on item plays video (unless clicking fav button)
-      li.addEventListener("click", (e) => {
-        if(!e.target.closest('.btn-fav')) playVideo(item.id, true);
-      });
-      
+      li.addEventListener("click", (e) => { if(!e.target.closest('.btn-fav')) playVideo(item.id, true); });
       listEl.appendChild(li);
     });
   }
 
   // --- ACTIONS ---
-  function toggleFavorite(e, id) {
-    e.stopPropagation(); // Don't trigger play
-    if (favorites.has(id)) {
-      favorites.delete(id);
-      showToast("Removed from Saved");
-    } else {
-      favorites.add(id);
-      showToast("Added to Saved");
-    }
-    saveUserData();
-    
-    // If we are in "Favorites Only" mode, re-filter immediately
-    if (showFavoritesOnly) applyFilters();
-    else {
-      // Just toggle class nicely without re-render to keep scroll position
-      const btn = e.currentTarget;
-      btn.classList.toggle('active');
-    }
-  }
-
   function playVideo(id, autoScroll) {
     currentId = id;
-    const item = allData.find(d => d.id === id);
-    if(!item) return;
-
-    // Mark as watched
-    if (!watchedHistory.has(id)) {
-      watchedHistory.add(id);
-      saveUserData();
-    }
+    localStorage.setItem('lastWatched', id);
     
     // Update URL
     const newUrl = new URL(window.location);
     newUrl.searchParams.set('v', id);
     window.history.pushState({}, '', newUrl);
 
+    const item = allData.find(d => d.id === id);
     updatePlayerMeta(item.title, item.dateNice);
-    document.getElementById("player").src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&playsinline=1&autoplay=1&enablejsapi=1`;
+    
+    if (player && player.loadVideoById) {
+      player.loadVideoById(id);
+    } else {
+      // Fallback if API not ready
+      new YT.Player('player-placeholder', { videoId: id });
+    }
 
-    applyFilters(); // Re-render to show active state & watched status
+    // Check for resume
+    setTimeout(() => checkResume(id), 1000); // Check after load
+
+    renderList(allData.filter(filterLogic)); 
     setSpeed(1);
 
-    if(autoScroll) {
-      const playerCard = document.getElementById("player-card");
-      if (playerCard && window.innerWidth < 900) {
-        playerCard.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+    if(autoScroll && window.innerWidth < 900) {
+      const card = document.getElementById("player-card");
+      if(card) card.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (autoScroll) {
+       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 
-  function saveUserData() {
+  window.toggleFavorite = function(e, id) {
+    e.stopPropagation();
+    if (favorites.has(id)) { favorites.delete(id); showToast("Removed from Saved"); }
+    else { favorites.add(id); showToast("Added to Saved"); }
     localStorage.setItem('mc_favorites', JSON.stringify([...favorites]));
-    localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
+    if (showFavoritesOnly) applyFilters();
+    else { e.currentTarget.classList.toggle('active'); }
   }
 
-  function updatePlayerMeta(title, date) {
-    document.getElementById("player-title").textContent = title;
-    document.getElementById("player-date").textContent = date;
-  }
-
-  // --- FILTERS ---
+  // Filters & UI
   favFilterBtn.addEventListener("click", () => {
     showFavoritesOnly = !showFavoritesOnly;
     favFilterBtn.classList.toggle('active');
     applyFilters();
   });
 
-  function applyFilters() {
+  function filterLogic(item) {
     const q = searchInput.value.toLowerCase().trim();
     const y = yearFilter.value;
-
-    const filtered = allData.filter(item => {
-      const matchesSearch = item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
-      const matchesYear = !y || item.year === y;
-      const matchesFav = !showFavoritesOnly || favorites.has(item.id);
-      return matchesSearch && matchesYear && matchesFav;
-    });
-    
-    renderList(filtered);
+    return (item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)) &&
+           (!y || item.year === y) &&
+           (!showFavoritesOnly || favorites.has(item.id));
   }
-
+  function applyFilters() { renderList(allData.filter(filterLogic)); }
   searchInput.addEventListener("input", applyFilters);
   yearFilter.addEventListener("change", applyFilters);
 
-  // --- UI UTILS ---
-  function showToast(msg) {
-    toast.textContent = msg;
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2000);
-  }
-  
-  function shareShiur() {
-    if (navigator.share) {
-      navigator.share({ title: 'Mekor Chaim Shiur', url: window.location.href });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      showToast("Link copied!");
-    }
+  // Speed
+  window.setSpeed = function(rate) {
+    document.querySelectorAll('.control-btn').forEach(btn => btn.classList.toggle('active', parseFloat(btn.dataset.speed) === rate));
+    if(player && player.setPlaybackRate) player.setPlaybackRate(rate);
   }
 
-  function setSpeed(rate) {
-    document.querySelectorAll('.control-btn').forEach(btn => {
-      btn.classList.toggle('active', parseFloat(btn.dataset.speed) === rate);
-    });
-    const player = document.getElementById("player");
-    if(player && player.contentWindow) {
-      player.contentWindow.postMessage(JSON.stringify({"event": "command", "func": "setPlaybackRate", "args": [rate]}), "*");
-    }
+  // Toast
+  function showToast(msg) { toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2000); }
+  window.shareShiur = function() {
+    if (navigator.share) navigator.share({ title: 'Mekor Chaim Shiur', url: window.location.href });
+    else { navigator.clipboard.writeText(window.location.href); showToast("Link copied!"); }
+  }
+  function updatePlayerMeta(title, date) {
+    document.getElementById("player-title").textContent = title;
+    document.getElementById("player-date").textContent = date;
   }
 
-  // Theme & PWA stuff remains same...
+  // Install / Theme / Scroll
   const themeToggle = document.getElementById("theme-toggle");
-  const themeIcon = document.getElementById("theme-icon");
-  const savedTheme = localStorage.getItem("theme");
-  function updateThemeIcon(isDark) { themeIcon.textContent = isDark ? "☀️" : "🌙"; }
-  if(savedTheme === 'dark') { document.body.classList.add('dark-mode'); updateThemeIcon(true); }
+  if(localStorage.getItem("theme") === 'dark') document.body.classList.add('dark-mode');
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    updateThemeIcon(isDark);
+    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
   });
 
-  // Install Prompts
   let deferredPrompt; const installBtn = document.getElementById("install-btn");
   window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex'; });
   installBtn.addEventListener('click', async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); deferredPrompt = null; installBtn.style.display = 'none'; });
-  
+
   const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-  const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
-  if (isIos && !isInStandaloneMode) {
+  if (isIos && !('standalone' in window.navigator && window.navigator.standalone)) {
     const iosPrompt = document.getElementById("ios-install-prompt");
     setTimeout(() => iosPrompt.style.display = "block", 3000);
     document.querySelector(".ios-close").addEventListener("click", () => iosPrompt.style.display="none");
   }
-
+  
   window.addEventListener("scroll", () => {
-    const backToTopBtn = document.getElementById("back-to-top");
-    if(window.scrollY > 300) backToTopBtn.style.display = "block"; else backToTopBtn.style.display = "none";
+    document.getElementById("back-to-top").style.display = window.scrollY > 300 ? "block" : "none";
   });
   document.getElementById("back-to-top").addEventListener("click", () => window.scrollTo({top:0, behavior:'smooth'}));
 
