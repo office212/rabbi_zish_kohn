@@ -4,305 +4,191 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Weekly Shiur - Mekor Chaim Staten Island</title>
-
   <meta property="og:title" content="Mekor Chaim Staten Island - Weekly Shiur">
   <meta property="og:description" content="Listen to weekly shiurim by Rabbi Zish Kohn. App available for download.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://office212.github.io/rabbi_zish_kohn/">
   <meta property="og:image" content="https://office212.github.io/rabbi_zish_kohn/icon-512(1).png">
-
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2166ff">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
   <meta name="robots" content="noindex,nofollow" />
-  <meta name="description" content="Weekly shiur from Mekor Chaim Staten Island">
-
   <style>
-    :root { --w: 1080px; --card: #ffffff; --accent: #2166ff; --border-soft: #e3e6f0; --text-main: #111827; --text-muted: #6b7280; }
-    * { box-sizing: border-box; }
-    body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif; background: #f3f4f6; color: var(--text-main); padding-bottom: 80px; -webkit-font-smoothing: antialiased; }
-    header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
-    header { padding-top: 18px; padding-bottom: 12px; }
-    .header-inner { background: linear-gradient(135deg, #eef2ff 0, #e0f2fe 40%, #fef9c3 100%); border-radius: 18px; padding: 18px 20px; box-shadow: 0 10px 22px rgba(148,163,184,0.4); border: 1px solid rgba(148,163,184,0.5); position: relative; }
-    h1 { margin: 0; font-size: 1.6rem; letter-spacing: -0.01em; }
-    .sub { font-size: 0.95rem; color: #374151; margin-top: 4px; }
-    .install-btn { margin-top: 12px; background: #111827; color: #fff; border: none; padding: 8px 16px; border-radius: 99px; font-weight: 600; font-size: 0.85rem; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s, box-shadow 0.2s; animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .install-btn:active { transform: scale(0.95); }
-    @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-    .ios-prompt { background: rgba(255, 255, 255, 0.95); border: 1px solid #e5e7eb; border-radius: 16px; padding: 20px; position: fixed; bottom: 24px; left: 16px; right: 16px; z-index: 9999; box-shadow: 0 10px 30px rgba(0,0,0,0.2); font-size: 0.95rem; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; direction: ltr; }
-    @keyframes slideUp { from { transform: translateY(120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .ios-prompt p { margin: 0 0 10px; font-weight: 700; color: #111827; font-size: 1rem; }
-    .ios-steps { line-height: 1.6; color: #374151; font-size: 0.9rem; }
-    .ios-icon { display: inline-flex; vertical-align: middle; background: #f3f4f6; padding: 2px; border-radius: 4px; }
-    .ios-close { position: absolute; top: 12px; right: 12px; background: #f3f4f6; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: #6b7280; cursor: pointer; line-height: 1; }
-    .layout { margin-top: 20px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px; align-items: flex-start; }
-    @media (max-width: 880px) { .layout { grid-template-columns: 1fr; } }
-    .player-card, .list-card { background: var(--card); border-radius: 18px; border: 1px solid var(--border-soft); box-shadow: 0 8px 24px rgba(148,163,184,0.45); overflow: hidden; transition: box-shadow 0.3s ease, border-color 0.3s ease; }
-    .player-card.is-playing { box-shadow: 0 15px 40px -5px rgba(33, 102, 255, 0.2); border-color: rgba(33, 102, 255, 0.4); }
-    .player-header { padding: 14px 16px 10px; border-bottom: 1px solid #e5e7eb; background: #fff; }
-    .player-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 6px; color: var(--text-main); line-height: 1.3; }
-    .player-meta-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
-    .meta-left { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); }
-    .badge-main { display: inline-flex; align-items: center; gap: 5px; padding: 2px 8px; border-radius: 999px; background: rgba(30,64,175,0.08); border: 1px solid rgba(30,64,175,0.2); font-size: 0.75rem; color: #1d4ed8; font-weight: 500; }
-    .share-btn { background: #25D366; color: white; border: none; border-radius: 20px; padding: 4px 12px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: background 0.2s; font-weight: 500; text-decoration: none; }
-    .share-btn:hover { background: #128C7E; }
-    .frame { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
-    .frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-    .skeleton-wrapper { padding: 16px; background: #fff; display: none; }
-    .skeleton-wrapper.active { display: block; }
-    .skel-line { height: 20px; margin-bottom: 10px; border-radius: 6px; background: #f1f5f9; background-image: linear-gradient(to right, #f1f5f9 0%, #e2e8f0 20%, #f1f5f9 40%, #f1f5f9 100%); background-size: 1000px 100%; animation: shimmer 1.5s infinite linear; }
-    .skel-video { width: 100%; padding-top: 56.25%; border-radius: 12px; margin-top: 10px; }
-    @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-    .list-header { padding: 10px 12px; background: #f9fafb; border-bottom: 1px solid #e5e7eb; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; }
-    .list-title { font-weight: 600; font-size: 0.95rem; }
-    .filters { display: flex; gap: 6px; flex: 1; max-width: 100%; }
-    .filters input { flex: 1; min-width: 0; border-radius: 99px; border: 1px solid #d1d5db; padding: 6px 12px; font-size: 0.85rem; }
-    .filters select { border-radius: 99px; border: 1px solid #d1d5db; padding: 6px 10px; font-size: 0.85rem; }
-    .list { list-style: none; margin: 0; padding: 0; max-height: 560px; overflow-y: auto; background: #fff; }
-    .list::-webkit-scrollbar { width: 8px; }
-    .list::-webkit-scrollbar-track { background: #f1f5f9; }
-    .list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; border: 2px solid #f1f5f9; }
-    .list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-    .item { display: flex; gap: 12px; padding: 10px 12px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: background 0.15s; }
-    .item:hover { background: #f8fafc; }
-    .item.active { background: #eff6ff; border-left: 3px solid var(--accent); }
-    .item-thumb { flex: 0 0 110px; }
-    .item-thumb img { width: 100%; border-radius: 8px; display: block; object-fit: cover; aspect-ratio: 16/9; }
-    .item-body { flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .item-title { font-size: 0.9rem; font-weight: 600; color: #111827; line-height: 1.3; }
-    .item-date { font-size: 0.75rem; color: #6b7280; }
-    .item-desc { font-size: 0.75rem; color: #4b5563; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .badge-new { display: inline-flex; align-items: center; gap: 4px; padding: 1px 6px; border-radius: 99px; background: #fffbeb; border: 1px solid #fcd34d; color: #b45309; font-size: 0.7rem; font-weight: 600; margin-right: 6px; }
-    .badge-dot { width: 6px; height: 6px; background: #f59e0b; border-radius: 50%; animation: pulse 2s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); } 70% { box-shadow: 0 0 0 5px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
-    #back-to-top { position: fixed; bottom: 30px; right: 20px; padding: 10px 20px; border-radius: 50px; background: linear-gradient(135deg, #2166ff, #1d4ed8); color: #fff; border: none; box-shadow: 0 8px 20px rgba(33, 102, 255, 0.35); font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 8px; cursor: pointer; z-index: 50; opacity: 0; transform: translateY(20px); pointer-events: none; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); }
-    #back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    #back-to-top:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(33, 102, 255, 0.45); }
-    footer { text-align: center; font-size: 0.8rem; color: #9ca3af; padding: 40px 0; }
-    @media (max-width: 600px) { .item { flex-direction: column; } .item-thumb img { width: 100%; max-width: 160px; } .header-inner { padding: 16px; } }
+:root{--w:1080px;--card:#fff;--accent:#2166ff;--border-soft:#e3e6f0;--text-main:#111827;--text-muted:#6b7280;--bg-main:#f3f4f6;--header-gradient:linear-gradient(135deg,#eef2ff 0,#e0f2fe 40%,#fef9c3 100%)}
+body.dark-mode{--card:#1f2937;--border-soft:#374151;--text-main:#f9fafb;--text-muted:#9ca3af;--bg-main:#111827;--header-gradient:linear-gradient(135deg,#1e3a8a 0,#0c4a6e 40%,#854d0e 100%);background:var(--bg-main)}
+body.dark-mode .header-inner{box-shadow:0 10px 22px rgba(0,0,0,.6)}
+body.dark-mode .player-card,body.dark-mode .list-card{box-shadow:0 8px 24px rgba(0,0,0,.6)}
+body.dark-mode .player-header,body.dark-mode .list-header{background:#1f2937;border-bottom-color:#374151}
+body.dark-mode .item:hover{background:#374151}
+body.dark-mode .item.active{background:#1e3a8a}
+body.dark-mode .filters input,body.dark-mode .filters select{background:#374151;color:#f9fafb;border-color:#4b5563}
+body.dark-mode .list::-webkit-scrollbar-track{background:#1f2937}
+body.dark-mode .list::-webkit-scrollbar-thumb{background:#4b5563;border-color:#1f2937}
+body.dark-mode .ios-prompt{background:rgba(31,41,55,.98);border-color:#374151;color:#f9fafb}
+body.dark-mode .ios-prompt p{color:#f9fafb}
+body.dark-mode .ios-steps{color:#d1d5db}
+body.dark-mode .skeleton-wrapper{background:#1f2937}
+body.dark-mode .skel-line{background:#374151;background-image:linear-gradient(to right,#374151 0%,#4b5563 20%,#374151 40%,#374151 100%)}
+body.dark-mode .theme-toggle{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#f9fafb}
+body.dark-mode .theme-toggle:hover{background:rgba(255,255,255,.15)}
+body.dark-mode .control-btn{background:#374151;border-color:#4b5563;color:#f9fafb}
+body.dark-mode .control-btn:hover{background:#4b5563}
+body.dark-mode .control-btn.active{background:var(--accent);color:#fff}
+body.dark-mode .item-desc{color:#9ca3af}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:var(--bg-main);color:var(--text-main);padding-bottom:80px;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+header,main,footer{max-width:var(--w);margin:0 auto;padding:0 16px}
+header{padding-top:18px;padding-bottom:12px}
+.header-inner{background:var(--header-gradient);border-radius:18px;padding:18px 20px;box-shadow:0 10px 22px rgba(148,163,184,.4);border:1px solid rgba(148,163,184,.5);position:relative}
+h1{margin:0;font-size:1.6rem;letter-spacing:-.01em}
+.sub{font-size:.95rem;color:#374151;margin-top:4px}
+.header-controls{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.install-btn{background:#111827;color:#fff;border:none;padding:8px 16px;border-radius:99px;font-weight:600;font-size:.85rem;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.15);display:inline-flex;align-items:center;gap:6px;transition:transform .2s,box-shadow .2s;animation:popIn .6s cubic-bezier(.175,.885,.32,1.275)}
+.install-btn:active{transform:scale(.95)}
+.theme-toggle{background:rgba(255,255,255,.3);border:1px solid rgba(0,0,0,.1);padding:8px 12px;border-radius:99px;font-size:.85rem;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.theme-toggle:hover{background:rgba(255,255,255,.5)}
+@keyframes popIn{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+.ios-prompt{background:rgba(255,255,255,.95);border:1px solid #e5e7eb;border-radius:16px;padding:20px;position:fixed;bottom:24px;left:16px;right:16px;z-index:9999;box-shadow:0 10px 30px rgba(0,0,0,.2);font-size:.95rem;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);animation:slideUp .6s cubic-bezier(.16,1,.3,1);text-align:left;direction:ltr}
+@keyframes slideUp{from{transform:translateY(120%);opacity:0}to{transform:translateY(0);opacity:1}}
+.ios-prompt p{margin:0 0 10px;font-weight:700;color:#111827;font-size:1rem}
+.ios-steps{line-height:1.6;color:#374151;font-size:.9rem}
+.ios-icon{display:inline-flex;vertical-align:middle;background:#f3f4f6;padding:2px;border-radius:4px}
+.ios-close{position:absolute;top:12px;right:12px;background:#f3f4f6;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#6b7280;cursor:pointer;line-height:1}
+.layout{margin-top:20px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:flex-start}
+@media(max-width:880px){.layout{grid-template-columns:1fr}}
+.player-card,.list-card{background:var(--card);border-radius:18px;border:1px solid var(--border-soft);box-shadow:0 8px 24px rgba(148,163,184,.45);overflow:hidden;transition:box-shadow .3s ease,border-color .3s ease}
+.player-card.is-playing{box-shadow:0 15px 40px -5px rgba(33,102,255,.2);border-color:rgba(33,102,255,.4)}
+.player-header{padding:14px 16px 10px;border-bottom:1px solid #e5e7eb;background:var(--card)}
+.player-title{font-size:1.1rem;font-weight:700;margin:0 0 6px;color:var(--text-main);line-height:1.3}
+.player-meta-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.meta-left{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--text-muted)}
+.badge-main{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;background:rgba(30,64,175,.08);border:1px solid rgba(30,64,175,.2);font-size:.75rem;color:#1d4ed8;font-weight:500}
+.player-controls{display:flex;gap:6px;margin-top:8px}
+.control-btn{background:#f3f4f6;border:1px solid #d1d5db;padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:4px}
+.control-btn:hover{background:#e5e7eb}
+.control-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.share-btn{background:#25D366;color:#fff;border:none;border-radius:20px;padding:4px 12px;font-size:.8rem;display:flex;align-items:center;gap:6px;cursor:pointer;transition:background .2s;font-weight:500;text-decoration:none}
+.share-btn:hover{background:#128C7E}
+.frame{position:relative;width:100%;padding-top:56.25%;background:#000}
+.frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#000;color:#fff;font-size:1.2rem}
+.skeleton-wrapper{padding:16px;background:var(--card);display:none}
+.skeleton-wrapper.active{display:block}
+.skel-line{height:20px;margin-bottom:10px;border-radius:6px;background:#f1f5f9;background-image:linear-gradient(to right,#f1f5f9 0%,#e2e8f0 20%,#f1f5f9 40%,#f1f5f9 100%);background-size:1000px 100%;animation:shimmer 1.5s infinite linear}
+.skel-video{width:100%;padding-top:56.25%;border-radius:12px;margin-top:10px}
+@keyframes shimmer{0%{background-position:-1000px 0}100%{background-position:1000px 0}}
+.list-header{padding:10px 12px;background:#f9fafb;border-bottom:1px solid #e5e7eb;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.list-title{font-weight:600;font-size:.95rem}
+.filters{display:flex;gap:6px;flex:1;max-width:100%}
+.filters input{flex:1;min-width:0;border-radius:99px;border:1px solid #d1d5db;padding:6px 12px;font-size:.85rem}
+.filters select{border-radius:99px;border:1px solid #d1d5db;padding:6px 10px;font-size:.85rem}
+.list{list-style:none;margin:0;padding:0;max-height:560px;overflow-y:auto;background:var(--card)}
+.list::-webkit-scrollbar{width:8px}
+.list::-webkit-scrollbar-track{background:#f1f5f9}
+.list::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:4px;border:2px solid #f1f5f9}
+.list::-webkit-scrollbar-thumb:hover{background:#94a3b8}
+.item{display:flex;gap:12px;padding:10px 12px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:background .15s}
+.item:hover{background:#f8fafc}
+.item.active{background:#eff6ff;border-left:3px solid var(--accent)}
+.item:focus{outline:2px solid var(--accent);outline-offset:-2px}
+.item-thumb{flex:0 0 110px}
+.item-thumb img{width:100%;border-radius:8px;display:block;object-fit:cover;aspect-ratio:16/9}
+.item-body{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}
+.item-title{font-size:.9rem;font-weight:600;color:var(--text-main);line-height:1.3}
+.item-date{font-size:.75rem;color:var(--text-muted)}
+.item-desc{font-size:.75rem;color:#4b5563;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge-new{display:inline-flex;align-items:center;gap:4px;padding:1px 6px;border-radius:99px;background:#fffbeb;border:1px solid #fcd34d;color:#b45309;font-size:.7rem;font-weight:600;margin-right:6px}
+.badge-dot{width:6px;height:6px;background:#f59e0b;border-radius:50%;animation:pulse 2s infinite}
+.badge-continue{display:inline-flex;align-items:center;gap:4px;padding:1px 6px;border-radius:99px;background:#dbeafe;border:1px solid #3b82f6;color:#1e40af;font-size:.7rem;font-weight:600;margin-right:6px}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,158,11,.7)}70%{box-shadow:0 0 0 5px rgba(245,158,11,0)}100%{box-shadow:0 0 0 0 rgba(245,158,11,0)}}
+#back-to-top{position:fixed;bottom:30px;right:20px;padding:10px 20px;border-radius:50px;background:linear-gradient(135deg,#2166ff,#1d4ed8);color:#fff;border:none;box-shadow:0 8px 20px rgba(33,102,255,.35);font-size:.9rem;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer;z-index:50;opacity:0;transform:translateY(20px);pointer-events:none;transition:all .3s cubic-bezier(.25,.8,.25,1)}
+#back-to-top.visible{opacity:1;transform:translateY(0);pointer-events:auto}
+#back-to-top:hover{transform:translateY(-2px);box-shadow:0 12px 25px rgba(33,102,255,.45)}
+footer{text-align:center;font-size:.8rem;color:#9ca3af;padding:40px 0}
+@media(max-width:600px){.item{flex-direction:column}.item-thumb img{width:100%;max-width:160px}.header-inner{padding:16px}.player-controls{flex-wrap:wrap}}
   </style>
 </head>
-
 <body>
-  <header>
-    <div class="header-inner">
-      <h1>Mekor Chaim Staten Island</h1>
-      <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
-      
-      <button id="install-btn" class="install-btn" style="display: none;">
-        📲 Install App
-      </button>
-    </div>
-  </header>
-
-  <main>
-    <div class="layout">
-      <section class="player-card" id="player-card">
-        <div id="skeleton" class="skeleton-wrapper active">
-          <div class="skel-line" style="width: 70%"></div>
-          <div class="skel-line" style="width: 40%; height:16px;"></div>
-          <div class="skel-line skel-video"></div>
-        </div>
-        <div id="player-content" style="display:none;">
-          <div class="player-header">
-            <h2 class="player-title" id="player-title">Select a shiur</h2>
-            <div class="player-meta-row">
-              <div class="meta-left">
-                <span class="badge-main">Torah</span>
-                <span id="player-date"></span>
-              </div>
-              <button id="share-btn" class="share-btn">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-                Share
-              </button>
-            </div>
-          </div>
-          <div class="frame">
-            <iframe id="player" src="" allowfullscreen title="Video player"></iframe>
-          </div>
-        </div>
-      </section>
-
-      <section class="list-card">
-        <div class="list-header">
-          <div class="list-title">All Shiurim</div>
-          <div class="filters">
-            <input id="search-input" type="search" placeholder="Search title or topic...">
-            <select id="year-filter"><option value="">Year</option></select>
-          </div>
-        </div>
-        <ul id="shiur-list" class="list"></ul>
-      </section>
-    </div>
-  </main>
-
-  <footer>&copy; <span id="year-copy"></span> Mekor Chaim Staten Island</footer>
-  <button id="back-to-top"><span style="font-size:1.2rem">↑</span> Back to Top</button>
-
-  <div id="ios-install-prompt" class="ios-prompt" style="display: none;">
-    <span class="ios-close">&times;</span>
-    <p>Install on your iPhone:</p>
-    <div class="ios-steps">
-      1. Tap the Share button <span class="ios-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></span> below<br>
-      2. Scroll down and tap <strong>"Add to Home Screen"</strong>
-    </div>
-  </div>
-
-  <script>
-    // --- PWA INSTALL LOGIC (ONLY) ---
-    if ('serviceWorker' in navigator) {
-      // Just standard registration for PWA, no Push Notifications
-      navigator.serviceWorker.register('./sw.js').then(() => console.log('SW Registered')).catch((err) => console.log('SW Failed', err));
-    }
-
-    let deferredPrompt;
-    const installBtn = document.getElementById('install-btn');
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex';
-    });
-
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      deferredPrompt = null; installBtn.style.display = 'none';
-    });
-
-    window.addEventListener('appinstalled', () => {
-      installBtn.style.display = 'none';
-    });
-
-    // --- iOS Logic ---
-    const isIos = /iphone|ipad|ipod/.test( window.navigator.userAgent.toLowerCase() );
-    const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
-    if (isIos && !isInStandaloneMode) {
-      const iosPrompt = document.getElementById('ios-install-prompt');
-      setTimeout(() => { iosPrompt.style.display = 'block'; }, 2000);
-      document.querySelector('.ios-close').addEventListener('click', () => { iosPrompt.style.display = 'none'; });
-    }
-
-    // --- APP DATA CONFIG ---
-    const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I"; 
-    const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
-
-    const listEl = document.getElementById("shiur-list");
-    const searchInput = document.getElementById("search-input");
-    const yearFilter = document.getElementById("year-filter");
-    const playerCard = document.getElementById("player-card");
-    const backToTopBtn = document.getElementById("back-to-top");
-    let allData = []; let currentId = null;
-
-    document.getElementById("year-copy").textContent = new Date().getFullYear();
-    const urlParams = new URLSearchParams(window.location.search);
-    const initialVideoId = urlParams.get('v');
-
-    initApp();
-
-    async function initApp() {
-      await loadData();
-      if (allData.length > 0) {
-        const startId = initialVideoId && allData.find(d => d.id === initialVideoId) ? initialVideoId : allData[0].id;
-        playVideo(startId, false);
-      }
-      setupEventListeners();
-    }
-
-    async function loadData() {
-      try {
-        const items = await fetchAllItems();
-        processData(items);
-      } catch (err) {
-        console.error("API Error", err);
-        document.getElementById("player-title").textContent = "Error loading shiurim. Please refresh.";
-        document.getElementById("skeleton").style.display = "none";
-        document.getElementById("player-content").style.display = "block";
-      }
-    }
-
-    async function fetchAllItems(token = "", acc = []) {
-      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Fetch failed");
-      const data = await res.json();
-      acc.push(...data.items);
-      if (data.nextPageToken) return fetchAllItems(data.nextPageToken, acc);
-      return acc;
-    }
-
-    function processData(items) {
-      items.sort((a,b) => new Date(b.contentDetails.videoPublishedAt) - new Date(a.contentDetails.videoPublishedAt));
-      allData = items.map((item, idx) => {
-        const d = new Date(item.contentDetails.videoPublishedAt || item.snippet.publishedAt);
-        return {
-          id: item.contentDetails.videoId,
-          title: item.snippet.title,
-          desc: item.snippet.description || "",
-          dateNice: d.toLocaleDateString("en-US", { year:"numeric", month:"short", day:"numeric" }),
-          year: d.getFullYear().toString(),
-          isNew: idx === 0
-        };
-      });
-      const years = [...new Set(allData.map(d => d.year))];
-      years.forEach(y => { const opt = document.createElement("option"); opt.value = y; opt.textContent = y; yearFilter.appendChild(opt); });
-      renderList(allData);
-    }
-
-    function renderList(items) {
-      listEl.innerHTML = "";
-      items.forEach(item => {
-        const li = document.createElement("li");
-        li.className = "item";
-        if (item.id === currentId) li.classList.add("active");
-        li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy"></div><div class="item-body"><div class="item-title">${item.isNew ? '<span class="badge-new"><span class="badge-dot"></span>New</span>' : ''}${item.title}</div><div class="item-date">${item.dateNice}</div><div class="item-desc">${item.desc}</div></div>`;
-        li.onclick = () => playVideo(item.id, true);
-        listEl.appendChild(li);
-      });
-    }
-
-    function playVideo(id, doScroll) {
-      const item = allData.find(d => d.id === id);
-      if (!item) return;
-      currentId = id;
-      document.getElementById("skeleton").classList.remove("active");
-      document.getElementById("player-content").style.display = "block";
-      document.getElementById("player").src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&autoplay=1`;
-      document.getElementById("player-title").textContent = item.title;
-      document.getElementById("player-date").textContent = item.dateNice;
-      document.querySelectorAll(".item").forEach(el => el.classList.remove("active"));
-      renderList(getFilteredItems());
-      playerCard.classList.add("is-playing");
-      const newUrl = new URL(window.location); newUrl.searchParams.set('v', id); window.history.replaceState({}, '', newUrl);
-      if (doScroll) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-      const shareBtn = document.getElementById("share-btn");
-      shareBtn.onclick = () => {
-        const text = `Listen to this shiur: ${item.title}`;
-        const link = window.location.href; 
-        window.open(`https://wa.me/?text=${encodeURIComponent(text + " " + link)}`, '_blank');
-      };
-    }
-
-    function getFilteredItems() {
-      const q = searchInput.value.toLowerCase();
-      const y = yearFilter.value;
-      return allData.filter(d => {
-        const text = (d.title + " " + d.desc).toLowerCase();
-        return (text.includes(q)) && (!y || d.year === y);
-      });
-    }
-
-    function setupEventListeners() {
-      const filterHandler = () => renderList(getFilteredItems());
-      searchInput.addEventListener("input", filterHandler);
-      yearFilter.addEventListener("change", filterHandler);
-      window.addEventListener("scroll", () => {
-        if (window.scrollY > 300) backToTopBtn.classList.add("visible"); else backToTopBtn.classList.remove("visible");
-      });
-      backToTopBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  </script>
+<header>
+<div class="header-inner">
+<h1>Mekor Chaim Staten Island</h1>
+<div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
+<div class="header-controls">
+<button id="install-btn" class="install-btn" style="display:none">📲 Install App</button>
+<button id="theme-toggle" class="theme-toggle"><span id="theme-icon">🌙</span><span id="theme-text">Dark Mode</span></button>
+</div>
+</div>
+</header>
+<main>
+<div class="layout">
+<section class="player-card" id="player-card">
+<div id="skeleton" class="skeleton-wrapper active">
+<div class="skel-line" style="width:70%"></div>
+<div class="skel-line" style="width:40%;height:16px"></div>
+<div class="skel-line skel-video"></div>
+</div>
+<div id="player-content" style="display:none">
+<div class="player-header">
+<h2 class="player-title" id="player-title">Select a shiur</h2>
+<div class="player-meta-row">
+<div class="meta-left"><span class="badge-main">Torah</span><span id="player-date"></span></div>
+<button id="share-btn" class="share-btn"><svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Share</button>
+</div>
+<div class="player-controls">
+<button class="control-btn" data-speed="1" onclick="setSpeed(1)">1x</button>
+<button class="control-btn" data-speed="1.25" onclick="setSpeed(1.25)">1.25x</button>
+<button class="control-btn" data-speed="1.5" onclick="setSpeed(1.5)">1.5x</button>
+<button class="control-btn" data-speed="2" onclick="setSpeed(2)">2x</button>
+<button class="control-btn" id="download-btn" style="margin-left:auto">⬇️ Download</button>
+</div>
+</div>
+<div class="frame">
+<div id="video-loading" class="video-loading" style="display:none">⏳ Loading video...</div>
+<iframe id="player" src="" allowfullscreen title="Video player" allow="autoplay"></iframe>
+</div>
+</div>
+</section>
+<section class="list-card">
+<div class="list-header">
+<div class="list-title">All Shiurim</div>
+<div class="filters">
+<input id="search-input" type="search" placeholder="Search title or topic..." aria-label="Search shiurim">
+<select id="year-filter" aria-label="Filter by year"><option value="">Year</option></select>
+</div>
+</div>
+<ul id="shiur-list" class="list" role="list"></ul>
+</section>
+</div>
+</main>
+<footer>&copy; <span id="year-copy"></span> Mekor Chaim Staten Island</footer>
+<button id="back-to-top" aria-label="Back to top"><span style="font-size:1.2rem">↑</span> Back to Top</button>
+<div id="ios-install-prompt" class="ios-prompt" style="display:none">
+<span class="ios-close">&times;</span>
+<p>Install on your iPhone:</p>
+<div class="ios-steps">1. Tap the Share button <span class="ios-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg></span> below<br>2. Scroll down and tap <strong>"Add to Home Screen"</strong></div>
+</div>
+<script>
+if('serviceWorker'in navigator){navigator.serviceWorker.register('./sw.js').then(()=>console.log('SW Registered')).catch((e)=>console.log('SW Failed',e))}
+let deferredPrompt;const installBtn=document.getElementById('install-btn');window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;installBtn.style.display='inline-flex'});installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();const{outcome}=await deferredPrompt.userChoice;deferredPrompt=null;installBtn.style.display='none'});window.addEventListener('appinstalled',()=>{installBtn.style.display='none'});
+const isIos=/iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());const isInStandaloneMode=('standalone'in window.navigator)&&(window.navigator.standalone);if(isIos&&!isInStandaloneMode){const iosPrompt=document.getElementById('ios-install-prompt');setTimeout(()=>{iosPrompt.style.display='block'},2000);document.querySelector('.ios-close').addEventListener('click',()=>{iosPrompt.style.display='none'})}
+const themeToggle=document.getElementById('theme-toggle');const themeIcon=document.getElementById('theme-icon');const themeText=document.getElementById('theme-text');const savedTheme=localStorage.getItem('theme')||'light';if(savedTheme==='dark'){document.body.classList.add('dark-mode');themeIcon.textContent='☀️';themeText.textContent='Light Mode'}else{themeIcon.textContent='🌙';themeText.textContent='Dark Mode'}
+themeToggle.addEventListener('click',()=>{document.body.classList.toggle('dark-mode');if(document.body.classList.contains('dark-mode')){localStorage.setItem('theme','dark');themeIcon.textContent='☀️';themeText.textContent='Light Mode'}else{localStorage.setItem('theme','light');themeIcon.textContent='🌙';themeText.textContent='Dark Mode'}});
+const API_KEY="AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";const PLAYLIST_ID="PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";const listEl=document.getElementById("shiur-list");const searchInput=document.getElementById("search-input");const yearFilter=document.getElementById("year-filter");const playerCard=document.getElementById("player-card");const backToTopBtn=document.getElementById("back-to-top");const videoLoading=document.getElementById("video-loading");let allData=[];let currentId=null;let currentSpeed=1;let focusedItemIndex=-1;document.getElementById("year-copy").textContent=new Date().getFullYear();const urlParams=new URLSearchParams(window.location.search);const initialVideoId=urlParams.get('v');initApp();
+async function initApp(){await loadData();if(allData.length>0){const lastWatched=localStorage.getItem('lastWatched');let startId;if(initialVideoId&&allData.find(d=>d.id===initialVideoId)){startId=initialVideoId}else if(lastWatched&&allData.find(d=>d.id===lastWatched)){startId=lastWatched}else{startId=allData[0].id}playVideo(startId,false)}setupEventListeners();trackAnalytics('page_view')}
+async function loadData(){try{const items=await fetchAllItems();processData(items)}catch(err){console.error("API Error",err);document.getElementById("player-title").textContent="Error loading shiurim. Please refresh.";document.getElementById("skeleton").style.display="none";document.getElementById("player-content").style.display="block"}}
+async function fetchAllItems(token="",acc=[]){const url=`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;const res=await fetch(url);if(!res.ok)throw new Error("Fetch failed");const data=await res.json();acc.push(...data.items);if(data.nextPageToken)return fetchAllItems(data.nextPageToken,acc);return acc}
+function processData(items){items.sort((a,b)=>new Date(b.contentDetails.videoPublishedAt)-new Date(a.contentDetails.videoPublishedAt));const lastWatched=localStorage.getItem('lastWatched');allData=items.map((item,idx)=>{const d=new Date(item.contentDetails.videoPublishedAt||item.snippet.publishedAt);return{id:item.contentDetails.videoId,title:item.snippet.title,desc:item.snippet.description||"",dateNice:d.toLocaleDateString("en-US",{year:"numeric",month:"short",day:"numeric"}),year:d.getFullYear().toString(),isNew:idx===0,isContinue:item.contentDetails.videoId===lastWatched}});const years=[...new Set(allData.map(d=>d.year))];years.forEach(y=>{const opt=document.createElement("option");opt.value=y;opt.textContent=y;yearFilter.appendChild(opt)});renderList(allData)}
+function renderList(items){listEl.innerHTML="";items.forEach((item,idx)=>{const li=document.createElement("li");li.className="item";li.setAttribute('tabindex','0');li.setAttribute('role','listitem');li.setAttribute('data-index',idx);li.setAttribute('data-id',item.id);if(item.id===currentId)li.classList.add("active");let badges='';if(item.isNew)badges+='<span class="badge-new"><span class="badge-dot"></span>New</span>';if(item.isContinue&&item.id!==currentId)badges+='<span class="badge-continue">⏯️ Continue</span>';li.innerHTML=`<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy" alt="${item.title} thumbnail"></div><div class="item-body"><div class="item-title">${badges}${item.title}</div><div class="item-date">${item.dateNice}</div><div class="item-desc">${item.desc}</div></div>`;li.onclick=()=>playVideo(item.id,true);li.onkeydown=(e)=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();playVideo(item.id,true)}};listEl.appendChild(li)})}
+function playVideo(id,doScroll){const item=allData.find(d=>d.id===id);if(!item)return;currentId=id;localStorage.setItem('lastWatched',id);videoLoading.style.display='flex';document.getElementById("skeleton").classList.remove("active");document.getElementById("player-content").style.display="block";const isMobile=/iPhone|iPad|iPod|Android/i.test(navigator.userAgent);const autoplayParam=isMobile?'0':'1';document.getElementById("player").src=`https://www.youtube-nocookie.com/embed/${id}?rel=0&autoplay=${autoplayParam}&enablejsapi=1`;setTimeout(()=>{videoLoading.style.display='none'},1500);document.getElementById("player-title").textContent=item.title;document.getElementById("player-date").textContent=item.dateNice;document.querySelectorAll(".item").forEach(el=>el.classList.remove("active"));renderList(getFilteredItems());playerCard.classList.add("is-playing");const newUrl=new URL(window.location);newUrl.searchParams.set('v',id);window.history.replaceState({},'',newUrl);if(doScroll){window.scrollTo({top:0,behavior:'smooth'})}
+const shareBtn=document.getElementById("share-btn");shareBtn.onclick=async()=>{const text=`Listen to this shiur: ${item.title}`;const link=window.location.href;if(navigator.share){try{await navigator.share({title:item.title,text:text,url:link});trackAnalytics('share',{video_id:id,method:'native'})}catch(err){if(err.name!=='AbortError'){window.open(`https://wa.me/?text=${encodeURIComponent(text+" "+link)}`,'_blank');trackAnalytics('share',{video_id:id,method:'whatsapp'})}}}else{window.open(`https://wa.me/?text=${encodeURIComponent(text+" "+link)}`,'_blank');trackAnalytics('share',{video_id:id,method:'whatsapp'})}};
+const downloadBtn=document.getElementById("download-btn");downloadBtn.onclick=()=>{window.open(`https://www.youtube.com/watch?v=${id}`,'_blank');trackAnalytics('download_click',{video_id:id})};trackAnalytics('video_play',{video_id:id,title:item.title})}
+function setSpeed(speed){currentSpeed=speed;document.querySelectorAll('.control-btn[data-speed]').forEach(btn=>{btn.classList.remove('active')});document.querySelector(`[data-speed="${speed}"]`).classList.add('active');const iframe=document.getElementById('player');iframe.contentWindow.postMessage(JSON.stringify({event:'command',func:'setPlaybackRate',args:[speed]}),'*');trackAnalytics('playback_speed_change',{speed:speed})}
+function getFilteredItems(){const q=searchInput.value.toLowerCase();const y=yearFilter.value;return allData.filter(d=>{const text=(d.title+" "+d.desc).toLowerCase();return(text.includes(q))&&(!y||d.year===y)})}
+function setupEventListeners(){const filterHandler=()=>{renderList(getFilteredItems());focusedItemIndex=-1};searchInput.addEventListener("input",filterHandler);yearFilter.addEventListener("change",filterHandler);document.addEventListener('keydown',(e)=>{const items=Array.from(listEl.querySelectorAll('.item'));if(items.length===0)return;if(e.key==='ArrowDown'){e.preventDefault();focusedItemIndex=Math.min(focusedItemIndex+1,items.length-1);items[focusedItemIndex].focus();items[focusedItemIndex].scrollIntoView({behavior:'smooth',block:'nearest'})}else if(e.key==='ArrowUp'){e.preventDefault();focusedItemIndex=Math.max(focusedItemIndex-1,0);items[focusedItemIndex].focus();items[focusedItemIndex].scrollIntoView({behavior:'smooth',block:'nearest'})}else if(e.key==='Escape'){const iosPrompt=document.getElementById('ios-install-prompt');if(iosPrompt.style.display!=='none'){iosPrompt.style.display='none'}}});window.addEventListener("scroll",()=>{if(window.scrollY>300){backToTopBtn.classList.add("visible")}else{backToTopBtn.classList.remove("visible")}});backToTopBtn.onclick=()=>window.scrollTo({top:0,behavior:"smooth"})}
+function trackAnalytics(eventName,params={}){try{console.log('Analytics:',eventName,params);const analytics=JSON.parse(localStorage.getItem('analytics')||'[]');analytics.push({event:eventName,params:params,timestamp:new Date().toISOString()});if(analytics.length>100){analytics.shift()}localStorage.setItem('analytics',JSON.stringify(analytics))}catch(err){console.error('Analytics error:',err)}}
+document.querySelector('[data-speed="1"]').classList.add('active');
+</script>
 </body>
 </html>
