@@ -18,42 +18,66 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* --- VARIABLES --- */
     :root {
       --w: 1000px;
       --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.15);
       --text-main: #0f172a; --text-muted: #64748b; --border-soft: #e2e8f0;
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
       --fav-color: #ef4444; --watched-color: #10b981;
     }
     body.dark-mode {
       --bg-main: #020617; --card-bg: #0f172a; --text-main: #f1f5f9; --text-muted: #94a3b8;
       --border-soft: #1e293b; --accent: #60a5fa; --accent-glow: rgba(96, 165, 250, 0.2);
-      --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3); --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
+
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 80px; transition: background 0.3s; }
+    body {
+      margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main);
+      padding-bottom: 80px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;
+    }
+
     header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
     header { padding-top: 20px; padding-bottom: 24px; }
     .layout { margin-top: 10px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: flex-start; }
     @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
 
-    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px 28px; color: white; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+    /* HEADER */
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px 28px; color: white; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
     h1 { margin: 0; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
     .sub { font-size: 0.95rem; opacity: 0.9; margin-top: 6px; }
-    .header-controls { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
+    .header-controls { margin-top: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 
+    /* BUTTONS */
     button { font-family: inherit; }
-    .theme-toggle, .install-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .theme-toggle, .install-btn, .drive-mode-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
+    .drive-mode-btn { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; transition: 0.2s; }
+    .drive-mode-btn:hover { background: rgba(0,0,0,0.5); }
+
+    .share-container { position: relative; }
     .share-btn { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; }
     body.dark-mode .share-btn { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
+    
+    .share-menu {
+      position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--card-bg); border: 1px solid var(--border-soft);
+      border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: none; flex-direction: column; min-width: 160px; z-index: 50;
+    }
+    .share-menu.show { display: flex; animation: fadeIn 0.2s; }
+    .share-menu button { background: none; border: none; padding: 12px; text-align: left; cursor: pointer; font-size: 0.9rem; color: var(--text-main); border-bottom: 1px solid var(--border-soft); transition: 0.2s; }
+    .share-menu button:hover { background: var(--bg-main); }
+    .share-menu button:last-child { border-bottom: none; }
 
-    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid var(--border-soft); position: sticky; top: 20px; z-index: 10; overflow: hidden; }
+    /* PLAYER CARD */
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); position: sticky; top: 20px; z-index: 10; overflow: hidden; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     .player-meta-row { display: flex; justify-content: space-between; align-items: center; }
     .badge-main { background: var(--accent-glow); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+    
     .frame { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
     #player-placeholder { position: absolute; inset: 0; width: 100%; height: 100%; }
 
@@ -61,6 +85,14 @@
     .control-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
     .control-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
+    /* PERSONAL NOTES */
+    .notes-section { padding: 20px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
+    .notes-header { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .notes-input { width: 100%; min-height: 80px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--card-bg); color: var(--text-main); resize: vertical; transition: 0.2s; }
+    .notes-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .save-status { font-size: 0.75rem; color: var(--text-muted); opacity: 0; transition: opacity 0.3s; }
+
+    /* LIST */
     .list-header { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap; }
     .filters { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
     .filters input, .filters select { border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px 14px; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none; flex: 1; }
@@ -75,7 +107,6 @@
     .item.watched .item-title { color: var(--text-muted); }
     .item.watched .item-thumb { opacity: 0.85; }
 
-    /* Progress bar on item */
     .item-progress-bg { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: transparent; }
     .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
 
@@ -104,6 +135,25 @@
     .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
+    /* --- DRIVING MODE OVERLAY --- */
+    .driving-mode-overlay {
+      position: fixed; inset: 0; background: #000; z-index: 2000; display: none;
+      flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px;
+    }
+    .driving-mode-overlay.active { display: flex; }
+    .dm-title { font-size: 1.2rem; margin-bottom: 30px; text-align: center; color: #9ca3af; }
+    .dm-controls { display: flex; gap: 30px; align-items: center; margin-bottom: 40px; }
+    .dm-btn {
+      width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3);
+      color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
+    }
+    .dm-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.95); }
+    .dm-btn svg { width: 32px; height: 32px; fill: white; }
+    .dm-btn.play-pause { width: 100px; height: 100px; background: var(--accent); border: none; box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); }
+    .dm-btn.play-pause svg { width: 40px; height: 40px; }
+    .dm-close { position: absolute; top: 30px; right: 30px; background: transparent; border: 1px solid #333; color: #888; padding: 8px 16px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; }
+
+    /* UTILS */
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transition: all 0.4s; z-index: 1000; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
@@ -119,19 +169,37 @@
     .skel-thumb { width: 130px; height: 75px; background: var(--border-soft); border-radius: 10px; animation: pulse 1.5s infinite; }
     .skel-content { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
     @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
     @media(max-width: 600px) { .item-thumb { flex: 0 0 100px; } .player-card { border-radius: 0 0 24px 24px; margin: 0 -16px; width: auto; border: none; } }
   </style>
 </head>
 <body>
 
+<div id="driving-mode" class="driving-mode-overlay">
+  <button class="dm-close" onclick="toggleDrivingMode()">Exit Drive Mode</button>
+  <div class="dm-title" id="dm-title">No Shiur Playing</div>
+  <div class="dm-controls">
+    <button class="dm-btn" onclick="seek(-30)"><svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/><text x="12" y="13" font-size="6" text-anchor="middle" fill="white" dy=".3em">-30</text></svg></button>
+    <button class="dm-btn play-pause" id="dm-play-btn" onclick="togglePlay()">
+      <svg id="dm-play-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    </button>
+    <button class="dm-btn" onclick="seek(30)"><svg viewBox="0 0 24 24"><path d="M10 8c4.65 0 8.58 3.03 9.96 7.22L17.6 16c-1.05-3.19-4.05-5.5-7.6-5.5-1.95 0-3.73.72-5.12 1.88L1.24 16H10v-9z"/><text x="12" y="13" font-size="6" text-anchor="middle" fill="white" dy=".3em">+30</text></svg></button>
+  </div>
+  <div style="color:#666; font-size:0.9rem">Screen stays dark for safety</div>
+</div>
+
 <header>
   <div class="header-inner">
     <h1>Mekor Chaim Staten Island</h1>
     <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
-      <button id="install-btn" class="install-btn">📲 Install App</button>
-      <button id="theme-toggle" class="theme-toggle"><span id="theme-icon">🌙</span> Theme</button>
+      <button class="drive-mode-btn" onclick="toggleDrivingMode()">
+        <svg style="vertical-align:middle" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> 
+        Audio Mode
+      </button>
+      <button id="install-btn" class="install-btn">App</button>
+      <button id="theme-toggle" class="theme-toggle">Theme</button>
     </div>
   </div>
 </header>
@@ -149,9 +217,17 @@
           <h2 class="player-title" id="player-title">Select a shiur</h2>
           <div class="player-meta-row">
             <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.85rem;color:var(--text-muted); margin-left: 8px;"></span></div>
-            <button onclick="shareShiur()" class="share-btn">
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
-            </button>
+            
+            <div class="share-container">
+              <button onclick="toggleShareMenu()" class="share-btn">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
+              </button>
+              <div id="share-menu" class="share-menu">
+                <button onclick="shareLink(false)">Copy Link</button>
+                <button onclick="shareLink(true)">Copy at Current Time ⏱️</button>
+              </div>
+            </div>
+
           </div>
           <div class="player-controls">
             <button class="control-btn active" data-speed="1" onclick="setSpeed(1)">1x</button>
@@ -164,6 +240,15 @@
         <div class="frame">
           <div id="player-placeholder"></div>
         </div>
+        
+        <div class="notes-section">
+          <div class="notes-header">
+            <span>My Notes 📝</span>
+            <span id="save-status" class="save-status">Saved</span>
+          </div>
+          <textarea id="notes-input" class="notes-input" placeholder="Write your thoughts here..." disabled></textarea>
+        </div>
+
       </div>
     </section>
 
@@ -212,10 +297,12 @@
   let showFavoritesOnly = false;
   let player = null;
   let progressInterval = null;
+  let isDrivingMode = false;
   
   let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
   let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
   let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
+  let notesMap = JSON.parse(localStorage.getItem('mc_notes') || '{}');
 
   // DOM
   const listEl = document.getElementById("shiur-list");
@@ -224,6 +311,11 @@
   const yearFilter = document.getElementById("year-filter");
   const favFilterBtn = document.getElementById("fav-filter-btn");
   const toast = document.getElementById("toast");
+  const notesInput = document.getElementById("notes-input");
+  const saveStatus = document.getElementById("save-status");
+  const dmOverlay = document.getElementById("driving-mode");
+  const dmTitle = document.getElementById("dm-title");
+  const dmPlayIcon = document.getElementById("dm-play-icon");
 
   document.getElementById("year-copy").textContent = new Date().getFullYear();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.log);
@@ -232,14 +324,8 @@
 
   async function initApp() {
     await loadData();
-    // Default video if nothing in URL/history
-    let startVideoId = '';
-    let startSeconds = 0;
-
-    // We defer actual loading to onPlayerReady or user interaction
     player = new YT.Player('player-placeholder', {
-      height: '100%', width: '100%', 
-      videoId: startVideoId,
+      height: '100%', width: '100%', videoId: '',
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
@@ -248,89 +334,44 @@
   function onPlayerReady(event) {
     const urlParams = new URLSearchParams(window.location.search);
     const urlVideo = urlParams.get('v');
+    const urlTime = urlParams.get('t');
     const lastWatched = localStorage.getItem('lastWatched');
 
     if (allData.length > 0) {
       if (urlVideo && allData.find(d => d.id === urlVideo)) {
-        playVideo(urlVideo, false); // Autoplay if from URL
+        // From URL (Share)
+        playVideo(urlVideo, false, parseInt(urlTime) || 0);
       } else if (lastWatched && allData.find(d => d.id === lastWatched)) {
-        const vid = allData.find(d => d.id === lastWatched);
-        updatePlayerMeta(vid.title, vid.dateNice);
+        // Resume Last
         const savedTime = progressMap[lastWatched] || 0;
-        player.cueVideoById({videoId: lastWatched, startSeconds: savedTime});
-        currentId = lastWatched;
-        renderList(allData);
+        cueVideo(lastWatched, savedTime);
       } else {
-        const first = allData[0];
-        updatePlayerMeta(first.title, first.dateNice);
-        player.cueVideoById(first.id);
-        currentId = first.id;
-        renderList(allData);
+        // Init First
+        cueVideo(allData[0].id, 0);
       }
     }
   }
 
-  // --- SMART PLAYER LOGIC (FIXED) ---
-  function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-      startProgressTracking();
-      if (currentId && !watchedHistory.has(currentId)) {
-        watchedHistory.add(currentId);
-        localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
-        renderList(allData.filter(filterLogic));
-      }
-    } else {
-      stopProgressTracking();
-    }
-    if (event.data == YT.PlayerState.ENDED) {
-      playNextVideo();
-    }
-  }
-
-  function startProgressTracking() {
-    stopProgressTracking();
-    progressInterval = setInterval(() => {
-      if(player && player.getCurrentTime) {
-        const t = Math.floor(player.getCurrentTime());
-        // Save if played more than 2 seconds (low threshold for testing)
-        if (t > 2) {
-          progressMap[currentId] = t;
-          localStorage.setItem('mc_progress', JSON.stringify(progressMap));
-        }
-      }
-    }, 5000);
-  }
-
-  function stopProgressTracking() { if (progressInterval) clearInterval(progressInterval); }
-
-  function playNextVideo() {
-    const currentIndex = allData.findIndex(d => d.id === currentId);
-    if (currentIndex >= 0 && currentIndex < allData.length - 1) {
-      const nextVid = allData[currentIndex + 1];
-      playVideo(nextVid.id, true);
-      showToast("Autoplaying next shiur...");
-    }
-  }
-
-  // --- ACTIONS (FIXED RESUME) ---
-  function playVideo(id, autoScroll) {
+  // --- ACTIONS ---
+  function playVideo(id, autoScroll, startTimeOverride = null) {
     currentId = id;
     localStorage.setItem('lastWatched', id);
+    
     const newUrl = new URL(window.location);
     newUrl.searchParams.set('v', id);
     window.history.pushState({}, '', newUrl);
 
     const item = allData.find(d => d.id === id);
     updatePlayerMeta(item.title, item.dateNice);
+    loadNotes(id);
+    updateMediaSession();
     
-    // THE FIX: Directly load with startSeconds
-    const savedTime = progressMap[id] || 0;
+    // Decide start time
+    let startSeconds = (startTimeOverride !== null) ? startTimeOverride : (progressMap[id] || 0);
     
+    // Force Load
     if (player && player.loadVideoById) {
-      player.loadVideoById({
-        videoId: id,
-        startSeconds: savedTime
-      });
+      player.loadVideoById({ videoId: id, startSeconds: startSeconds });
     }
 
     renderList(allData.filter(filterLogic)); 
@@ -342,6 +383,158 @@
       else window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
+
+  function cueVideo(id, time) {
+    currentId = id;
+    const item = allData.find(d => d.id === id);
+    updatePlayerMeta(item.title, item.dateNice);
+    loadNotes(id);
+    if(player && player.cueVideoById) player.cueVideoById({videoId: id, startSeconds: time});
+    renderList(allData); 
+    // Setup metadata without playing
+    setTimeout(updateMediaSession, 1000); 
+  }
+
+  // --- MEDIA SESSION & SMART LOGIC ---
+  function updateMediaSession() {
+    if ('mediaSession' in navigator) {
+      const item = allData.find(d => d.id === currentId);
+      if (!item) return;
+      
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: item.title,
+        artist: "Rabbi Zish Kohn",
+        album: "Mekor Chaim Staten Island",
+        artwork: [
+          { src: `https://i.ytimg.com/vi/${item.id}/mqdefault.jpg`, sizes: '320x180', type: 'image/jpeg' }
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', () => player.playVideo());
+      navigator.mediaSession.setActionHandler('pause', () => player.pauseVideo());
+      navigator.mediaSession.setActionHandler('nexttrack', playNextVideo);
+      navigator.mediaSession.setActionHandler('previoustrack', playPrevVideo);
+    }
+  }
+
+  function onPlayerStateChange(event) {
+    if (event.data == YT.PlayerState.PLAYING) {
+      startProgressTracking();
+      dmPlayIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; // Pause icon
+      
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing";
+
+      if (currentId && !watchedHistory.has(currentId)) {
+        watchedHistory.add(currentId);
+        localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
+        renderList(allData.filter(filterLogic));
+      }
+    } else {
+      stopProgressTracking();
+      dmPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; // Play icon
+      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused";
+    }
+    if (event.data == YT.PlayerState.ENDED) {
+      playNextVideo();
+    }
+  }
+
+  function startProgressTracking() {
+    stopProgressTracking();
+    progressInterval = setInterval(() => {
+      if(player && player.getCurrentTime) {
+        const t = Math.floor(player.getCurrentTime());
+        if (t > 2) {
+          progressMap[currentId] = t;
+          localStorage.setItem('mc_progress', JSON.stringify(progressMap));
+        }
+      }
+    }, 2000);
+  }
+  function stopProgressTracking() { if (progressInterval) clearInterval(progressInterval); }
+
+  function playNextVideo() {
+    const currentIndex = allData.findIndex(d => d.id === currentId);
+    if (currentIndex >= 0 && currentIndex < allData.length - 1) {
+      const nextVid = allData[currentIndex + 1];
+      playVideo(nextVid.id, true);
+      showToast("Autoplaying next...");
+    }
+  }
+  
+  function playPrevVideo() {
+    const currentIndex = allData.findIndex(d => d.id === currentId);
+    if (currentIndex > 0) {
+      const prevVid = allData[currentIndex - 1];
+      playVideo(prevVid.id, true);
+    }
+  }
+
+  // --- DRIVING MODE ---
+  window.toggleDrivingMode = function() {
+    isDrivingMode = !isDrivingMode;
+    if(isDrivingMode) {
+      dmOverlay.classList.add('active');
+      const item = allData.find(d => d.id === currentId);
+      dmTitle.textContent = item ? item.title : "No Shiur Selected";
+    } else {
+      dmOverlay.classList.remove('active');
+    }
+  }
+  
+  window.togglePlay = function() {
+    if(!player) return;
+    const state = player.getPlayerState();
+    if(state === YT.PlayerState.PLAYING) player.pauseVideo();
+    else player.playVideo();
+  }
+  
+  window.seek = function(seconds) {
+    if(!player) return;
+    const cur = player.getCurrentTime();
+    player.seekTo(cur + seconds, true);
+  }
+
+  // --- NOTES ---
+  function loadNotes(id) {
+    notesInput.value = notesMap[id] || "";
+    notesInput.disabled = false;
+  }
+  
+  notesInput.addEventListener("input", () => {
+    if(!currentId) return;
+    notesMap[currentId] = notesInput.value;
+    localStorage.setItem('mc_notes', JSON.stringify(notesMap));
+    saveStatus.style.opacity = '1';
+    setTimeout(() => saveStatus.style.opacity = '0', 2000);
+  });
+
+  // --- SHARE ---
+  window.toggleShareMenu = function() {
+    document.getElementById("share-menu").classList.toggle("show");
+  }
+  
+  window.shareLink = function(withTime) {
+    document.getElementById("share-menu").classList.remove("show");
+    let url = window.location.origin + window.location.pathname + '?v=' + currentId;
+    if(withTime && player && player.getCurrentTime) {
+      const t = Math.floor(player.getCurrentTime());
+      if(t > 0) url += '&t=' + t;
+    }
+    
+    if (navigator.share) {
+      navigator.share({ title: 'Mekor Chaim Shiur', url: url });
+    } else {
+      navigator.clipboard.writeText(url);
+      showToast("Link copied!");
+    }
+  }
+  
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.share-container')) {
+      document.getElementById("share-menu").classList.remove("show");
+    }
+  });
 
   // --- DATA ---
   async function loadData() {
@@ -381,6 +574,7 @@
     years.forEach(y => { const opt = document.createElement("option"); opt.value = y; opt.textContent = y; yearFilter.appendChild(opt); });
   }
 
+  // --- RENDER ---
   function renderList(items) {
     listEl.innerHTML = "";
     if (items.length === 0) { listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`; return; }
@@ -460,10 +654,7 @@
   }
 
   function showToast(msg) { toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2000); }
-  window.shareShiur = function() {
-    if (navigator.share) navigator.share({ title: 'Mekor Chaim Shiur', url: window.location.href });
-    else { navigator.clipboard.writeText(window.location.href); showToast("Link copied!"); }
-  }
+  
   function updatePlayerMeta(title, date) {
     document.getElementById("player-title").textContent = title;
     document.getElementById("player-date").textContent = date;
