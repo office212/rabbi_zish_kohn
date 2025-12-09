@@ -18,39 +18,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- VARIABLES --- */
     :root {
       --w: 1000px;
       --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.15);
       --text-main: #0f172a; --text-muted: #64748b; --border-soft: #e2e8f0;
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
       --fav-color: #ef4444; --watched-color: #10b981;
     }
     body.dark-mode {
       --bg-main: #020617; --card-bg: #0f172a; --text-main: #f1f5f9; --text-muted: #94a3b8;
       --border-soft: #1e293b; --accent: #60a5fa; --accent-glow: rgba(96, 165, 250, 0.2);
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3); --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
-
     * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main);
-      padding-bottom: 80px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;
-    }
-
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 80px; transition: background 0.3s; }
     header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
     header { padding-top: 20px; padding-bottom: 24px; }
     .layout { margin-top: 10px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: flex-start; }
     @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
 
-    /* HEADER */
-    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px 28px; color: white; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px 28px; color: white; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
     h1 { margin: 0; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
     .sub { font-size: 0.95rem; opacity: 0.9; margin-top: 6px; }
     .header-controls { margin-top: 16px; display: flex; gap: 10px; align-items: center; }
 
-    /* BUTTONS */
     button { font-family: inherit; }
     .theme-toggle, .install-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; }
@@ -58,8 +49,7 @@
     .share-btn { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; }
     body.dark-mode .share-btn { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
 
-    /* PLAYER */
-    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); position: sticky; top: 20px; z-index: 10; overflow: hidden; }
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border: 1px solid var(--border-soft); position: sticky; top: 20px; z-index: 10; overflow: hidden; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     .player-meta-row { display: flex; justify-content: space-between; align-items: center; }
@@ -71,14 +61,6 @@
     .control-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
     .control-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-    /* RESUME BAR */
-    .resume-notify {
-      background: var(--accent); color: white; padding: 8px 16px; font-size: 0.85rem; font-weight: 600; 
-      display: flex; justify-content: space-between; align-items: center; display: none;
-    }
-    .resume-notify button { background: rgba(255,255,255,0.2); border: none; color: white; padding: 2px 8px; border-radius: 4px; cursor: pointer; margin-left: 10px; font-size: 0.75rem; }
-
-    /* LIST */
     .list-header { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap; }
     .filters { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
     .filters input, .filters select { border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px 14px; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none; flex: 1; }
@@ -90,7 +72,9 @@
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
     .item:hover { transform: translateY(-2px); border-color: var(--accent); }
     .item.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-    
+    .item.watched .item-title { color: var(--text-muted); }
+    .item.watched .item-thumb { opacity: 0.85; }
+
     /* Progress bar on item */
     .item-progress-bg { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: transparent; }
     .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
@@ -128,7 +112,6 @@
     .ios-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
     
-    /* SKELETON */
     .skeleton-wrapper { padding: 20px; background: var(--card-bg); }
     .skel-line { height: 24px; margin-bottom: 12px; border-radius: 8px; background: var(--border-soft); animation: pulse 1.5s infinite; }
     .skel-video { border-radius: 16px; height: 250px; width: 100%; }
@@ -178,14 +161,6 @@
           </div>
         </div>
         
-        <div id="resume-notify" class="resume-notify">
-          <span id="resume-text">Resume from 10:00?</span>
-          <div>
-            <button onclick="confirmResume()">Yes</button>
-            <button onclick="cancelResume()">No</button>
-          </div>
-        </div>
-
         <div class="frame">
           <div id="player-placeholder"></div>
         </div>
@@ -228,22 +203,19 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-  // --- CONFIG ---
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
-  // --- STATE ---
+  // State
   let allData = [];
   let currentId = null;
   let showFavoritesOnly = false;
-  let player = null; // YT Player instance
+  let player = null;
   let progressInterval = null;
-  let savedTime = 0; // For resume logic
   
-  // LocalStorage
   let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
-  let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}'); // { videoId: seconds }
-  let totalDuration = 0; // Duration of current video
+  let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
+  let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
 
   // DOM
   const listEl = document.getElementById("shiur-list");
@@ -251,41 +223,23 @@
   const searchInput = document.getElementById("search-input");
   const yearFilter = document.getElementById("year-filter");
   const favFilterBtn = document.getElementById("fav-filter-btn");
-  const resumeNotify = document.getElementById("resume-notify");
-  const resumeText = document.getElementById("resume-text");
   const toast = document.getElementById("toast");
 
   document.getElementById("year-copy").textContent = new Date().getFullYear();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.log);
 
-  // --- YT API INIT ---
-  // The API will call this function when it's ready
-  function onYouTubeIframeAPIReady() {
-    initApp();
-  }
+  function onYouTubeIframeAPIReady() { initApp(); }
 
   async function initApp() {
     await loadData();
-    
-    // Init Player
     player = new YT.Player('player-placeholder', {
-      height: '100%',
-      width: '100%',
-      videoId: '', // Will load later
-      playerVars: {
-        'playsinline': 1,
-        'rel': 0,
-        'modestbranding': 1
-      },
-      events: {
-        'onStateChange': onPlayerStateChange,
-        'onReady': onPlayerReady
-      }
+      height: '100%', width: '100%', videoId: '',
+      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
+      events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
   }
 
   function onPlayerReady(event) {
-    // Check URL or Auto-load first
     const urlParams = new URLSearchParams(window.location.search);
     const urlVideo = urlParams.get('v');
     const lastWatched = localStorage.getItem('lastWatched');
@@ -294,10 +248,10 @@
       if (urlVideo && allData.find(d => d.id === urlVideo)) {
         playVideo(urlVideo, false);
       } else if (lastWatched && allData.find(d => d.id === lastWatched)) {
-        // Just load metadata, don't autoplay if restoring from history
         const vid = allData.find(d => d.id === lastWatched);
         updatePlayerMeta(vid.title, vid.dateNice);
-        player.cueVideoById(lastWatched);
+        // Don't autoplay on return, just cue
+        player.cueVideoById({videoId: lastWatched, startSeconds: progressMap[lastWatched] || 0});
         currentId = lastWatched;
         renderList(allData);
       } else {
@@ -310,16 +264,19 @@
     }
   }
 
-  // --- SMART PLAYER LOGIC ---
+  // --- SMART PLAYER LOGIC (UPDATED) ---
   function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
-      // Start tracking progress
       startProgressTracking();
-      totalDuration = player.getDuration();
+      // Add to watched history immediately on play
+      if (currentId && !watchedHistory.has(currentId)) {
+        watchedHistory.add(currentId);
+        localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
+        renderList(allData.filter(filterLogic)); // Refresh to show watched status
+      }
     } else {
       stopProgressTracking();
     }
-
     if (event.data == YT.PlayerState.ENDED) {
       playNextVideo();
     }
@@ -329,59 +286,27 @@
     stopProgressTracking();
     progressInterval = setInterval(() => {
       if(player && player.getCurrentTime) {
-        const currentTime = player.getCurrentTime();
-        if (currentTime > 5) { // Only save after 5 seconds
-          progressMap[currentId] = Math.floor(currentTime);
+        const t = Math.floor(player.getCurrentTime());
+        if (t > 5) {
+          progressMap[currentId] = t;
           localStorage.setItem('mc_progress', JSON.stringify(progressMap));
-          // Update visual progress bar (optional optimization: don't re-render list, just update width)
-          // For simplicity we won't re-render list constantly.
         }
       }
-    }, 5000); // Save every 5s
+    }, 5000);
   }
 
-  function stopProgressTracking() {
-    if (progressInterval) clearInterval(progressInterval);
-  }
+  function stopProgressTracking() { if (progressInterval) clearInterval(progressInterval); }
 
   function playNextVideo() {
     const currentIndex = allData.findIndex(d => d.id === currentId);
     if (currentIndex >= 0 && currentIndex < allData.length - 1) {
-      const nextVid = allData[currentIndex + 1]; // Next in list (older usually, or newer depending on sort)
-      // Actually, list is Newest First. So "Next" usually means the one below it (older).
+      const nextVid = allData[currentIndex + 1];
       playVideo(nextVid.id, true);
-      showToast(`Autoplaying: ${nextVid.title.substring(0, 20)}...`);
+      showToast("Autoplaying next shiur...");
     }
   }
 
-  function checkResume(id) {
-    const time = progressMap[id];
-    // If saved time exists and is more than 60 seconds and less than end
-    if (time && time > 30 && (player.getDuration() - time > 60)) {
-      savedTime = time;
-      const mins = Math.floor(time / 60);
-      const secs = (time % 60).toString().padStart(2, '0');
-      resumeText.textContent = `Resume from ${mins}:${secs}?`;
-      resumeNotify.style.display = 'flex';
-      
-      // Auto-hide after 10s
-      setTimeout(() => { resumeNotify.style.display = 'none'; }, 10000);
-    } else {
-      resumeNotify.style.display = 'none';
-    }
-  }
-
-  window.confirmResume = function() {
-    player.seekTo(savedTime, true);
-    player.playVideo();
-    resumeNotify.style.display = 'none';
-  }
-  window.cancelResume = function() {
-    resumeNotify.style.display = 'none';
-  }
-
-
-  // --- DATA & RENDER ---
+  // --- DATA ---
   async function loadData() {
     try {
       const items = await fetchAllItems();
@@ -419,6 +344,7 @@
     years.forEach(y => { const opt = document.createElement("option"); opt.value = y; opt.textContent = y; yearFilter.appendChild(opt); });
   }
 
+  // --- RENDER ---
   function renderList(items) {
     listEl.innerHTML = "";
     if (items.length === 0) { listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`; return; }
@@ -429,20 +355,20 @@
     items.forEach(item => {
       const li = document.createElement("li");
       const isFav = favorites.has(item.id);
+      const isWatched = watchedHistory.has(item.id);
+      const savedTime = progressMap[item.id] || 0;
       
-      // Calculate progress width
-      let progressWidth = 0;
-      if (progressMap[item.id]) {
-         // We don't have total duration for unplayed videos easily, so we assume 45m (2700s) for visual bar or just show 100% if done.
-         // Better: just check if it exists in map.
-         progressWidth = (progressMap[item.id] > 60) ? '15%' : '0%'; // Just a small indicator that started
-         // If we really wanted exact %, we'd need duration for all videos from API. Overkill for now.
-         if (progressMap[item.id] > 60) progressWidth = '40%'; 
+      let progressWidth = '0%';
+      // Visual indicator if started (approximate, max 100% after 45min)
+      if (savedTime > 0) {
+         progressWidth = Math.min((savedTime / 2700) * 100, 100) + '%'; 
+         if (savedTime > 60 && progressWidth === '0%') progressWidth = '5%';
       }
 
-      li.className = `item ${item.id === currentId ? 'active' : ''}`;
+      li.className = `item ${item.id === currentId ? 'active' : ''} ${isWatched ? 'watched' : ''}`;
       
       let badgeHTML = item.isNew ? `<span class="badge-new">New</span>` : "";
+      if (isWatched) badgeHTML += `<span style="color:var(--watched-color);font-weight:600;font-size:0.75rem;display:flex;align-items:center;gap:3px;margin-left:6px">✔ Played</span>`;
       let eqHTML = (item.id === currentId) ? `<div class="equalizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>` : "";
       
       let displayTitle = item.title;
@@ -471,8 +397,6 @@
   function playVideo(id, autoScroll) {
     currentId = id;
     localStorage.setItem('lastWatched', id);
-    
-    // Update URL
     const newUrl = new URL(window.location);
     newUrl.searchParams.set('v', id);
     window.history.pushState({}, '', newUrl);
@@ -480,15 +404,18 @@
     const item = allData.find(d => d.id === id);
     updatePlayerMeta(item.title, item.dateNice);
     
+    // AUTOMATIC RESUME LOGIC
+    const savedTime = progressMap[id] || 0;
+    
     if (player && player.loadVideoById) {
-      player.loadVideoById(id);
+      player.loadVideoById({
+        videoId: id,
+        startSeconds: savedTime // Auto resume!
+      });
     } else {
-      // Fallback if API not ready
-      new YT.Player('player-placeholder', { videoId: id });
+      // Fallback
+      new YT.Player('player-placeholder', { videoId: id, playerVars: { start: savedTime } });
     }
-
-    // Check for resume
-    setTimeout(() => checkResume(id), 1000); // Check after load
 
     renderList(allData.filter(filterLogic)); 
     setSpeed(1);
@@ -510,7 +437,6 @@
     else { e.currentTarget.classList.toggle('active'); }
   }
 
-  // Filters & UI
   favFilterBtn.addEventListener("click", () => {
     showFavoritesOnly = !showFavoritesOnly;
     favFilterBtn.classList.toggle('active');
@@ -528,13 +454,11 @@
   searchInput.addEventListener("input", applyFilters);
   yearFilter.addEventListener("change", applyFilters);
 
-  // Speed
   window.setSpeed = function(rate) {
     document.querySelectorAll('.control-btn').forEach(btn => btn.classList.toggle('active', parseFloat(btn.dataset.speed) === rate));
     if(player && player.setPlaybackRate) player.setPlaybackRate(rate);
   }
 
-  // Toast
   function showToast(msg) { toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2000); }
   window.shareShiur = function() {
     if (navigator.share) navigator.share({ title: 'Mekor Chaim Shiur', url: window.location.href });
@@ -545,7 +469,6 @@
     document.getElementById("player-date").textContent = date;
   }
 
-  // Install / Theme / Scroll
   const themeToggle = document.getElementById("theme-toggle");
   if(localStorage.getItem("theme") === 'dark') document.body.classList.add('dark-mode');
   themeToggle.addEventListener("click", () => {
