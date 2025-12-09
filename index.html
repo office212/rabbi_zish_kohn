@@ -30,6 +30,8 @@
       --border-soft: #e2e8f0;
       --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
       --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      --fav-color: #ef4444; /* Red for heart */
+      --watched-color: #10b981; /* Green for check */
     }
 
     body.dark-mode {
@@ -75,14 +77,12 @@
       border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.2s;
     }
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; }
-    .theme-toggle:hover { background: rgba(255,255,255,0.3); }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
     
     .share-btn {
       background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px;
       font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s;
     }
-    .share-btn:hover { background: #d1fae5; transform: translateY(-1px); }
     body.dark-mode .share-btn { background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); }
 
     /* --- PLAYER --- */
@@ -103,20 +103,29 @@
       background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted);
       padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.2s;
     }
-    .control-btn:hover { border-color: var(--accent); color: var(--accent); }
     .control-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-    /* --- LIST --- */
+    /* --- LIST & FILTERS --- */
     .list-header {
       background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px;
       border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap;
     }
-    .filters { display: flex; gap: 8px; flex: 1; }
+    .filters { display: flex; gap: 8px; flex: 1; flex-wrap: wrap; }
     .filters input, .filters select {
-      flex: 1; border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px 14px;
-      font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none;
+      border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px 14px;
+      font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none; flex: 1;
     }
-    .filters input:focus { border-color: var(--accent); }
+    
+    /* Favorites Toggle Button */
+    .btn-fav-filter {
+      background: var(--bg-main); border: 1px solid var(--border-soft); color: var(--text-muted);
+      padding: 10px 14px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+      display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+    }
+    .btn-fav-filter.active {
+      background: #fef2f2; color: var(--fav-color); border-color: #fca5a5;
+    }
+    body.dark-mode .btn-fav-filter.active { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
 
     .list { list-style: none; margin: 0; padding: 0; }
     .item {
@@ -126,60 +135,76 @@
     }
     .item:hover { transform: translateY(-2px); border-color: var(--accent); }
     .item.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
-
-    /* Thumbnail with Play Overlay */
-    .item-thumb { flex: 0 0 130px; position: relative; border-radius: 10px; overflow: hidden; }
-    .item-thumb img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; transition: 0.3s; }
     
-    /* Play Overlay Icon */
+    /* Watched State Styling */
+    .item.watched .item-title { color: var(--text-muted); font-weight: 500; }
+    .item.watched .item-thumb { opacity: 0.8; }
+
+    /* Item Thumb & Overlay */
+    .item-thumb { flex: 0 0 130px; position: relative; border-radius: 10px; overflow: hidden; }
+    .item-thumb img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
     .play-overlay {
       position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;
       opacity: 0; transition: 0.2s;
     }
-    .play-overlay svg { width: 32px; height: 32px; fill: white; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
     .item:hover .play-overlay { opacity: 1; }
-    .item:hover .item-thumb img { transform: scale(1.05); }
+    .play-overlay svg { width: 32px; height: 32px; fill: white; }
 
+    /* Item Content */
     .item-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0; }
-    .item-title { font-size: 1rem; font-weight: 600; line-height: 1.4; }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+    .item-top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .item-title { font-size: 1rem; font-weight: 600; line-height: 1.4; color: var(--text-main); }
+    .item-date { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; margin-top: 4px; }
 
-    /* EQUALIZER ANIMATION (The "Premium" touch) */
+    /* Action Buttons inside item */
+    .item-actions { display: flex; flex-direction: column; gap: 8px; align-items: center; justify-content: center; }
+    .btn-fav {
+      background: transparent; border: none; cursor: pointer; color: #cbd5e1; padding: 4px; transition: transform 0.2s;
+    }
+    .btn-fav.active { color: var(--fav-color); }
+    .btn-fav:hover { transform: scale(1.2); }
+    .btn-fav svg { width: 22px; height: 22px; fill: currentColor; }
+
+    /* Search Highlight */
+    mark { background: #fef08a; color: #854d0e; padding: 0 2px; border-radius: 2px; }
+    body.dark-mode mark { background: #854d0e; color: #fef08a; }
+
+    /* Badges */
+    .badge-watched { color: var(--watched-color); display: flex; align-items: center; gap: 4px; font-weight: 600; font-size: 0.75rem; }
+    .badge-new { background: #f59e0b; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
+
+    /* Equalizer */
     .equalizer { display: flex; align-items: flex-end; gap: 2px; height: 12px; width: 12px; margin-left: auto; }
     .bar { width: 3px; background: var(--accent); animation: bounce 1s infinite ease-in-out; }
     .bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
     .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
-    /* Badges */
-    .badge-new { background: #f59e0b; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
-    .badge-continue { border: 1px solid var(--accent); color: var(--accent); padding: 1px 8px; border-radius: 99px; font-size: 0.65rem; font-weight: 600; }
+    /* Skeleton Loader */
+    .skeleton-wrapper { padding: 20px; background: var(--card-bg); }
+    .skel-line { height: 24px; margin-bottom: 12px; border-radius: 8px; background: var(--border-soft); animation: pulse 1.5s infinite; }
+    .skel-video { border-radius: 16px; height: 250px; width: 100%; }
+    /* List Skeleton */
+    .skel-list-item { display: flex; gap: 16px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-soft); border-radius: 16px; }
+    .skel-thumb { width: 130px; height: 75px; background: var(--border-soft); border-radius: 10px; animation: pulse 1.5s infinite; }
+    .skel-content { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
+    .skel-text { height: 16px; background: var(--border-soft); border-radius: 4px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } }
 
-    /* TOAST NOTIFICATION */
+    /* Toast */
     .toast {
       position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px);
       background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px;
-      font-weight: 600; font-size: 0.9rem; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 1000;
-      display: flex; align-items: center; gap: 8px;
+      font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transition: all 0.4s; z-index: 1000;
     }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    body.dark-mode .toast { background: white; color: black; }
 
-    /* Skeleton */
-    .skeleton-wrapper { padding: 20px; background: var(--card-bg); }
-    .skel-line { height: 24px; margin-bottom: 12px; border-radius: 8px; background: var(--border-soft); animation: pulse 1.5s infinite; }
-    .skel-video { border-radius: 16px; }
-    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } }
-
-    /* Back to top */
+    /* Footer & Utils */
     #back-to-top { position: fixed; bottom: 30px; right: 20px; padding: 12px 18px; border-radius: 99px; background: var(--text-main); color: var(--bg-main); border: none; font-weight: 600; cursor: pointer; display: none; z-index: 50; }
-    
-    /* iOS Prompt */
     .ios-prompt { background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); padding: 30px 20px 40px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; border-radius: 24px 24px 0 0; display: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
     .ios-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
+    
     @media(max-width: 600px) { .item-thumb { flex: 0 0 100px; } .player-card { border-radius: 0 0 24px 24px; margin: 0 -16px; width: auto; border: none; } }
   </style>
 </head>
@@ -200,9 +225,8 @@
   <div class="layout">
     <section class="player-card" id="player-card">
       <div id="skeleton" class="skeleton-wrapper">
-        <div class="skel-line" style="width:100%; height: 250px" class="skel-video"></div>
-        <div class="skel-line" style="width:70%"></div>
-        <div class="skel-line" style="width:40%"></div>
+        <div class="skel-video"></div>
+        <div class="skel-line" style="width:70%; margin-top: 16px;"></div>
       </div>
 
       <div id="player-content" style="display:none">
@@ -211,8 +235,7 @@
           <div class="player-meta-row">
             <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.85rem;color:var(--text-muted); margin-left: 8px;"></span></div>
             <button onclick="shareShiur()" class="share-btn">
-              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
-              Share
+              <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
             </button>
           </div>
           <div class="player-controls">
@@ -233,20 +256,27 @@
         <div class="filters">
           <input id="search-input" type="search" placeholder="Search shiurim..." aria-label="Search">
           <select id="year-filter"><option value="">All Years</option></select>
+          <button id="fav-filter-btn" class="btn-fav-filter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+            Saved
+          </button>
         </div>
       </div>
-      <ul id="shiur-list" class="list"></ul>
+      
+      <div id="list-skeleton">
+        <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:60%"></div><div class="skel-text" style="width:30%"></div></div></div>
+        <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:70%"></div><div class="skel-text" style="width:40%"></div></div></div>
+        <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:50%"></div><div class="skel-text" style="width:30%"></div></div></div>
+      </div>
+
+      <ul id="shiur-list" class="list" style="display:none"></ul>
     </section>
   </div>
 </main>
 
 <footer>&copy; <span id="year-copy"></span> Mekor Chaim Staten Island</footer>
 <button id="back-to-top">↑ Top</button>
-
-<div id="toast" class="toast">
-  <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  Link Copied!
-</div>
+<div id="toast" class="toast"></div>
 
 <div id="ios-install-prompt" class="ios-prompt">
   <span class="ios-close">&times;</span>
@@ -261,38 +291,37 @@
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
-  // --- DOM ELEMENTS ---
+  // --- DOM & STATE ---
   const listEl = document.getElementById("shiur-list");
+  const listSkeleton = document.getElementById("list-skeleton");
   const searchInput = document.getElementById("search-input");
   const yearFilter = document.getElementById("year-filter");
-  const backToTopBtn = document.getElementById("back-to-top");
+  const favFilterBtn = document.getElementById("fav-filter-btn");
   const toast = document.getElementById("toast");
   
   let allData = [];
   let currentId = null;
+  let showFavoritesOnly = false;
+  
+  // Load State from LocalStorage
+  let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
+  let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
 
   document.getElementById("year-copy").textContent = new Date().getFullYear();
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.log);
 
-  // Service Worker
-  if('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js')
-      .then(() => console.log('SW Registered'))
-      .catch((e) => console.log('SW Failed', e));
-  }
-
+  // --- INIT ---
   initApp();
 
   async function initApp() {
     await loadData();
+    
     const urlParams = new URLSearchParams(window.location.search);
     const urlVideo = urlParams.get('v');
-    const lastWatched = localStorage.getItem('lastWatched');
-
+    // We prefer the URL video, otherwise just init list (don't autoplay last watched to be polite)
     if (allData.length > 0) {
       if (urlVideo && allData.find(d => d.id === urlVideo)) {
         playVideo(urlVideo, false);
-      } else if (lastWatched && allData.find(d => d.id === lastWatched)) {
-        playVideo(lastWatched, false);
       } else {
         const first = allData[0];
         updatePlayerMeta(first.title, first.dateNice);
@@ -303,12 +332,18 @@
     }
   }
 
+  // --- DATA LOADING ---
   async function loadData() {
     try {
       const items = await fetchAllItems();
       processData(items);
+      
+      // Hide Skeletons, Show Content
       document.getElementById("skeleton").style.display = "none";
       document.getElementById("player-content").style.display = "block";
+      listSkeleton.style.display = "none";
+      listEl.style.display = "block";
+      
     } catch(err) {
       console.error(err);
       document.getElementById("player-title").textContent = "Error loading content.";
@@ -326,19 +361,16 @@
 
   function processData(items) {
     items.sort((a,b) => new Date(b.contentDetails.videoPublishedAt) - new Date(a.contentDetails.videoPublishedAt));
-    const lastWatched = localStorage.getItem('lastWatched');
-
+    
     allData = items.map((item, idx) => {
       const d = new Date(item.contentDetails.videoPublishedAt || item.snippet.publishedAt);
-      const vidId = item.contentDetails.videoId;
       return {
-        id: vidId,
+        id: item.contentDetails.videoId,
         title: item.snippet.title,
         dateNice: d.toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}),
         year: d.getFullYear().toString(),
         desc: item.snippet.description || "",
-        isNew: idx === 0,
-        isContinue: (vidId === lastWatched)
+        isNew: idx === 0
       };
     });
 
@@ -353,22 +385,35 @@
     renderList(allData);
   }
 
+  // --- RENDERING ---
   function renderList(items) {
     listEl.innerHTML = "";
+    
+    if (items.length === 0) {
+      listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`;
+      return;
+    }
+
+    // Prepare regex for highlighting if search exists
+    const searchVal = searchInput.value.trim();
+    const regex = searchVal ? new RegExp(`(${searchVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi') : null;
+
     items.forEach(item => {
       const li = document.createElement("li");
-      li.className = "item";
-      if (item.id === currentId) li.classList.add("active");
+      const isFav = favorites.has(item.id);
+      const isWatched = watchedHistory.has(item.id);
+      
+      li.className = `item ${item.id === currentId ? 'active' : ''} ${isWatched ? 'watched' : ''}`;
       
       let badgeHTML = "";
       if (item.isNew) badgeHTML += `<span class="badge-new">New</span>`;
-      if (item.isContinue && item.id !== currentId) badgeHTML += `<span class="badge-continue">Resume</span>`;
+      if (isWatched) badgeHTML += `<span class="badge-watched"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Played</span>`;
       
-      // Equalizer bars if active
-      let eqHTML = "";
-      if (item.id === currentId) {
-        eqHTML = `<div class="equalizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>`;
-      }
+      let eqHTML = (item.id === currentId) ? `<div class="equalizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>` : "";
+
+      // Highlighting logic
+      let displayTitle = item.title;
+      if (regex) displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
 
       li.innerHTML = `
         <div class="item-thumb">
@@ -376,15 +421,46 @@
           <div class="play-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
         </div>
         <div class="item-body">
-          <div class="item-title">${item.title}</div>
+          <div class="item-top-row">
+            <div class="item-title">${displayTitle}</div>
+            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${item.id}')" aria-label="Favorite">
+              <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </button>
+          </div>
           <div class="item-date">
              ${badgeHTML} ${item.dateNice} ${eqHTML}
           </div>
         </div>
       `;
-      li.addEventListener("click", () => playVideo(item.id, true));
+      
+      // Click on item plays video (unless clicking fav button)
+      li.addEventListener("click", (e) => {
+        if(!e.target.closest('.btn-fav')) playVideo(item.id, true);
+      });
+      
       listEl.appendChild(li);
     });
+  }
+
+  // --- ACTIONS ---
+  function toggleFavorite(e, id) {
+    e.stopPropagation(); // Don't trigger play
+    if (favorites.has(id)) {
+      favorites.delete(id);
+      showToast("Removed from Saved");
+    } else {
+      favorites.add(id);
+      showToast("Added to Saved");
+    }
+    saveUserData();
+    
+    // If we are in "Favorites Only" mode, re-filter immediately
+    if (showFavoritesOnly) applyFilters();
+    else {
+      // Just toggle class nicely without re-render to keep scroll position
+      const btn = e.currentTarget;
+      btn.classList.toggle('active');
+    }
   }
 
   function playVideo(id, autoScroll) {
@@ -392,8 +468,13 @@
     const item = allData.find(d => d.id === id);
     if(!item) return;
 
-    localStorage.setItem('lastWatched', id);
+    // Mark as watched
+    if (!watchedHistory.has(id)) {
+      watchedHistory.add(id);
+      saveUserData();
+    }
     
+    // Update URL
     const newUrl = new URL(window.location);
     newUrl.searchParams.set('v', id);
     window.history.pushState({}, '', newUrl);
@@ -401,7 +482,7 @@
     updatePlayerMeta(item.title, item.dateNice);
     document.getElementById("player").src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1&playsinline=1&autoplay=1&enablejsapi=1`;
 
-    renderList(allData.filter(filterLogic)); 
+    applyFilters(); // Re-render to show active state & watched status
     setSpeed(1);
 
     if(autoScroll) {
@@ -414,23 +495,54 @@
     }
   }
 
+  function saveUserData() {
+    localStorage.setItem('mc_favorites', JSON.stringify([...favorites]));
+    localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
+  }
+
   function updatePlayerMeta(title, date) {
     document.getElementById("player-title").textContent = title;
     document.getElementById("player-date").textContent = date;
   }
 
+  // --- FILTERS ---
+  favFilterBtn.addEventListener("click", () => {
+    showFavoritesOnly = !showFavoritesOnly;
+    favFilterBtn.classList.toggle('active');
+    applyFilters();
+  });
+
+  function applyFilters() {
+    const q = searchInput.value.toLowerCase().trim();
+    const y = yearFilter.value;
+
+    const filtered = allData.filter(item => {
+      const matchesSearch = item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
+      const matchesYear = !y || item.year === y;
+      const matchesFav = !showFavoritesOnly || favorites.has(item.id);
+      return matchesSearch && matchesYear && matchesFav;
+    });
+    
+    renderList(filtered);
+  }
+
+  searchInput.addEventListener("input", applyFilters);
+  yearFilter.addEventListener("change", applyFilters);
+
+  // --- UI UTILS ---
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2000);
+  }
+  
   function shareShiur() {
     if (navigator.share) {
       navigator.share({ title: 'Mekor Chaim Shiur', url: window.location.href });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      showToast(); // Custom Toast instead of alert
+      showToast("Link copied!");
     }
-  }
-  
-  function showToast() {
-    toast.classList.add("show");
-    setTimeout(() => toast.classList.remove("show"), 2500);
   }
 
   function setSpeed(rate) {
@@ -443,32 +555,12 @@
     }
   }
 
-  function filterLogic(item) {
-    const q = searchInput.value.toLowerCase();
-    const y = yearFilter.value;
-    const matchesSearch = item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q);
-    const matchesYear = !y || item.year === y;
-    return matchesSearch && matchesYear;
-  }
-
-  function applyFilters() {
-    renderList(allData.filter(filterLogic));
-  }
-
-  searchInput.addEventListener("input", applyFilters);
-  yearFilter.addEventListener("change", applyFilters);
-
-  // Theme
+  // Theme & PWA stuff remains same...
   const themeToggle = document.getElementById("theme-toggle");
   const themeIcon = document.getElementById("theme-icon");
   const savedTheme = localStorage.getItem("theme");
   function updateThemeIcon(isDark) { themeIcon.textContent = isDark ? "☀️" : "🌙"; }
-
-  if(savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    updateThemeIcon(true);
-  }
-  
+  if(savedTheme === 'dark') { document.body.classList.add('dark-mode'); updateThemeIcon(true); }
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
@@ -476,20 +568,11 @@
     updateThemeIcon(isDark);
   });
 
-  // PWA Install
-  let deferredPrompt;
-  const installBtn = document.getElementById("install-btn");
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex';
-  });
-  installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    deferredPrompt = null;
-    installBtn.style.display = 'none';
-  });
-
-  // iOS
+  // Install Prompts
+  let deferredPrompt; const installBtn = document.getElementById("install-btn");
+  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex'; });
+  installBtn.addEventListener('click', async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); deferredPrompt = null; installBtn.style.display = 'none'; });
+  
   const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
   const isInStandaloneMode = ('standalone' in window.navigator) && (window.navigator.standalone);
   if (isIos && !isInStandaloneMode) {
@@ -498,11 +581,11 @@
     document.querySelector(".ios-close").addEventListener("click", () => iosPrompt.style.display="none");
   }
 
-  // Back to top
   window.addEventListener("scroll", () => {
+    const backToTopBtn = document.getElementById("back-to-top");
     if(window.scrollY > 300) backToTopBtn.style.display = "block"; else backToTopBtn.style.display = "none";
   });
-  backToTopBtn.addEventListener("click", () => window.scrollTo({top:0, behavior:'smooth'}));
+  document.getElementById("back-to-top").addEventListener("click", () => window.scrollTo({top:0, behavior:'smooth'}));
 
 </script>
 </body>
