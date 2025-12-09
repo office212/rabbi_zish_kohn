@@ -7,7 +7,7 @@
   
   <meta property="og:title" content="Mekor Chaim Staten Island - Weekly Shiur">
   <meta property="og:description" content="Listen to weekly shiurim by Rabbi Zish Kohn.">
-  <meta property="og:image" content="icon-512.png">
+  <meta property="og:image" content="https://office212.github.io/rabbi_zish_kohn/icon-512.png">
   
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2563eb">
@@ -54,7 +54,7 @@
     button { font-family: inherit; }
     .theme-toggle, .install-btn, .drive-mode-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
     
-    .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; }
+    .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; min-width: 130px; justify-content: center; }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
     
     .drive-mode-btn { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; transition: 0.2s; }
@@ -89,10 +89,14 @@
 
     /* PERSONAL NOTES */
     .notes-section { padding: 20px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
-    .notes-header { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; }
+    .notes-header { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
     .notes-input { width: 100%; min-height: 80px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--card-bg); color: var(--text-main); resize: vertical; transition: 0.2s; }
     .notes-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    
+    .notes-actions { display: flex; gap: 10px; align-items: center; }
     .save-status { font-size: 0.75rem; color: var(--text-muted); opacity: 0; transition: opacity 0.3s; }
+    .export-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
+    .export-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     /* LIST */
     .list-header { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap; }
@@ -137,7 +141,7 @@
     .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
-    /* --- DRIVING MODE OVERLAY (FIXED) --- */
+    /* --- DRIVING MODE OVERLAY (FIXED ICONS) --- */
     .driving-mode-overlay {
       position: fixed; inset: 0; background: #000; z-index: 2000; display: none;
       flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px;
@@ -146,10 +150,9 @@
     .dm-title { font-size: 1.2rem; margin-bottom: 30px; text-align: center; color: #9ca3af; padding: 0 20px; }
     .dm-controls { display: flex; gap: 30px; align-items: center; margin-bottom: 40px; }
     
-    /* FIX: Button layout to prevent overlap */
     .dm-btn {
       width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3);
-      color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; gap: 2px;
+      color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; gap: 4px;
     }
     .dm-btn span { font-size: 0.75rem; font-weight: 600; opacity: 0.8; }
     .dm-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.95); }
@@ -217,7 +220,10 @@
         Audio Mode
       </button>
       <button id="install-btn" class="install-btn" aria-label="Install Application">App</button>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">Theme</button>
+      
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme">
+        <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
+      </button>
     </div>
   </div>
 </header>
@@ -262,7 +268,12 @@
         <div class="notes-section">
           <div class="notes-header">
             <span>My Notes 📝</span>
-            <span id="save-status" class="save-status">Saved</span>
+            <div class="notes-actions">
+              <span id="save-status" class="save-status">Saved</span>
+              <button onclick="exportNotes()" class="export-btn" aria-label="Export Notes">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" stroke-linecap="round" stroke-linejoin="round"/></svg> Export
+              </button>
+            </div>
           </div>
           <textarea id="notes-input" class="notes-input" placeholder="Write your thoughts here..." disabled aria-label="Personal Notes"></textarea>
         </div>
@@ -293,7 +304,7 @@
 
 <footer>
   &copy; <span id="year-copy"></span> Mekor Chaim Staten Island
-  <span class="footer-credit">Build by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></span>
+  <span class="footer-credit">Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></span>
 </footer>
 
 <button id="back-to-top" aria-label="Back to Top">↑ Top</button>
@@ -339,6 +350,9 @@
   const dmOverlay = document.getElementById("driving-mode");
   const dmTitle = document.getElementById("dm-title");
   const dmPlayIcon = document.getElementById("dm-play-icon");
+  const themeToggle = document.getElementById("theme-toggle");
+  const themeIcon = document.getElementById("theme-icon");
+  const themeText = document.getElementById("theme-text");
 
   document.getElementById("year-copy").textContent = new Date().getFullYear();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.log);
@@ -513,7 +527,7 @@
     player.seekTo(cur + seconds, true);
   }
 
-  // --- NOTES ---
+  // --- NOTES & EXPORT ---
   function loadNotes(id) {
     notesInput.value = notesMap[id] || "";
     notesInput.disabled = false;
@@ -526,6 +540,35 @@
     saveStatus.style.opacity = '1';
     setTimeout(() => saveStatus.style.opacity = '0', 2000);
   });
+
+  window.exportNotes = function() {
+    if(!currentId) return;
+    const text = notesMap[currentId] || "";
+    if(!text) { showToast("No notes to export"); return; }
+    
+    const item = allData.find(d => d.id === currentId);
+    const title = item ? item.title : "Shiur Notes";
+    const fullText = `Notes for: ${title}\nDate: ${item ? item.dateNice : ""}\n\n${text}`;
+    
+    // Try native share first (Mobile)
+    if(navigator.share) {
+      navigator.share({ title: title, text: fullText })
+        .then(() => showToast("Exported!"))
+        .catch(() => downloadTxt(title, fullText));
+    } else {
+      downloadTxt(title, fullText);
+    }
+  }
+
+  function downloadTxt(title, text) {
+    const blob = new Blob([text], {type: 'text/plain'});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${title.replace(/[^a-z0-9]/gi, '_')}_notes.txt`;
+    a.click();
+    showToast("Notes Downloaded");
+  }
 
   // --- SHARE ---
   window.toggleShareMenu = function() {
@@ -574,8 +617,8 @@
     try {
       const items = await fetchAllItems();
       processData(items);
-      // RENDER IMMEDIATELY
-      renderList(allData); 
+      // FIXED: Render immediately
+      renderList(allData);
       
       document.getElementById("skeleton").style.display = "none";
       document.getElementById("player-content").style.display = "block";
@@ -631,10 +674,10 @@
       const isWatched = watchedHistory.has(item.id);
       const savedTime = progressMap[item.id] || 0;
       
+      // FIXED: Removed redundant logic
       let progressWidth = '0%';
       if (savedTime > 0) {
          progressWidth = Math.min((savedTime / 2700) * 100, 100) + '%'; 
-         if (savedTime > 60 && progressWidth === '0%') progressWidth = '5%';
       }
 
       li.className = `item ${item.id === currentId ? 'active' : ''} ${isWatched ? 'watched' : ''}`;
@@ -703,11 +746,29 @@
     document.getElementById("player-date").textContent = date;
   }
 
-  const themeToggle = document.getElementById("theme-toggle");
-  if(localStorage.getItem("theme") === 'dark') document.body.classList.add('dark-mode');
+  function updateThemeButton(isDark) {
+    if (isDark) {
+      themeIcon.textContent = "☀️";
+      themeText.textContent = "Light Mode";
+    } else {
+      themeIcon.textContent = "🌙";
+      themeText.textContent = "Dark Mode";
+    }
+  }
+
+  const savedTheme = localStorage.getItem("theme");
+  if(savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    updateThemeButton(true);
+  } else {
+    updateThemeButton(false);
+  }
+  
   themeToggle.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
+    const isDark = document.body.classList.contains("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    updateThemeButton(isDark);
   });
 
   let deferredPrompt; const installBtn = document.getElementById("install-btn");
