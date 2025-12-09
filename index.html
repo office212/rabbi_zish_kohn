@@ -232,8 +232,14 @@
 
   async function initApp() {
     await loadData();
+    // Default video if nothing in URL/history
+    let startVideoId = '';
+    let startSeconds = 0;
+
+    // We defer actual loading to onPlayerReady or user interaction
     player = new YT.Player('player-placeholder', {
-      height: '100%', width: '100%', videoId: '',
+      height: '100%', width: '100%', 
+      videoId: startVideoId,
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
@@ -246,12 +252,12 @@
 
     if (allData.length > 0) {
       if (urlVideo && allData.find(d => d.id === urlVideo)) {
-        playVideo(urlVideo, false);
+        playVideo(urlVideo, false); // Autoplay if from URL
       } else if (lastWatched && allData.find(d => d.id === lastWatched)) {
         const vid = allData.find(d => d.id === lastWatched);
         updatePlayerMeta(vid.title, vid.dateNice);
-        // Don't autoplay on return, just cue
-        player.cueVideoById({videoId: lastWatched, startSeconds: progressMap[lastWatched] || 0});
+        const savedTime = progressMap[lastWatched] || 0;
+        player.cueVideoById({videoId: lastWatched, startSeconds: savedTime});
         currentId = lastWatched;
         renderList(allData);
       } else {
@@ -264,15 +270,14 @@
     }
   }
 
-  // --- SMART PLAYER LOGIC (UPDATED) ---
+  // --- SMART PLAYER LOGIC (FIXED) ---
   function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
       startProgressTracking();
-      // Add to watched history immediately on play
       if (currentId && !watchedHistory.has(currentId)) {
         watchedHistory.add(currentId);
         localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
-        renderList(allData.filter(filterLogic)); // Refresh to show watched status
+        renderList(allData.filter(filterLogic));
       }
     } else {
       stopProgressTracking();
@@ -287,7 +292,8 @@
     progressInterval = setInterval(() => {
       if(player && player.getCurrentTime) {
         const t = Math.floor(player.getCurrentTime());
-        if (t > 5) {
+        // Save if played more than 2 seconds (low threshold for testing)
+        if (t > 2) {
           progressMap[currentId] = t;
           localStorage.setItem('mc_progress', JSON.stringify(progressMap));
         }
@@ -303,6 +309,37 @@
       const nextVid = allData[currentIndex + 1];
       playVideo(nextVid.id, true);
       showToast("Autoplaying next shiur...");
+    }
+  }
+
+  // --- ACTIONS (FIXED RESUME) ---
+  function playVideo(id, autoScroll) {
+    currentId = id;
+    localStorage.setItem('lastWatched', id);
+    const newUrl = new URL(window.location);
+    newUrl.searchParams.set('v', id);
+    window.history.pushState({}, '', newUrl);
+
+    const item = allData.find(d => d.id === id);
+    updatePlayerMeta(item.title, item.dateNice);
+    
+    // THE FIX: Directly load with startSeconds
+    const savedTime = progressMap[id] || 0;
+    
+    if (player && player.loadVideoById) {
+      player.loadVideoById({
+        videoId: id,
+        startSeconds: savedTime
+      });
+    }
+
+    renderList(allData.filter(filterLogic)); 
+    setSpeed(1);
+
+    if(autoScroll) {
+      const card = document.getElementById("player-card");
+      if(card && window.innerWidth < 900) card.scrollIntoView({ behavior: "smooth", block: "start" });
+      else window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }
 
@@ -344,7 +381,6 @@
     years.forEach(y => { const opt = document.createElement("option"); opt.value = y; opt.textContent = y; yearFilter.appendChild(opt); });
   }
 
-  // --- RENDER ---
   function renderList(items) {
     listEl.innerHTML = "";
     if (items.length === 0) { listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`; return; }
@@ -359,7 +395,6 @@
       const savedTime = progressMap[item.id] || 0;
       
       let progressWidth = '0%';
-      // Visual indicator if started (approximate, max 100% after 45min)
       if (savedTime > 0) {
          progressWidth = Math.min((savedTime / 2700) * 100, 100) + '%'; 
          if (savedTime > 60 && progressWidth === '0%') progressWidth = '5%';
@@ -391,41 +426,6 @@
       li.addEventListener("click", (e) => { if(!e.target.closest('.btn-fav')) playVideo(item.id, true); });
       listEl.appendChild(li);
     });
-  }
-
-  // --- ACTIONS ---
-  function playVideo(id, autoScroll) {
-    currentId = id;
-    localStorage.setItem('lastWatched', id);
-    const newUrl = new URL(window.location);
-    newUrl.searchParams.set('v', id);
-    window.history.pushState({}, '', newUrl);
-
-    const item = allData.find(d => d.id === id);
-    updatePlayerMeta(item.title, item.dateNice);
-    
-    // AUTOMATIC RESUME LOGIC
-    const savedTime = progressMap[id] || 0;
-    
-    if (player && player.loadVideoById) {
-      player.loadVideoById({
-        videoId: id,
-        startSeconds: savedTime // Auto resume!
-      });
-    } else {
-      // Fallback
-      new YT.Player('player-placeholder', { videoId: id, playerVars: { start: savedTime } });
-    }
-
-    renderList(allData.filter(filterLogic)); 
-    setSpeed(1);
-
-    if(autoScroll && window.innerWidth < 900) {
-      const card = document.getElementById("player-card");
-      if(card) card.scrollIntoView({ behavior: "smooth", block: "start" });
-    } else if (autoScroll) {
-       window.scrollTo({ top: 0, behavior: "smooth" });
-    }
   }
 
   window.toggleFavorite = function(e, id) {
