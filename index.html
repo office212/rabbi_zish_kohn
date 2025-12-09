@@ -203,7 +203,7 @@
       <svg id="dm-play-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     </button>
     <button class="dm-btn" onclick="seek(30)" aria-label="Forward 30 seconds">
-      <svg viewBox="0 0 24 24"><path d="M10 8c4.65 0 8.58 3.03 9.96 7.22L17.6 16c-1.05-3.19-4.05-5.5-7.6-5.5-1.95 0-3.73.72-5.12 1.88L1.24 16H10v-9z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg>
       <span>+30s</span>
     </button>
   </div>
@@ -411,8 +411,14 @@
 
     if(autoScroll) {
       const card = document.getElementById("player-card");
-      if(card && window.innerWidth < 900) card.scrollIntoView({ behavior: "smooth", block: "start" });
-      else window.scrollTo({ top: 0, behavior: "smooth" });
+      if (window.innerWidth < 900 && card) {
+        // Mobile: Scroll to player with 20px breathing room
+        const y = card.getBoundingClientRect().top + window.pageYOffset - 20;
+        window.scrollTo({top: y, behavior: 'smooth'});
+      } else {
+        // Desktop: Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
   }
 
