@@ -53,8 +53,10 @@
     /* BUTTONS */
     button { font-family: inherit; }
     .theme-toggle, .install-btn, .drive-mode-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
+    
     .drive-mode-btn { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; transition: 0.2s; }
     .drive-mode-btn:hover { background: rgba(0,0,0,0.5); }
 
@@ -135,22 +137,27 @@
     .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
-    /* --- DRIVING MODE OVERLAY --- */
+    /* --- DRIVING MODE OVERLAY (FIXED) --- */
     .driving-mode-overlay {
       position: fixed; inset: 0; background: #000; z-index: 2000; display: none;
       flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px;
     }
     .driving-mode-overlay.active { display: flex; }
-    .dm-title { font-size: 1.2rem; margin-bottom: 30px; text-align: center; color: #9ca3af; }
+    .dm-title { font-size: 1.2rem; margin-bottom: 30px; text-align: center; color: #9ca3af; padding: 0 20px; }
     .dm-controls { display: flex; gap: 30px; align-items: center; margin-bottom: 40px; }
+    
+    /* FIX: Button layout to prevent overlap */
     .dm-btn {
       width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3);
-      color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
+      color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; gap: 2px;
     }
+    .dm-btn span { font-size: 0.75rem; font-weight: 600; opacity: 0.8; }
     .dm-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.95); }
-    .dm-btn svg { width: 32px; height: 32px; fill: white; }
-    .dm-btn.play-pause { width: 100px; height: 100px; background: var(--accent); border: none; box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); }
+    .dm-btn svg { width: 28px; height: 28px; fill: white; }
+    
+    .dm-btn.play-pause { width: 100px; height: 100px; background: var(--accent); border: none; box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); gap: 0; }
     .dm-btn.play-pause svg { width: 40px; height: 40px; }
+    
     .dm-close { position: absolute; top: 30px; right: 30px; background: transparent; border: 1px solid #333; color: #888; padding: 8px 16px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; }
 
     /* UTILS */
@@ -160,7 +167,12 @@
     #back-to-top { position: fixed; bottom: 30px; right: 20px; padding: 12px 18px; border-radius: 99px; background: var(--text-main); color: var(--bg-main); border: none; font-weight: 600; cursor: pointer; display: none; z-index: 50; }
     .ios-prompt { background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); padding: 30px 20px 40px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; border-radius: 24px 24px 0 0; display: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
     .ios-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    
+    /* Footer */
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
+    .footer-credit { display: block; margin-top: 8px; font-size: 0.75rem; opacity: 0.7; }
+    .footer-credit a { color: inherit; text-decoration: none; border-bottom: 1px dotted; transition: opacity 0.2s; }
+    .footer-credit a:hover { opacity: 1; border-bottom: 1px solid; }
     
     .skeleton-wrapper { padding: 20px; background: var(--card-bg); }
     .skel-line { height: 24px; margin-bottom: 12px; border-radius: 8px; background: var(--border-soft); animation: pulse 1.5s infinite; }
@@ -180,11 +192,17 @@
   <button class="dm-close" onclick="toggleDrivingMode()" aria-label="Close Driving Mode">Exit Drive Mode</button>
   <div class="dm-title" id="dm-title">No Shiur Playing</div>
   <div class="dm-controls">
-    <button class="dm-btn" onclick="seek(-30)" aria-label="Rewind 30 seconds"><svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/><text x="12" y="13" font-size="6" text-anchor="middle" fill="white" dy=".3em">-30</text></svg></button>
+    <button class="dm-btn" onclick="seek(-30)" aria-label="Rewind 30 seconds">
+      <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+      <span>-30s</span>
+    </button>
     <button class="dm-btn play-pause" id="dm-play-btn" onclick="togglePlay()" aria-label="Play or Pause">
       <svg id="dm-play-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     </button>
-    <button class="dm-btn" onclick="seek(30)" aria-label="Forward 30 seconds"><svg viewBox="0 0 24 24"><path d="M10 8c4.65 0 8.58 3.03 9.96 7.22L17.6 16c-1.05-3.19-4.05-5.5-7.6-5.5-1.95 0-3.73.72-5.12 1.88L1.24 16H10v-9z"/><text x="12" y="13" font-size="6" text-anchor="middle" fill="white" dy=".3em">+30</text></svg></button>
+    <button class="dm-btn" onclick="seek(30)" aria-label="Forward 30 seconds">
+      <svg viewBox="0 0 24 24"><path d="M10 8c4.65 0 8.58 3.03 9.96 7.22L17.6 16c-1.05-3.19-4.05-5.5-7.6-5.5-1.95 0-3.73.72-5.12 1.88L1.24 16H10v-9z"/></svg>
+      <span>+30s</span>
+    </button>
   </div>
   <div style="color:#666; font-size:0.9rem">Screen stays dark for safety</div>
 </div>
@@ -273,7 +291,11 @@
   </div>
 </main>
 
-<footer>&copy; <span id="year-copy"></span> Mekor Chaim Staten Island</footer>
+<footer>
+  &copy; <span id="year-copy"></span> Mekor Chaim Staten Island
+  <span class="footer-credit">Build by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></span>
+</footer>
+
 <button id="back-to-top" aria-label="Back to Top">↑ Top</button>
 <div id="toast" class="toast"></div>
 
@@ -514,6 +536,7 @@
   }
   
   window.shareLink = function(withTime) {
+    if (!currentId) { showToast("Select a shiur first"); return; }
     document.getElementById("share-menu").classList.remove("show");
     document.getElementById("share-btn-main").setAttribute('aria-expanded', 'false');
     let url = window.location.origin + window.location.pathname + '?v=' + currentId;
@@ -551,16 +574,26 @@
     try {
       const items = await fetchAllItems();
       processData(items);
+      // RENDER IMMEDIATELY
+      renderList(allData); 
+      
       document.getElementById("skeleton").style.display = "none";
       document.getElementById("player-content").style.display = "block";
       listSkeleton.style.display = "none";
       listEl.style.display = "block";
-    } catch(err) { console.error(err); }
+    } catch(err) { 
+      console.error(err);
+      document.getElementById("skeleton").style.display = "none";
+      listSkeleton.style.display = "none";
+      listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">Could not load shiurim. Please try again later.</li>`;
+      showToast("Error loading shiurim");
+    }
   }
 
   async function fetchAllItems(token = "", acc = []) {
     const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
     const res = await fetch(url);
+    if (!res.ok) throw new Error("API Error");
     const data = await res.json();
     acc.push(...data.items);
     if (data.nextPageToken) return fetchAllItems(data.nextPageToken, acc);
