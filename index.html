@@ -53,10 +53,8 @@
     /* BUTTONS */
     button { font-family: inherit; }
     .theme-toggle, .install-btn, .drive-mode-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
-    
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; min-width: 130px; justify-content: center; }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
-    
     .drive-mode-btn { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; transition: 0.2s; }
     .drive-mode-btn:hover { background: rgba(0,0,0,0.5); }
 
@@ -75,14 +73,9 @@
 
     /* PLAYER CARD */
     .player-card { 
-      background: var(--card-bg); 
-      border-radius: 24px; 
-      box-shadow: var(--shadow-card); 
-      border: 1px solid var(--border-soft); 
-      position: relative; 
-      overflow: hidden; 
+      background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); 
+      border: 1px solid var(--border-soft); position: relative; overflow: hidden; 
     }
-    
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     .player-meta-row { display: flex; justify-content: space-between; align-items: center; }
@@ -94,21 +87,29 @@
     .player-controls { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
     .control-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; }
     .control-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
-    
-    /* PiP Button Style */
-    .pip-btn { margin-left: auto; } /* Push to right */
 
-    /* PERSONAL NOTES */
+    /* PERSONAL NOTES - IMPROVED */
     .notes-section { padding: 20px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
     .notes-header { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-    .notes-input { width: 100%; min-height: 80px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--card-bg); color: var(--text-main); resize: vertical; transition: 0.2s; }
+    
+    .notes-input { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--card-bg); color: var(--text-main); resize: vertical; transition: 0.2s; display: block; }
     .notes-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
     
-    .notes-actions { display: flex; gap: 8px; align-items: center; }
-    .save-status { font-size: 0.75rem; color: var(--text-muted); opacity: 0; transition: opacity 0.3s; margin-right: 4px; }
+    /* READ MODE DISPLAY */
+    .notes-display { 
+      width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); 
+      font-family: inherit; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); 
+      white-space: pre-wrap; display: none; line-height: 1.5;
+    }
     
+    /* CLICKABLE TIMESTAMP STYLE */
+    .ts-link { color: var(--accent); font-weight: 700; cursor: pointer; text-decoration: underline; background: var(--accent-glow); padding: 2px 6px; border-radius: 4px; }
+    .ts-link:hover { background: var(--accent); color: white; text-decoration: none; }
+
+    .notes-actions { display: flex; gap: 8px; align-items: center; }
     .tool-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
     .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
 
     /* LIST */
     .list-header { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap; }
@@ -153,7 +154,7 @@
     .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
-    /* --- DRIVING MODE OVERLAY --- */
+    /* --- DRIVING MODE OVERLAY (FIXED ICONS) --- */
     .driving-mode-overlay {
       position: fixed; inset: 0; background: #000; z-index: 2000; display: none;
       flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px;
@@ -232,6 +233,7 @@
         Audio Mode
       </button>
       <button id="install-btn" class="install-btn" aria-label="Install Application">App</button>
+      
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme">
         <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
       </button>
@@ -269,11 +271,6 @@
             <button class="control-btn" data-speed="1.25" onclick="setSpeed(1.25)" aria-label="Speed 1.25x">1.25x</button>
             <button class="control-btn" data-speed="1.5" onclick="setSpeed(1.5)" aria-label="Speed 1.5x">1.5x</button>
             <button class="control-btn" data-speed="2" onclick="setSpeed(2)" aria-label="Speed 2x">2x</button>
-            
-            <button class="control-btn pip-btn" onclick="togglePiP()" aria-label="Picture in Picture">
-              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 7h-8v6h8V7zm2-4H3c-1.1 0-2 .9-2 2v14c0 1.1.9 1.98 2 1.98h18c1.1 0 2-.88 2-1.98V5c0-1.1-.9-2-2-2zm0 16.01H3V4.98h18v14.03z"/></svg>
-              PiP
-            </button>
           </div>
         </div>
         
@@ -285,9 +282,11 @@
           <div class="notes-header">
             <span>My Notes 📝</span>
             <div class="notes-actions">
-              <span id="save-status" class="save-status">Saved</span>
+              <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary" aria-label="Toggle View or Edit Mode">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> View
+              </button>
               
-              <button onclick="insertTimestamp()" class="tool-btn" aria-label="Insert Timestamp">
+              <button onclick="insertTimestamp()" class="tool-btn" id="time-btn" aria-label="Insert Timestamp">
                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Time
               </button>
 
@@ -296,7 +295,9 @@
               </button>
             </div>
           </div>
-          <textarea id="notes-input" class="notes-input" placeholder="Write thoughts or tap 'Time' to bookmark..." disabled aria-label="Personal Notes"></textarea>
+          
+          <textarea id="notes-input" class="notes-input" placeholder="Write thoughts here..." disabled aria-label="Personal Notes"></textarea>
+          <div id="notes-display" class="notes-display" aria-label="Read Notes"></div>
         </div>
 
       </div>
@@ -342,6 +343,7 @@
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
+  // DO NOT DELETE THIS KEY. IT IS REQUIRED FOR GITHUB PAGES TO WORK.
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
@@ -352,7 +354,7 @@
   let player = null;
   let progressInterval = null;
   let isDrivingMode = false;
-  let iframeElement = null; // for PiP
+  let isNoteEditMode = true; // Default to edit mode
   
   let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
   let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
@@ -367,7 +369,10 @@
   const favFilterBtn = document.getElementById("fav-filter-btn");
   const toast = document.getElementById("toast");
   const notesInput = document.getElementById("notes-input");
-  const saveStatus = document.getElementById("save-status");
+  const notesDisplay = document.getElementById("notes-display");
+  const noteModeBtn = document.getElementById("note-mode-btn");
+  const timeBtn = document.getElementById("time-btn");
+  
   const dmOverlay = document.getElementById("driving-mode");
   const dmTitle = document.getElementById("dm-title");
   const dmPlayIcon = document.getElementById("dm-play-icon");
@@ -390,8 +395,6 @@
   }
 
   function onPlayerReady(event) {
-    iframeElement = event.target.getIframe();
-    
     const urlParams = new URLSearchParams(window.location.search);
     const urlVideo = urlParams.get('v');
     const urlTime = urlParams.get('t');
@@ -453,41 +456,43 @@
     setTimeout(updateMediaSession, 1000); 
   }
 
-  // --- NEW: PiP (Picture in Picture) ---
-  window.togglePiP = async function() {
-    // Note: YouTube iframe PiP works differently on browsers. 
-    // This is the standard API implementation.
-    try {
-      if (document.pictureInPictureElement) {
-        await document.exitPictureInPicture();
-      } else if (document.requestPictureInPicture) {
-        // Not all browsers support PiP on iframes directly without specific attributes
-        // but we can try basic implementation or warn user
-        showToast("PiP requires browser support");
-      } else {
-        showToast("PiP not supported on this browser");
-      }
-    } catch (err) {
-      console.log(err);
-      showToast("PiP failed: " + err.message);
-    }
-  }
-
-  // --- NOTES & SMART TIMESTAMP ---
+  // --- NOTES: Edit vs View Mode ---
   function loadNotes(id) {
-    notesInput.value = notesMap[id] || "";
+    const text = notesMap[id] || "";
+    notesInput.value = text;
     notesInput.disabled = false;
+    updateNotesDisplay(text);
   }
   
-  // Detect clicks on timestamps [12:30] in notes
-  notesInput.addEventListener("click", (e) => {
-    const start = notesInput.selectionStart;
-    const text = notesInput.value;
+  function updateNotesDisplay(text) {
+    // Regex to find [12:30] format and turn into link
+    const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => {
+        const seconds = parseInt(m) * 60 + parseInt(s);
+        return `<span class="ts-link" onclick="seekTo(${seconds})">${match}</span>`;
+    });
+    notesDisplay.innerHTML = html || "<span style='color:var(--text-muted);font-style:italic'>No notes yet. Click 'Edit' to add.</span>";
+  }
+
+  // Toggle between Edit (Textarea) and View (Clickable Div)
+  window.toggleNoteMode = function() {
+    isNoteEditMode = !isNoteEditMode;
     
-    // Simple regex to find timestamp near cursor
-    // This is a basic implementation. For advanced clicking we might need a non-editable viewer.
-    // For now, let's keep it simple: if user clicks button "Time", it adds time.
-  });
+    if(isNoteEditMode) {
+      // Switch to Edit
+      notesInput.style.display = 'block';
+      notesDisplay.style.display = 'none';
+      noteModeBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> View';
+      timeBtn.style.display = 'flex'; // Show time button
+      notesInput.focus();
+    } else {
+      // Switch to View
+      updateNotesDisplay(notesInput.value);
+      notesInput.style.display = 'none';
+      notesDisplay.style.display = 'block';
+      noteModeBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg> Edit';
+      timeBtn.style.display = 'none'; // Hide time button
+    }
+  }
 
   window.insertTimestamp = function() {
     if(!player || !player.getCurrentTime) return;
@@ -505,17 +510,21 @@
     notesInput.value = before + timeStr + after;
     notesInput.selectionStart = notesInput.selectionEnd = start + timeStr.length;
     notesInput.focus();
-    
-    // Trigger save
-    notesInput.dispatchEvent(new Event('input'));
+    notesInput.dispatchEvent(new Event('input')); // Save
+  }
+  
+  // Helper for links inside Read Mode
+  window.seekTo = function(seconds) {
+    if(player && player.seekTo) {
+      player.seekTo(seconds, true);
+      player.playVideo(); // Auto play after jump
+    }
   }
 
   notesInput.addEventListener("input", () => {
     if(!currentId) return;
     notesMap[currentId] = notesInput.value;
     localStorage.setItem('mc_notes', JSON.stringify(notesMap));
-    saveStatus.style.opacity = '1';
-    setTimeout(() => saveStatus.style.opacity = '0', 2000);
   });
 
   window.exportNotes = function() {
@@ -528,9 +537,7 @@
     const fullText = `Notes for: ${title}\nDate: ${item ? item.dateNice : ""}\n\n${text}`;
     
     if(navigator.share) {
-      navigator.share({ title: title, text: fullText })
-        .then(() => showToast("Exported!"))
-        .catch(() => downloadTxt(title, fullText));
+      navigator.share({ title: title, text: fullText }).catch(() => downloadTxt(title, fullText));
     } else {
       downloadTxt(title, fullText);
     }
@@ -686,7 +693,6 @@
       const items = await fetchAllItems();
       processData(items);
       renderList(allData);
-      
       document.getElementById("skeleton").style.display = "none";
       document.getElementById("player-content").style.display = "block";
       listSkeleton.style.display = "none";
