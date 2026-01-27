@@ -52,11 +52,16 @@
 
     /* BUTTONS */
     button { font-family: inherit; }
-    .theme-toggle, .install-btn, .drive-mode-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .theme-toggle, .install-btn, .drive-mode-btn, .stats-btn { border-radius: 99px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; min-width: 130px; justify-content: center; }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
+    
     .drive-mode-btn { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; transition: 0.2s; }
     .drive-mode-btn:hover { background: rgba(0,0,0,0.5); }
+    
+    .stats-btn { background: rgba(255,255,255,0.9); color: var(--accent); border: none; padding: 8px 16px; transition: 0.2s; }
+    .stats-btn:hover { background: white; }
 
     .share-container { position: relative; }
     .share-btn { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; }
@@ -73,9 +78,14 @@
 
     /* PLAYER CARD */
     .player-card { 
-      background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); 
-      border: 1px solid var(--border-soft); position: relative; overflow: hidden; 
+      background: var(--card-bg); 
+      border-radius: 24px; 
+      box-shadow: var(--shadow-card); 
+      border: 1px solid var(--border-soft); 
+      position: relative; 
+      overflow: hidden; 
     }
+    
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     .player-meta-row { display: flex; justify-content: space-between; align-items: center; }
@@ -95,21 +105,20 @@
     .notes-input { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--card-bg); color: var(--text-main); resize: vertical; transition: 0.2s; display: block; }
     .notes-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
     
-    /* READ MODE DISPLAY */
     .notes-display { 
       width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); 
       font-family: inherit; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); 
       white-space: pre-wrap; display: none; line-height: 1.5;
     }
     
-    /* CLICKABLE TIMESTAMP STYLE */
     .ts-link { color: var(--accent); font-weight: 700; cursor: pointer; text-decoration: underline; background: var(--accent-glow); padding: 2px 6px; border-radius: 4px; }
     .ts-link:hover { background: var(--accent); color: white; text-decoration: none; }
 
-    .notes-actions { display: flex; gap: 8px; align-items: center; }
+    .notes-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .tool-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
     .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
     .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .tool-btn.highlight { background: #fef3c7; color: #d97706; border-color: #fcd34d; }
 
     /* LIST */
     .list-header { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap; }
@@ -154,26 +163,33 @@
     .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
-    /* --- DRIVING MODE OVERLAY (FIXED ICONS) --- */
-    .driving-mode-overlay {
-      position: fixed; inset: 0; background: #000; z-index: 2000; display: none;
-      flex-direction: column; align-items: center; justify-content: center; color: white; padding: 20px;
-    }
-    .driving-mode-overlay.active { display: flex; }
+    /* --- OVERLAYS (Driving, Stats, Quote) --- */
+    .overlay-fixed { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; backdrop-filter: blur(5px); }
+    .overlay-fixed.active { display: flex; opacity: 1; }
+    
+    /* Stats & Quote Modal Box */
+    .modal-box { background: var(--card-bg); width: 90%; max-width: 400px; border-radius: 24px; padding: 24px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s; }
+    .overlay-fixed.active .modal-box { transform: scale(1); }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; cursor: pointer; color: var(--text-muted); }
+    
+    .stats-row { display: flex; justify-content: space-between; margin-top: 20px; text-align: center; }
+    .stat-item { flex: 1; }
+    .stat-val { font-size: 1.5rem; font-weight: 800; color: var(--accent); display: block; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+
+    /* Quote Creator */
+    .quote-input { width: 100%; height: 100px; padding: 12px; margin: 16px 0; border: 1px solid var(--border-soft); border-radius: 12px; font-family: inherit; background: var(--bg-main); color: var(--text-main); }
+    .btn-create { width: 100%; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; }
+
+    /* Driving Mode */
+    #driving-mode { background: #000; }
     .dm-title { font-size: 1.2rem; margin-bottom: 30px; text-align: center; color: #9ca3af; padding: 0 20px; }
     .dm-controls { display: flex; gap: 30px; align-items: center; margin-bottom: 40px; }
-    
-    .dm-btn {
-      width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3);
-      color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; gap: 4px;
-    }
-    .dm-btn span { font-size: 0.75rem; font-weight: 600; opacity: 0.8; }
+    .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; gap: 4px; }
     .dm-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.95); }
-    .dm-btn svg { width: 28px; height: 28px; fill: white; }
-    
     .dm-btn.play-pause { width: 100px; height: 100px; background: var(--accent); border: none; box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); gap: 0; }
+    .dm-btn svg { width: 28px; height: 28px; fill: white; }
     .dm-btn.play-pause svg { width: 40px; height: 40px; }
-    
     .dm-close { position: absolute; top: 30px; right: 30px; background: transparent; border: 1px solid #333; color: #888; padding: 8px 16px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; }
 
     /* UTILS */
@@ -184,7 +200,6 @@
     .ios-prompt { background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); padding: 30px 20px 40px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; border-radius: 24px 24px 0 0; display: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
     .ios-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     
-    /* Footer */
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
     .footer-credit { display: block; margin-top: 8px; font-size: 0.75rem; opacity: 0.7; }
     .footer-credit a { color: inherit; text-decoration: none; border-bottom: 1px dotted; transition: opacity 0.2s; }
@@ -204,20 +219,52 @@
 </head>
 <body>
 
+<div id="stats-overlay" class="overlay-fixed" aria-hidden="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeOverlay('stats-overlay')">✕</button>
+    <h3 style="margin:0; text-align:center;">My Torah Stats 📊</h3>
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-val" id="stat-streak">0</span>
+        <span class="stat-label">Day Streak</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val" id="stat-hours">0</span>
+        <span class="stat-label">Hours</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-val" id="stat-completed">0</span>
+        <span class="stat-label">Completed</span>
+      </div>
+    </div>
+    <div style="margin-top:20px; text-align:center; font-size:0.85rem; color:var(--text-muted)">
+      "Torah is the best merchandise"
+    </div>
+  </div>
+</div>
+
+<div id="quote-overlay" class="overlay-fixed" aria-hidden="true">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeOverlay('quote-overlay')">✕</button>
+    <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
+    <textarea id="quote-text" class="quote-input" placeholder="Type the quote here..."></textarea>
+    <button onclick="generateAndShareQuote()" class="btn-create">Generate Image</button>
+    <div id="canvas-container" style="display:none;"></div>
+  </div>
+</div>
+
 <div id="driving-mode" class="driving-mode-overlay" aria-hidden="true">
   <button class="dm-close" onclick="toggleDrivingMode()" aria-label="Close Driving Mode">Exit Drive Mode</button>
   <div class="dm-title" id="dm-title">No Shiur Playing</div>
   <div class="dm-controls">
     <button class="dm-btn" onclick="seek(-30)" aria-label="Rewind 30 seconds">
-      <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
-      <span>-30s</span>
+      <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg><span>-30s</span>
     </button>
     <button class="dm-btn play-pause" id="dm-play-btn" onclick="togglePlay()" aria-label="Play or Pause">
       <svg id="dm-play-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
     </button>
     <button class="dm-btn" onclick="seek(30)" aria-label="Forward 30 seconds">
-      <svg viewBox="0 0 24 24"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg>
-      <span>+30s</span>
+      <svg viewBox="0 0 24 24"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg><span>+30s</span>
     </button>
   </div>
   <div style="color:#666; font-size:0.9rem">Screen stays dark for safety</div>
@@ -228,12 +275,11 @@
     <h1>Mekor Chaim Staten Island</h1>
     <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
+      <button onclick="openStats()" class="stats-btn" aria-label="Open Stats">📊 Stats</button>
       <button class="drive-mode-btn" onclick="toggleDrivingMode()" aria-label="Open Audio Driving Mode">
-        <svg style="vertical-align:middle" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> 
-        Audio Mode
+        <svg style="vertical-align:middle" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> Audio Mode
       </button>
       <button id="install-btn" class="install-btn" aria-label="Install Application">App</button>
-      
       <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme">
         <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
       </button>
@@ -254,7 +300,6 @@
           <h2 class="player-title" id="player-title">Select a shiur</h2>
           <div class="player-meta-row">
             <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.85rem;color:var(--text-muted); margin-left: 8px;"></span></div>
-            
             <div class="share-container">
               <button onclick="toggleShareMenu()" class="share-btn" aria-label="Share options" aria-expanded="false" id="share-btn-main">
                 <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
@@ -264,7 +309,6 @@
                 <button onclick="shareLink(true)" role="menuitem">Copy at Current Time ⏱️</button>
               </div>
             </div>
-
           </div>
           <div class="player-controls">
             <button class="control-btn active" data-speed="1" onclick="setSpeed(1)" aria-label="Speed 1x">1x</button>
@@ -274,9 +318,7 @@
           </div>
         </div>
         
-        <div class="frame">
-          <div id="player-placeholder"></div>
-        </div>
+        <div class="frame"><div id="player-placeholder"></div></div>
         
         <div class="notes-section">
           <div class="notes-header">
@@ -285,21 +327,20 @@
               <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary" aria-label="Toggle View or Edit Mode">
                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> View
               </button>
-              
               <button onclick="insertTimestamp()" class="tool-btn" id="time-btn" aria-label="Insert Timestamp">
                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Time
               </button>
-
+              <button onclick="openQuoteCreator()" class="tool-btn highlight" aria-label="Create Quote">
+                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg> Create Quote
+              </button>
               <button onclick="exportNotes()" class="tool-btn" aria-label="Export Notes">
                 <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Export
               </button>
             </div>
           </div>
-          
           <textarea id="notes-input" class="notes-input" placeholder="Write thoughts here..." disabled aria-label="Personal Notes"></textarea>
           <div id="notes-display" class="notes-display" aria-label="Read Notes"></div>
         </div>
-
       </div>
     </section>
 
@@ -313,53 +354,35 @@
           </button>
         </div>
       </div>
-      
       <div id="list-skeleton">
         <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:60%"></div><div class="skel-text" style="width:30%"></div></div></div>
         <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:70%"></div><div class="skel-text" style="width:40%"></div></div></div>
       </div>
-
       <ul id="shiur-list" class="list" style="display:none"></ul>
     </section>
   </div>
 </main>
 
-<footer>
-  &copy; <span id="year-copy"></span> Mekor Chaim Staten Island
-  <span class="footer-credit">Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></span>
-</footer>
-
+<footer>&copy; <span id="year-copy"></span> Mekor Chaim Staten Island<span class="footer-credit">Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></span></footer>
 <button id="back-to-top" aria-label="Back to Top">↑ Top</button>
 <div id="toast" class="toast"></div>
-
-<div id="ios-install-prompt" class="ios-prompt">
-  <span class="ios-close">&times;</span>
-  <h3 style="margin:0 0 8px;font-size:1.1rem">Install App</h3>
-  <div style="font-size:0.95rem; line-height:1.5; color: var(--text-muted)">
-    Tap <strong>Share</strong> <svg style="vertical-align:middle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> below,<br>then <strong>"Add to Home Screen"</strong>.
-  </div>
-</div>
+<div id="ios-install-prompt" class="ios-prompt"><span class="ios-close">&times;</span><h3 style="margin:0 0 8px;font-size:1.1rem">Install App</h3><div style="font-size:0.95rem; line-height:1.5; color: var(--text-muted)">Tap <strong>Share</strong> <svg style="vertical-align:middle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> below,<br>then <strong>"Add to Home Screen"</strong>.</div></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
-
 <script>
-  // DO NOT DELETE THIS KEY. IT IS REQUIRED FOR GITHUB PAGES TO WORK.
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
-  // State
-  let allData = [];
-  let currentId = null;
-  let showFavoritesOnly = false;
-  let player = null;
-  let progressInterval = null;
-  let isDrivingMode = false;
-  let isNoteEditMode = true; // Default to edit mode
+  let allData = []; let currentId = null; let showFavoritesOnly = false;
+  let player = null; let progressInterval = null; let isDrivingMode = false; let isNoteEditMode = true;
   
   let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
   let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
   let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
   let notesMap = JSON.parse(localStorage.getItem('mc_notes') || '{}');
+  
+  // Stats Data
+  let stats = JSON.parse(localStorage.getItem('mc_stats') || '{"totalSeconds":0, "streak":0, "lastVisit":""}');
 
   // DOM
   const listEl = document.getElementById("shiur-list");
@@ -372,7 +395,6 @@
   const notesDisplay = document.getElementById("notes-display");
   const noteModeBtn = document.getElementById("note-mode-btn");
   const timeBtn = document.getElementById("time-btn");
-  
   const dmOverlay = document.getElementById("driving-mode");
   const dmTitle = document.getElementById("dm-title");
   const dmPlayIcon = document.getElementById("dm-play-icon");
@@ -382,6 +404,86 @@
 
   document.getElementById("year-copy").textContent = new Date().getFullYear();
   if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.log);
+
+  // --- STATS LOGIC ---
+  function updateStatsLogic() {
+    const today = new Date().toISOString().split('T')[0];
+    if (stats.lastVisit !== today) {
+        const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+        const yStr = yesterday.toISOString().split('T')[0];
+        if (stats.lastVisit === yStr) stats.streak++; else stats.streak = 1;
+        stats.lastVisit = today;
+        localStorage.setItem('mc_stats', JSON.stringify(stats));
+    }
+  }
+  updateStatsLogic(); // Run on load
+
+  window.openStats = function() {
+    document.getElementById('stat-streak').textContent = stats.streak;
+    document.getElementById('stat-hours').textContent = (stats.totalSeconds / 3600).toFixed(1);
+    document.getElementById('stat-completed').textContent = watchedHistory.size;
+    document.getElementById('stats-overlay').classList.add('active');
+  }
+
+  // --- QUOTE GENERATOR ---
+  window.openQuoteCreator = function() {
+    document.getElementById('quote-overlay').classList.add('active');
+  }
+  
+  window.closeOverlay = function(id) {
+    document.getElementById(id).classList.remove('active');
+  }
+
+  window.generateAndShareQuote = function() {
+    const text = document.getElementById('quote-text').value;
+    if(!text.trim()) { showToast("Please write a quote first"); return; }
+    
+    // Create canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = 1080; canvas.height = 1080;
+    const ctx = canvas.getContext('2d');
+    
+    // Background
+    const gradient = ctx.createLinearGradient(0, 0, 0, 1080);
+    gradient.addColorStop(0, '#1e3a8a'); gradient.addColorStop(1, '#172554');
+    ctx.fillStyle = gradient; ctx.fillRect(0,0,1080,1080);
+    
+    // Decoration
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 10; ctx.strokeRect(40,40,1000,1000);
+    
+    // Text
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 60px Inter, sans-serif'; ctx.textAlign = 'center';
+    wrapText(ctx, text, 540, 400, 900, 80);
+    
+    // Footer
+    ctx.fillStyle = '#93c5fd'; ctx.font = '40px Inter, sans-serif';
+    ctx.fillText("Rabbi Zish Kohn", 540, 800);
+    ctx.font = '30px Inter, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.fillText("Mekor Chaim Staten Island", 540, 900);
+
+    // Export
+    canvas.toBlob(blob => {
+        const file = new File([blob], "quote.png", {type: "image/png"});
+        if(navigator.share) {
+            navigator.share({files: [file]}).catch(e => console.log(e));
+        } else {
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = 'quote.png'; a.click();
+        }
+        closeOverlay('quote-overlay');
+    });
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' '); let line = '';
+    for(let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > maxWidth && n > 0) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; }
+      else { line = testLine; }
+    }
+    ctx.fillText(line, x, y);
+  }
 
   function onYouTubeIframeAPIReady() { initApp(); }
 
@@ -412,51 +514,29 @@
     }
   }
 
-  // --- ACTIONS ---
   function playVideo(id, autoScroll, startTimeOverride = null) {
-    currentId = id;
-    localStorage.setItem('lastWatched', id);
-    
-    const newUrl = new URL(window.location);
-    newUrl.searchParams.set('v', id);
-    window.history.pushState({}, '', newUrl);
-
+    currentId = id; localStorage.setItem('lastWatched', id);
+    const newUrl = new URL(window.location); newUrl.searchParams.set('v', id); window.history.pushState({}, '', newUrl);
     const item = allData.find(d => d.id === id);
-    updatePlayerMeta(item.title, item.dateNice);
-    loadNotes(id);
-    updateMediaSession();
-    
+    updatePlayerMeta(item.title, item.dateNice); loadNotes(id); updateMediaSession();
     let startSeconds = (startTimeOverride !== null) ? startTimeOverride : (progressMap[id] || 0);
-    
-    if (player && player.loadVideoById) {
-      player.loadVideoById({ videoId: id, startSeconds: startSeconds });
-    }
-
-    renderList(allData.filter(filterLogic)); 
-    setSpeed(1);
-
+    if (player && player.loadVideoById) player.loadVideoById({ videoId: id, startSeconds: startSeconds });
+    renderList(allData.filter(filterLogic)); setSpeed(1);
     if(autoScroll) {
       const card = document.getElementById("player-card");
-      if(card && window.innerWidth < 900) {
-        const y = card.getBoundingClientRect().top + window.pageYOffset - 20;
-        window.scrollTo({top: y, behavior: 'smooth'});
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
+      if(card && window.innerWidth < 900) { const y = card.getBoundingClientRect().top + window.pageYOffset - 20; window.scrollTo({top: y, behavior: 'smooth'}); }
+      else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     }
   }
 
   function cueVideo(id, time) {
-    currentId = id;
-    const item = allData.find(d => d.id === id);
-    updatePlayerMeta(item.title, item.dateNice);
-    loadNotes(id);
+    currentId = id; const item = allData.find(d => d.id === id);
+    updatePlayerMeta(item.title, item.dateNice); loadNotes(id);
     if(player && player.cueVideoById) player.cueVideoById({videoId: id, startSeconds: time});
-    renderList(allData); 
-    setTimeout(updateMediaSession, 1000); 
+    renderList(allData); setTimeout(updateMediaSession, 1000); 
   }
 
-  // --- NOTES: Edit vs View Mode ---
+  // --- NOTES LOGIC ---
   function loadNotes(id) {
     const text = notesMap[id] || "";
     notesInput.value = text;
@@ -465,60 +545,39 @@
   }
   
   function updateNotesDisplay(text) {
-    // Regex to find [12:30] format and turn into link
     const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => {
         const seconds = parseInt(m) * 60 + parseInt(s);
         return `<span class="ts-link" onclick="seekTo(${seconds})">${match}</span>`;
     });
-    notesDisplay.innerHTML = html || "<span style='color:var(--text-muted);font-style:italic'>No notes yet. Click 'Edit' to add.</span>";
+    notesDisplay.innerHTML = html || "<span style='color:var(--text-muted);font-style:italic'>No notes yet. Click 'View' to toggle Edit Mode.</span>";
   }
 
-  // Toggle between Edit (Textarea) and View (Clickable Div)
   window.toggleNoteMode = function() {
     isNoteEditMode = !isNoteEditMode;
-    
     if(isNoteEditMode) {
-      // Switch to Edit
-      notesInput.style.display = 'block';
-      notesDisplay.style.display = 'none';
+      notesInput.style.display = 'block'; notesDisplay.style.display = 'none';
       noteModeBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> View';
-      timeBtn.style.display = 'flex'; // Show time button
-      notesInput.focus();
+      timeBtn.style.display = 'flex'; notesInput.focus();
     } else {
-      // Switch to View
       updateNotesDisplay(notesInput.value);
-      notesInput.style.display = 'none';
-      notesDisplay.style.display = 'block';
+      notesInput.style.display = 'none'; notesDisplay.style.display = 'block';
       noteModeBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg> Edit';
-      timeBtn.style.display = 'none'; // Hide time button
+      timeBtn.style.display = 'none';
     }
   }
 
   window.insertTimestamp = function() {
     if(!player || !player.getCurrentTime) return;
-    const t = Math.floor(player.getCurrentTime());
-    const min = Math.floor(t / 60);
-    const sec = t % 60;
+    const t = Math.floor(player.getCurrentTime()); const min = Math.floor(t / 60); const sec = t % 60;
     const timeStr = `[${min}:${sec < 10 ? '0'+sec : sec}] `;
-    
-    const start = notesInput.selectionStart;
-    const end = notesInput.selectionEnd;
-    const text = notesInput.value;
-    const before = text.substring(0, start);
-    const after  = text.substring(end, text.length);
-    
-    notesInput.value = before + timeStr + after;
+    const start = notesInput.selectionStart; const end = notesInput.selectionEnd; const text = notesInput.value;
+    notesInput.value = text.substring(0, start) + timeStr + text.substring(end);
     notesInput.selectionStart = notesInput.selectionEnd = start + timeStr.length;
-    notesInput.focus();
-    notesInput.dispatchEvent(new Event('input')); // Save
+    notesInput.focus(); notesInput.dispatchEvent(new Event('input'));
   }
   
-  // Helper for links inside Read Mode
   window.seekTo = function(seconds) {
-    if(player && player.seekTo) {
-      player.seekTo(seconds, true);
-      player.playVideo(); // Auto play after jump
-    }
+    if(player && player.seekTo) { player.seekTo(seconds, true); player.playVideo(); }
   }
 
   notesInput.addEventListener("input", () => {
@@ -531,33 +590,22 @@
     if(!currentId) return;
     const text = notesMap[currentId] || "";
     if(!text) { showToast("No notes to export"); return; }
-    
     const item = allData.find(d => d.id === currentId);
     const title = item ? item.title : "Shiur Notes";
     const fullText = `Notes for: ${title}\nDate: ${item ? item.dateNice : ""}\n\n${text}`;
-    
-    if(navigator.share) {
-      navigator.share({ title: title, text: fullText }).catch(() => downloadTxt(title, fullText));
-    } else {
-      downloadTxt(title, fullText);
-    }
+    if(navigator.share) { navigator.share({ title: title, text: fullText }).catch(() => downloadTxt(title, fullText)); } 
+    else { downloadTxt(title, fullText); }
   }
 
   function downloadTxt(title, text) {
     const blob = new Blob([text], {type: 'text/plain'});
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${title.replace(/[^a-z0-9]/gi, '_')}_notes.txt`;
-    a.click();
-    showToast("Notes Downloaded");
+    const a = document.createElement('a'); a.href = url; a.download = `${title.replace(/[^a-z0-9]/gi, '_')}_notes.txt`; a.click(); showToast("Notes Downloaded");
   }
 
-  // --- MEDIA SESSION ---
   function updateMediaSession() {
     if ('mediaSession' in navigator) {
-      const item = allData.find(d => d.id === currentId);
-      if (!item) return;
+      const item = allData.find(d => d.id === currentId); if (!item) return;
       navigator.mediaSession.metadata = new MediaMetadata({
         title: item.title, artist: "Rabbi Zish Kohn", album: "Mekor Chaim",
         artwork: [{ src: `https://i.ytimg.com/vi/${item.id}/mqdefault.jpg`, sizes: '320x180', type: 'image/jpeg' }]
@@ -571,17 +619,14 @@
 
   function onPlayerStateChange(event) {
     if (event.data == YT.PlayerState.PLAYING) {
-      startProgressTracking();
-      dmPlayIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; 
+      startProgressTracking(); dmPlayIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; 
       if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing";
       if (currentId && !watchedHistory.has(currentId)) {
-        watchedHistory.add(currentId);
-        localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
+        watchedHistory.add(currentId); localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
         renderList(allData.filter(filterLogic));
       }
     } else {
-      stopProgressTracking();
-      dmPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; 
+      stopProgressTracking(); dmPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; 
       if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused";
     }
     if (event.data == YT.PlayerState.ENDED) playNextVideo();
@@ -595,6 +640,9 @@
         if (t > 2) {
           progressMap[currentId] = t;
           localStorage.setItem('mc_progress', JSON.stringify(progressMap));
+          // Stats Update
+          stats.totalSeconds += 2;
+          localStorage.setItem('mc_stats', JSON.stringify(stats));
         }
       }
     }, 2000);
@@ -604,116 +652,46 @@
   function playNextVideo() {
     const currentIndex = allData.findIndex(d => d.id === currentId);
     if (currentIndex >= 0 && currentIndex < allData.length - 1) {
-      const nextVid = allData[currentIndex + 1];
-      playVideo(nextVid.id, true);
-      showToast("Autoplaying next...");
+      const nextVid = allData[currentIndex + 1]; playVideo(nextVid.id, true); showToast("Autoplaying next...");
     }
   }
-  
   function playPrevVideo() {
     const currentIndex = allData.findIndex(d => d.id === currentId);
-    if (currentIndex > 0) {
-      const prevVid = allData[currentIndex - 1];
-      playVideo(prevVid.id, true);
-    }
+    if (currentIndex > 0) { const prevVid = allData[currentIndex - 1]; playVideo(prevVid.id, true); }
   }
 
-  // --- DRIVING MODE ---
   window.toggleDrivingMode = function() {
     isDrivingMode = !isDrivingMode;
-    if(isDrivingMode) {
-      dmOverlay.classList.add('active');
-      dmOverlay.setAttribute('aria-hidden', 'false');
-      const item = allData.find(d => d.id === currentId);
-      dmTitle.textContent = item ? item.title : "No Shiur Selected";
-    } else {
-      dmOverlay.classList.remove('active');
-      dmOverlay.setAttribute('aria-hidden', 'true');
-    }
+    if(isDrivingMode) { dmOverlay.classList.add('active'); dmOverlay.setAttribute('aria-hidden', 'false'); const item = allData.find(d => d.id === currentId); dmTitle.textContent = item ? item.title : "No Shiur Selected"; } 
+    else { dmOverlay.classList.remove('active'); dmOverlay.setAttribute('aria-hidden', 'true'); }
   }
   
-  window.togglePlay = function() {
-    if(!player) return;
-    const state = player.getPlayerState();
-    if(state === YT.PlayerState.PLAYING) player.pauseVideo();
-    else player.playVideo();
-  }
-  
-  window.seek = function(seconds) {
-    if(!player) return;
-    const cur = player.getCurrentTime();
-    player.seekTo(cur + seconds, true);
-  }
+  window.togglePlay = function() { if(!player) return; const state = player.getPlayerState(); if(state === YT.PlayerState.PLAYING) player.pauseVideo(); else player.playVideo(); }
+  window.seek = function(seconds) { if(!player) return; const cur = player.getCurrentTime(); player.seekTo(cur + seconds, true); }
 
-  // --- SHARE ---
-  window.toggleShareMenu = function() {
-    const menu = document.getElementById("share-menu");
-    const btn = document.getElementById("share-btn-main");
-    menu.classList.toggle("show");
-    btn.setAttribute('aria-expanded', menu.classList.contains('show'));
-  }
-  
+  window.toggleShareMenu = function() { const menu = document.getElementById("share-menu"); const btn = document.getElementById("share-btn-main"); menu.classList.toggle("show"); btn.setAttribute('aria-expanded', menu.classList.contains('show')); }
   window.shareLink = function(withTime) {
     if (!currentId) { showToast("Select a shiur first"); return; }
-    document.getElementById("share-menu").classList.remove("show");
-    document.getElementById("share-btn-main").setAttribute('aria-expanded', 'false');
+    document.getElementById("share-menu").classList.remove("show"); document.getElementById("share-btn-main").setAttribute('aria-expanded', 'false');
     let url = window.location.origin + window.location.pathname + '?v=' + currentId;
-    if(withTime && player && player.getCurrentTime) {
-      const t = Math.floor(player.getCurrentTime());
-      if(t > 0) url += '&t=' + t;
-    }
-    
-    if (navigator.share) {
-      navigator.share({ title: 'Mekor Chaim Shiur', url: url });
-    } else {
-      navigator.clipboard.writeText(url);
-      showToast("Link copied!");
-    }
+    if(withTime && player && player.getCurrentTime) { const t = Math.floor(player.getCurrentTime()); if(t > 0) url += '&t=' + t; }
+    if (navigator.share) { navigator.share({ title: 'Mekor Chaim Shiur', url: url }); } else { navigator.clipboard.writeText(url); showToast("Link copied!"); }
   }
   
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.share-container')) {
-      document.getElementById("share-menu").classList.remove("show");
-      const btn = document.getElementById("share-btn-main");
-      if(btn) btn.setAttribute('aria-expanded', 'false');
-    }
-  });
-  
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        document.getElementById("share-menu").classList.remove("show");
-        const btn = document.getElementById("share-btn-main");
-        if(btn) btn.setAttribute('aria-expanded', 'false');
-    }
-  });
+  document.addEventListener('click', function(e) { if (!e.target.closest('.share-container')) { document.getElementById("share-menu").classList.remove("show"); const btn = document.getElementById("share-btn-main"); if(btn) btn.setAttribute('aria-expanded', 'false'); } });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { document.getElementById("share-menu").classList.remove("show"); const btn = document.getElementById("share-btn-main"); if(btn) btn.setAttribute('aria-expanded', 'false'); } });
 
-  // --- DATA ---
   async function loadData() {
     try {
-      const items = await fetchAllItems();
-      processData(items);
-      renderList(allData);
-      document.getElementById("skeleton").style.display = "none";
-      document.getElementById("player-content").style.display = "block";
-      listSkeleton.style.display = "none";
-      listEl.style.display = "block";
-    } catch(err) { 
-      console.error(err);
-      document.getElementById("skeleton").style.display = "none";
-      listSkeleton.style.display = "none";
-      listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">Could not load shiurim. Please try again later.</li>`;
-      showToast("Error loading shiurim");
-    }
+      const items = await fetchAllItems(); processData(items); renderList(allData);
+      document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block"; listSkeleton.style.display = "none"; listEl.style.display = "block";
+    } catch(err) { console.error(err); document.getElementById("skeleton").style.display = "none"; listSkeleton.style.display = "none"; listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">Could not load shiurim. Please try again later.</li>`; showToast("Error loading shiurim"); }
   }
 
   async function fetchAllItems(token = "", acc = []) {
     const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
-    const res = await fetch(url);
-    if (!res.ok) throw new Error("API Error");
-    const data = await res.json();
-    acc.push(...data.items);
-    if (data.nextPageToken) return fetchAllItems(data.nextPageToken, acc);
-    return acc;
+    const res = await fetch(url); if (!res.ok) throw new Error("API Error"); const data = await res.json(); acc.push(...data.items);
+    if (data.nextPageToken) return fetchAllItems(data.nextPageToken, acc); return acc;
   }
 
   function processData(items) {
@@ -721,136 +699,55 @@
     allData = items.map((item, idx) => {
       const d = new Date(item.contentDetails.videoPublishedAt || item.snippet.publishedAt);
       return {
-        id: item.contentDetails.videoId,
-        title: item.snippet.title,
+        id: item.contentDetails.videoId, title: item.snippet.title,
         dateNice: d.toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}),
-        year: d.getFullYear().toString(),
-        desc: item.snippet.description || "",
-        isNew: idx === 0
+        year: d.getFullYear().toString(), desc: item.snippet.description || "", isNew: idx === 0
       };
     });
     const years = [...new Set(allData.map(d => d.year))];
     years.forEach(y => { const opt = document.createElement("option"); opt.value = y; opt.textContent = y; yearFilter.appendChild(opt); });
   }
 
-  // --- RENDER ---
   function renderList(items) {
-    listEl.innerHTML = "";
-    if (items.length === 0) { listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`; return; }
-    
-    const searchVal = searchInput.value.trim();
-    const regex = searchVal ? new RegExp(`(${searchVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi') : null;
-
+    listEl.innerHTML = ""; if (items.length === 0) { listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`; return; }
+    const searchVal = searchInput.value.toLowerCase().trim(); const regex = searchVal ? new RegExp(`(${searchVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi') : null;
     items.forEach(item => {
       const li = document.createElement("li");
-      const isFav = favorites.has(item.id);
-      const isWatched = watchedHistory.has(item.id);
-      const savedTime = progressMap[item.id] || 0;
-      let progressWidth = '0%';
-      if (savedTime > 0) progressWidth = Math.min((savedTime / 2700) * 100, 100) + '%'; 
-
+      const isFav = favorites.has(item.id); const isWatched = watchedHistory.has(item.id); const savedTime = progressMap[item.id] || 0;
+      let progressWidth = '0%'; if (savedTime > 0) progressWidth = Math.min((savedTime / 2700) * 100, 100) + '%'; 
       li.className = `item ${item.id === currentId ? 'active' : ''} ${isWatched ? 'watched' : ''}`;
-      
-      let badgeHTML = item.isNew ? `<span class="badge-new">New</span>` : "";
-      if (isWatched) badgeHTML += `<span style="color:var(--watched-color);font-weight:600;font-size:0.75rem;display:flex;align-items:center;gap:3px;margin-left:6px">✔ Played</span>`;
+      let badgeHTML = item.isNew ? `<span class="badge-new">New</span>` : ""; if (isWatched) badgeHTML += `<span style="color:var(--watched-color);font-weight:600;font-size:0.75rem;display:flex;align-items:center;gap:3px;margin-left:6px">✔ Played</span>`;
       let eqHTML = (item.id === currentId) ? `<div class="equalizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>` : "";
-      
-      let displayTitle = item.title;
-      if (regex) displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
-
+      let displayTitle = item.title; if (regex) displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
       li.innerHTML = `
-        <div class="item-thumb">
-          <img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy" alt="thumb">
-          <div class="play-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          <div class="item-progress-bg"><div class="item-progress-fill" style="width:${progressWidth}"></div></div>
-        </div>
-        <div class="item-body">
-          <div class="item-top-row">
-            <div class="item-title">${displayTitle}</div>
-            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${item.id}')" aria-label="Toggle Favorite"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
-          </div>
-          <div class="item-date">${badgeHTML} ${item.dateNice} ${eqHTML}</div>
-        </div>
-      `;
+        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy" alt="thumb"><div class="play-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="item-progress-bg"><div class="item-progress-fill" style="width:${progressWidth}"></div></div></div>
+        <div class="item-body"><div class="item-top-row"><div class="item-title">${displayTitle}</div><button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${item.id}')" aria-label="Toggle Favorite"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div><div class="item-date">${badgeHTML} ${item.dateNice} ${eqHTML}</div></div>`;
       li.addEventListener("click", (e) => { if(!e.target.closest('.btn-fav')) playVideo(item.id, true); });
       listEl.appendChild(li);
     });
   }
 
-  window.toggleFavorite = function(e, id) {
-    e.stopPropagation();
-    if (favorites.has(id)) { favorites.delete(id); showToast("Removed from Saved"); }
-    else { favorites.add(id); showToast("Added to Saved"); }
-    localStorage.setItem('mc_favorites', JSON.stringify([...favorites]));
-    if (showFavoritesOnly) applyFilters();
-    else { e.currentTarget.classList.toggle('active'); }
-  }
-
-  favFilterBtn.addEventListener("click", () => {
-    showFavoritesOnly = !showFavoritesOnly;
-    favFilterBtn.classList.toggle('active');
-    applyFilters();
-  });
-
-  function filterLogic(item) {
-    const q = searchInput.value.toLowerCase().trim();
-    const y = yearFilter.value;
-    return (item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)) &&
-           (!y || item.year === y) &&
-           (!showFavoritesOnly || favorites.has(item.id));
-  }
+  window.toggleFavorite = function(e, id) { e.stopPropagation(); if (favorites.has(id)) { favorites.delete(id); showToast("Removed from Saved"); } else { favorites.add(id); showToast("Added to Saved"); } localStorage.setItem('mc_favorites', JSON.stringify([...favorites])); if (showFavoritesOnly) applyFilters(); else { e.currentTarget.classList.toggle('active'); } }
+  favFilterBtn.addEventListener("click", () => { showFavoritesOnly = !showFavoritesOnly; favFilterBtn.classList.toggle('active'); applyFilters(); });
+  function filterLogic(item) { const q = searchInput.value.toLowerCase().trim(); const y = yearFilter.value; return (item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)) && (!y || item.year === y) && (!showFavoritesOnly || favorites.has(item.id)); }
   function applyFilters() { renderList(allData.filter(filterLogic)); }
-  searchInput.addEventListener("input", applyFilters);
-  yearFilter.addEventListener("change", applyFilters);
-
-  window.setSpeed = function(rate) {
-    document.querySelectorAll('.control-btn').forEach(btn => btn.classList.toggle('active', parseFloat(btn.dataset.speed) === rate));
-    if(player && player.setPlaybackRate) player.setPlaybackRate(rate);
-  }
-
+  searchInput.addEventListener("input", applyFilters); yearFilter.addEventListener("change", applyFilters);
+  window.setSpeed = function(rate) { document.querySelectorAll('.control-btn').forEach(btn => btn.classList.toggle('active', parseFloat(btn.dataset.speed) === rate)); if(player && player.setPlaybackRate) player.setPlaybackRate(rate); }
   function showToast(msg) { toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2000); }
+  function updatePlayerMeta(title, date) { document.getElementById("player-title").textContent = title; document.getElementById("player-date").textContent = date; }
   
-  function updatePlayerMeta(title, date) {
-    document.getElementById("player-title").textContent = title;
-    document.getElementById("player-date").textContent = date;
-  }
-
-  function updateThemeButton(isDark) {
-    themeIcon.textContent = isDark ? "☀️" : "🌙";
-    themeText.textContent = isDark ? "Light Mode" : "Dark Mode";
-  }
-
+  function updateThemeButton(isDark) { themeIcon.textContent = isDark ? "☀️" : "🌙"; themeText.textContent = isDark ? "Light Mode" : "Dark Mode"; }
   const savedTheme = localStorage.getItem("theme");
-  if(savedTheme === 'dark') {
-    document.body.classList.add('dark-mode');
-    updateThemeButton(true);
-  } else {
-    updateThemeButton(false);
-  }
-  
-  themeToggle.addEventListener("click", () => {
-    document.body.classList.toggle("dark-mode");
-    const isDark = document.body.classList.contains("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    updateThemeButton(isDark);
-  });
+  if(savedTheme === 'dark') { document.body.classList.add('dark-mode'); updateThemeButton(true); } else { updateThemeButton(false); }
+  themeToggle.addEventListener("click", () => { document.body.classList.toggle("dark-mode"); const isDark = document.body.classList.contains("dark-mode"); localStorage.setItem("theme", isDark ? "dark" : "light"); updateThemeButton(isDark); });
 
   let deferredPrompt; const installBtn = document.getElementById("install-btn");
   window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex'; });
   installBtn.addEventListener('click', async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); deferredPrompt = null; installBtn.style.display = 'none'; });
-
   const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-  if (isIos && !('standalone' in window.navigator && window.navigator.standalone)) {
-    const iosPrompt = document.getElementById("ios-install-prompt");
-    setTimeout(() => iosPrompt.style.display = "block", 3000);
-    document.querySelector(".ios-close").addEventListener("click", () => iosPrompt.style.display="none");
-  }
-  
-  window.addEventListener("scroll", () => {
-    document.getElementById("back-to-top").style.display = window.scrollY > 300 ? "block" : "none";
-  });
+  if (isIos && !('standalone' in window.navigator && window.navigator.standalone)) { const iosPrompt = document.getElementById("ios-install-prompt"); setTimeout(() => iosPrompt.style.display = "block", 3000); document.querySelector(".ios-close").addEventListener("click", () => iosPrompt.style.display="none"); }
+  window.addEventListener("scroll", () => { document.getElementById("back-to-top").style.display = window.scrollY > 300 ? "block" : "none"; });
   document.getElementById("back-to-top").addEventListener("click", () => window.scrollTo({top:0, behavior:'smooth'}));
-
 </script>
 </body>
 </html>
