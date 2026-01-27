@@ -17,6 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
+    /* --- CSS VARIABLES --- */
     :root {
       --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.1);
       --text-main: #0f172a; --text-muted: #64748b; --border-soft: #e2e8f0;
@@ -30,9 +31,10 @@
       --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
 
+    /* --- BASE STYLES --- */
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 80px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent; }
-    header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
+    header, main, footer { width: 100%; max-width: 600px; margin: 0 auto; padding: 0 16px; }
 
     header { padding-top: 20px; padding-bottom: 20px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
@@ -44,30 +46,42 @@
     .drive-mode-btn { background: rgba(0,0,0,0.25); color: white; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
 
+    /* --- PLAYER CARD --- */
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); position: relative; }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
-    
-    /* SHARE MENU STYLES */
+    .player-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .badge-main { background: var(--accent-glow); color: var(--accent); padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+
+    /* FIXED SHARE MENU */
     .share-container { position: relative; display: inline-block; }
-    .share-menu { position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 200px; z-index: 100; overflow: hidden; }
+    .share-menu { 
+      position: absolute; top: 100%; right: 0; margin-top: 10px; 
+      background: var(--card-bg); border: 1px solid var(--border-soft); 
+      border-radius: 16px; box-shadow: 0 12px 24px rgba(0,0,0,0.15); 
+      display: none; flex-direction: column; min-width: 180px; z-index: 1000; overflow: hidden;
+    }
     .share-menu.active { display: flex; }
-    .share-option { padding: 14px 16px; font-size: 0.9rem; font-weight: 600; text-align: left; background: none; border: none; border-bottom: 1px solid var(--border-soft); cursor: pointer; color: var(--text-main); display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
+    .share-option { 
+      background: none; border: none; padding: 12px 16px; text-align: left; 
+      font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text-main);
+      border-bottom: 1px solid var(--border-soft); transition: background 0.2s;
+    }
     .share-option:last-child { border-bottom: none; }
     .share-option:active { background: var(--bg-main); }
-
-    .badge-main { background: var(--accent-glow); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
     
     #resume-prompt { position: absolute; bottom: 0; left: 0; right: 0; background: var(--accent); color: white; padding: 12px 20px; display: none; align-items: center; justify-content: space-between; font-size: 0.85rem; font-weight: 700; z-index: 50; animation: slideUp 0.3s; }
     #resume-prompt button { background: white; color: var(--accent); padding: 6px 14px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
     .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; transition: 0.3s; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
     .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); border-bottom: 1px solid var(--border-soft); overflow-x: auto; scrollbar-width: none; }
-    .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; white-space: nowrap; transition: 0.2s; }
+    .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 8px 14px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; white-space: nowrap; transition: 0.2s; }
     .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); transform: scale(1.05); }
 
+    /* --- NOTES SECTION --- */
     .notes-section { padding: 20px; background: var(--bg-main); }
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
     .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); white-space: nowrap; border: none; cursor: pointer; }
@@ -78,7 +92,7 @@
     .notes-display { display: none; white-space: pre-wrap; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; transition: background 0.2s; }
 
-    /* LIST */
+    /* --- LIST SECTION (FULL WIDTH) --- */
     .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; width: 100%; }
     #search-input { flex: 1; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; }
     .fav-filter-btn { padding: 12px 16px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
@@ -87,9 +101,8 @@
     .list { list-style: none; padding: 0; margin: 0; width: 100%; }
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; transition: 0.2s; align-items: center; box-shadow: var(--shadow-card); cursor: pointer; position: relative; }
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
-    .item.weekly { border: 2px solid var(--gold); }
     
-    .item-thumb { flex: 0 0 120px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; }
+    .item-thumb { flex: 0 0 110px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .weekly-badge { position: absolute; top: 0; right: 0; background: var(--gold); color: white; font-size: 0.6rem; font-weight: 900; padding: 2px 6px; border-radius: 0 0 0 8px; text-transform: uppercase; z-index: 2; }
     .completed-icon { position: absolute; top: 4px; left: 4px; background: var(--watched-color); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
@@ -102,17 +115,18 @@
     .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     
     .item-body { flex: 1; min-width: 0; }
-    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+    .item-title { font-size: 0.9rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .item-date { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
 
+    /* --- OVERLAYS --- */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
     .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 28px; padding: 24px; position: relative; border: 1px solid var(--border-soft); }
     .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; color: var(--text-muted); font-size: 1.2rem; border: none; cursor: pointer; }
 
-    /* QUOTE MODAL UI */
+    /* --- QUOTE MODAL --- */
     #quote-text { width:100%; height:120px; margin-top:20px; border-radius:16px; padding:16px; border:1px solid var(--border-soft); font-family:inherit; font-size:1rem; background: var(--bg-main); color: var(--text-main); resize: none; }
-    #btn-generate-quote { width:100%; background:var(--accent); color:white; border:none; padding:16px; border-radius:16px; font-weight:700; margin-top:15px; cursor:pointer; font-size: 1rem; }
+    #btn-generate-quote { width:100%; background:var(--accent); color:white; border:none; padding:16px; border-radius:16px; font-weight:700; margin-top:15px; cursor:pointer; font-size: 1rem; box-shadow: 0 4px 12px var(--accent-glow); }
 
     #driving-mode { background: #000; flex-direction: column; text-align: center; }
     .dm-controls { display: flex; gap: 20px; align-items: center; margin: 40px 0; }
@@ -121,6 +135,8 @@
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
+    .empty-state { padding: 40px 20px; text-align: center; width: 100%; border: 2px dashed var(--border-soft); border-radius: 24px; background: var(--card-bg); margin-top: 10px; }
+
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
   </style>
 </head>
@@ -152,14 +168,14 @@
   <div class="modal">
     <button class="modal-close" id="close-quote">✕</button>
     <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" placeholder="Type a holy word from the Shiur..."></textarea>
+    <textarea id="quote-text" placeholder="Type a holy word from the shiur..."></textarea>
     <button id="btn-generate-quote">Share Designed Image</button>
   </div>
 </div>
 
 <header>
   <div class="header-inner">
-    <h1>Mekor Chaim Staten Island</h1>
+    <h1>Mekor Chaim SI</h1>
     <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
       <button id="btn-stats" class="nav-btn stats-btn">📊 Stats</button>
@@ -181,8 +197,8 @@
           <div class="share-container">
             <button id="btn-share-main" class="nav-btn" style="background:var(--accent-glow); color:var(--accent);">Share</button>
             <div id="share-dropdown" class="share-menu">
-              <button class="share-option" onclick="shareCurrent(false)">🔗 Copy Video Link</button>
-              <button class="share-option" onclick="shareCurrent(true)">⏱️ Share at Current Time</button>
+              <button class="share-option" id="share-link-only">🔗 Copy Video Link</button>
+              <button class="share-option" id="share-with-time">⏱️ Share at Current Time</button>
             </div>
           </div>
           
@@ -219,7 +235,7 @@
   <ul id="shiur-list" class="list"></ul>
 </main>
 
-<footer>&copy; 2026 Mekor Chaim SI • Built by <a href="mailto:ccdesign.nys@gmail.com" style="color:var(--accent); text-decoration:none; font-weight:700;">CC Design</a></footer>
+<footer>&copy; 2026 Mekor Chaim SI • Built by CC Design</footer>
 <div id="toast" class="toast"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -227,6 +243,7 @@
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
+  // --- SMART STATE MANAGEMENT ---
   const appState = {
     allData: [], currentId: null, showFavoritesOnly: false, isNoteEditMode: true, isDrivingMode: false, lastTickTime: null,
     favorites: new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]')),
@@ -263,7 +280,8 @@
   function onPlayerReady() {
     const params = new URLSearchParams(window.location.search);
     const v = params.get('v');
-    if (v) playVideo(v, false, parseInt(params.get('t')) || 0);
+    const t = params.get('t');
+    if (v) playVideo(v, false, parseInt(t) || 0);
     else if (localStorage.getItem('lastWatched')) playVideo(localStorage.getItem('lastWatched'), false);
   }
 
@@ -304,6 +322,7 @@
 
     let start = (time !== null) ? time : 0;
     if (player && player.loadVideoById) player.loadVideoById({ videoId: id, startSeconds: start });
+    
     renderList();
     if(autoScroll) window.scrollTo({top: document.getElementById("player-card").offsetTop - 20, behavior: 'smooth'});
   }
@@ -313,18 +332,17 @@
       if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
       document.getElementById("resume-prompt").style.display = "none";
       appState.lastTickTime = Date.now();
-      
+      const dur = player.getDuration();
+      if(dur > 0) { appState.durations[appState.currentId] = dur; appState.save(); }
+
       progressInterval = setInterval(() => {
         const now = Date.now(), delta = (now - appState.lastTickTime) / 1000;
         appState.lastTickTime = now;
-        const t = Math.floor(player.getCurrentTime());
-        const duration = player.getDuration();
+        const t = Math.floor(player.getCurrentTime()), duration = player.getDuration();
 
         if(t > 5 && duration > 0) {
           appState.progress[appState.currentId] = t;
-          appState.durations[appState.currentId] = duration;
           appState.stats.totalSeconds += delta; appState.stats.dailySeconds += delta;
-          
           if (t > duration * 0.9 && !appState.completed.has(appState.currentId)) {
             appState.completed.add(appState.currentId);
             showToast("Shiur Completed! 🙌"); renderList();
@@ -380,8 +398,14 @@
     document.getElementById("theme-toggle").onclick = toggleTheme;
     
     // SHARE DROPDOWN LOGIC
-    document.getElementById("btn-share-main").onclick = (e) => { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); };
-    window.onclick = () => document.getElementById("share-dropdown").classList.remove("active");
+    document.getElementById("btn-share-main").onclick = (e) => { 
+      e.stopPropagation(); 
+      document.getElementById("share-dropdown").classList.toggle("active"); 
+    };
+    window.addEventListener('click', () => document.getElementById("share-dropdown").classList.remove("active"));
+    
+    document.getElementById("share-link-only").onclick = () => shareCurrent(false);
+    document.getElementById("share-with-time").onclick = () => shareCurrent(true);
 
     document.getElementById("btn-confirm-resume").onclick = () => { player.seekTo(appState.progress[appState.currentId], true); document.getElementById("resume-prompt").style.display = "none"; };
     document.getElementById("note-mode-btn").onclick = toggleNoteMode;
@@ -392,36 +416,31 @@
     document.getElementById("btn-generate-quote").onclick = generateAndShareQuote;
     document.getElementById("close-stats").onclick = () => closeOverlay('stats-overlay');
     document.getElementById("close-quote").onclick = () => closeOverlay('quote-overlay');
-    
+
     // FIX SPEED BUTTONS
-    document.querySelectorAll(".speed-btn").forEach(b => {
-      b.onclick = () => {
+    document.querySelectorAll(".speed-btn").forEach(b => b.onclick = () => {
         const s = parseFloat(b.dataset.speed);
         if(player && player.setPlaybackRate) {
-          player.setPlaybackRate(s);
-          document.querySelectorAll('.speed-btn').forEach(btn => btn.classList.remove('active'));
-          b.classList.add('active');
-          showToast(`Speed: ${s}x`);
+            player.setPlaybackRate(s);
+            document.querySelectorAll(".speed-btn").forEach(btn => btn.classList.remove('active'));
+            b.classList.add('active');
+            showToast(`Speed: ${s}x`);
         }
-      };
     });
 
     document.getElementById("dm-seek-back").onclick = () => seek(-30);
     document.getElementById("dm-seek-forward").onclick = () => seek(30);
     document.getElementById("dm-toggle-play").onclick = () => { if(player) player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); };
-    document.getElementById("btn-exit-driving").onclick = toggleDrivingMode;
     document.getElementById("notes-input").oninput = (e) => { appState.notes[appState.currentId] = e.target.value; appState.save(); };
   }
 
   function shareCurrent(withTime) {
     const item = appState.allData.find(d => d.id === appState.currentId);
     if(!item) return showToast("Select a shiur first");
-    let url = `https://www.youtube.com/watch?v=${item.id}`;
-    if(withTime) {
-        const t = Math.floor(player.getCurrentTime());
-        url += `&t=${t}`;
-    }
     
+    let url = `${location.origin}${location.pathname}?v=${item.id}`;
+    if(withTime && player) url += `&t=${Math.floor(player.getCurrentTime())}`;
+
     if(navigator.share) {
         navigator.share({ title: item.title, url: url }).catch(()=>{});
     } else {
@@ -433,13 +452,13 @@
     const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first");
     const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
     
-    // BEAUTIFUL GRADIENT BACKGROUND
+    // PROFESSIONAL GRADIENT
     const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
-    grad.addColorStop(0, '#1e40af'); // Deep blue
-    grad.addColorStop(1, '#1e3a8a'); // Even deeper blue
+    grad.addColorStop(0, '#1e3a8a'); // Deep Blue
+    grad.addColorStop(1, '#1e40af'); // Slightly Lighter Blue
     ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080);
     
-    // ELEGANT BORDER
+    // ELEGANT FRAME
     ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 40; ctx.strokeRect(20,20,1040,1040);
     
     // TYPOGRAPHY
@@ -453,7 +472,7 @@
     canvas.toBlob(b => { 
       const f = new File([b], "quote.png", {type: "image/png"}); 
       if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) { navigator.share({files:[f]}); } 
-      else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!"); }
+      else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'shiur_quote.png'; a.click(); showToast("Image Saved!"); }
     });
   }
 
@@ -465,19 +484,14 @@
     } ctx.fillText(line, x, y);
   }
 
+  function seekTo(s, el) { if(!player) return; player.seekTo(s, true); player.playVideo(); if (el) { el.style.background = 'var(--accent)'; el.style.color = 'white'; setTimeout(() => { el.style.background = ''; el.style.color = ''; }, 500); } }
+  function seek(s) { if(!player) return; const t = Math.max(0, player.getCurrentTime() + s); player.seekTo(t, true); }
+  function toggleFav(id) { if(appState.favorites.has(id)) appState.favorites.delete(id); else appState.favorites.add(id); appState.save(); renderList(); }
+  function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
   function toggleTheme() { const isDarkNow = document.body.classList.toggle("dark-mode"); localStorage.setItem("theme", isDarkNow ? "dark" : "light"); updateThemeUI(isDarkNow); }
   function updateThemeUI(isDark) { document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙"; document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode"; }
   function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark"; document.body.classList.toggle("dark-mode", isDark); updateThemeUI(isDark); }
-  function updateStreak() {
-    const today = new Date().toISOString().split('T')[0];
-    if (appState.stats.lastVisit !== today) {
-        if (appState.stats.dailySeconds >= 120) {
-            const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0];
-            appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1;
-        }
-        appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save();
-    }
-  }
+  function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
   function formatTime(s) { return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`; }
   function openStats() { document.getElementById('stat-streak').textContent = appState.stats.streak; document.getElementById('stat-hours').textContent = (appState.stats.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
@@ -485,19 +499,7 @@
   function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="seekTo(${parseInt(m)*60+parseInt(s)}, this)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
   function loadNotes(id) { document.getElementById("notes-input").value = appState.notes[id] || ""; updateNotesDisplay(appState.notes[id] || ""); }
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
-  function toggleFav(id) { if(appState.favorites.has(id)) appState.favorites.delete(id); else appState.favorites.add(id); appState.save(); renderList(); }
-  function seekTo(s, el) { if(!player) return; player.seekTo(s, true); player.playVideo(); if (el) { el.style.background = 'var(--accent)'; el.style.color = 'white'; setTimeout(() => { el.style.background = ''; el.style.color = ''; }, 500); } }
-  function seek(s) { if(!player) return; const t = Math.max(0, player.getCurrentTime() + s); player.seekTo(t, true); }
-  function toggleDrivingMode() { 
-    appState.isDrivingMode = !appState.isDrivingMode; 
-    const el = document.getElementById("driving-mode"), vid = document.getElementById("video-container"); 
-    el.classList.toggle('active'); vid.style.display = appState.isDrivingMode ? 'none' : 'block'; 
-    if(appState.isDrivingMode) {
-        document.getElementById("dm-title").textContent = appState.allData.find(d => d.id === appState.currentId)?.title || "No Shiur";
-        if(screen.orientation?.lock) screen.orientation.lock('landscape').catch(()=>{});
-    } else { if(screen.orientation?.unlock) screen.orientation.unlock(); }
-  }
-  function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
+  function toggleDrivingMode() { appState.isDrivingMode = !appState.isDrivingMode; const el = document.getElementById("driving-mode"), vid = document.getElementById("video-container"); el.classList.toggle('active'); vid.style.display = appState.isDrivingMode ? 'none' : 'block'; if(appState.isDrivingMode) { document.getElementById("dm-title").textContent = appState.allData.find(d => d.id === appState.currentId)?.title || "No Shiur"; if(screen.orientation?.lock) screen.orientation.lock('landscape').catch(()=>{}); } else { if(screen.orientation?.unlock) screen.orientation.unlock(); } }
   function insertTimestamp() { if(!player) return; const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; document.getElementById("notes-input").dispatchEvent(new Event('input')); }
   function exportNotes() { const text = appState.notes[appState.currentId]; if(!text) return showToast("Nothing to export"); const blob = new Blob([text], {type: 'text/plain'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'shiur_notes.txt'; a.click(); }
 </script>
