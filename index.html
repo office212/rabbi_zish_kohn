@@ -17,128 +17,141 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- VARIABLES --- */
+    /* --- CSS VARIABLES --- */
     :root {
-      --w: 900px;
-      --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.15);
+      --w: 600px; /* Reduced width for better mobile centering */
+      --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.1);
       --text-main: #0f172a; --text-muted: #64748b; --border-soft: #e2e8f0;
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
       --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
       --fav-color: #ef4444; --watched-color: #10b981;
     }
     body.dark-mode {
       --bg-main: #020617; --card-bg: #0f172a; --text-main: #f1f5f9; --text-muted: #94a3b8;
-      --border-soft: #1e293b; --accent: #60a5fa; --accent-glow: rgba(96, 165, 250, 0.2);
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3); --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      --border-soft: #1e293b; --accent: #60a5fa; --accent-glow: rgba(96, 165, 250, 0.15);
     }
 
-    /* --- BASE --- */
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 60px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent; }
-    header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
-    header { padding-top: 16px; padding-bottom: 16px; }
-    button { font-family: inherit; cursor: pointer; border: none; }
+    body {
+      margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main);
+      padding-bottom: 60px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent;
+    }
 
-    /* --- LAYOUT --- */
-    .layout { display: flex; flex-direction: column; gap: 20px; }
-    @media(min-width: 900px) { .layout { display: grid; grid-template-columns: 1.6fr 1fr; align-items: flex-start; } }
+    header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
+    header { padding: 20px 16px; }
+    button { font-family: inherit; cursor: pointer; border: none; outline: none; }
 
     /* --- HEADER --- */
-    .header-inner { background: var(--header-bg); border-radius: 20px; padding: 20px; color: white; box-shadow: 0 8px 20px -5px rgba(37, 99, 235, 0.3); }
-    h1 { margin: 0; font-size: 1.35rem; font-weight: 700; }
-    .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 12px; }
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
+    h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
+    .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 16px; }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; }
-    .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 6px 12px; display: inline-flex; align-items: center; gap: 5px; }
+    .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
     .stats-btn { background: white; color: var(--accent); }
-    .drive-mode-btn { background: rgba(0,0,0,0.2); color: white; border: 1px solid rgba(255,255,255,0.1); }
+    .drive-mode-btn { background: rgba(0,0,0,0.25); color: white; }
 
     /* --- PLAYER CARD --- */
-    .player-card { background: var(--card-bg); border-radius: 20px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; }
-    .player-header { padding: 16px; border-bottom: 1px solid var(--border-soft); }
-    .player-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; }
+    .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
+    .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; color: var(--text-main); }
     
-    .player-meta { display: flex; flex-direction: column; gap: 10px; }
-    #player-date { font-size: 0.8rem; color: var(--text-muted); }
-    .speed-btns { display: flex; gap: 8px; flex-wrap: wrap; }
-    .speed-btn { background: var(--bg-main); color: var(--text-muted); padding: 6px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; border: 1px solid var(--border-soft); flex: 1; text-align: center; max-width: 60px; }
+    .player-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    #player-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+    .speed-btns { display: flex; gap: 6px; }
+    .speed-btn { background: var(--bg-main); color: var(--text-muted); padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); }
     .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
     .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
     /* --- NOTES --- */
-    .notes-section { padding: 16px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
-    .notes-actions { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .notes-section { padding: 20px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
+    .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
     .notes-actions::-webkit-scrollbar { display: none; }
-    .tool-btn { padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 5px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); white-space: nowrap; }
-    .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
-    .notes-input, .notes-display { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; margin-top: 12px; background: var(--card-bg); line-height: 1.5; }
-    .notes-display { display: none; white-space: pre-wrap; }
-    .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; }
-
-    /* --- LIST (RESTORED & FIXED ALIGNMENT) --- */
-    .list-header { margin-bottom: 16px; display: flex; gap: 10px; }
-    #search-input { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 0.9rem; }
-    .fav-btn { padding: 0 16px; border-radius: 12px; background: var(--card-bg); border: 1px solid var(--border-soft); font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
-    .fav-btn.active { color: var(--fav-color); border-color: var(--fav-color); background: #fff1f2; }
     
-    .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-soft); margin-bottom: 12px; transition: 0.2s; align-items: stretch; }
-    .item.active { border-color: var(--accent); background: var(--accent-glow); }
-    .item-thumb { flex: 0 0 120px; border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; align-self: flex-start; }
+    .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); white-space: nowrap; transition: 0.2s; }
+    .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    
+    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 14px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
+    .notes-display { display: none; white-space: pre-wrap; }
+    .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
+
+    /* --- LIST & SEARCH (CENTERED) --- */
+    .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
+    #search-input { flex: 1; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+    .fav-filter-btn { padding: 14px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); display: flex; align-items: center; justify-content: center; }
+    .fav-filter-btn.active { color: var(--fav-color); border-color: var(--fav-color); background: #fff1f2; }
+
+    /* LIST ITEM STYLE */
+    .list-container { width: 100%; margin: 0 auto; }
+    .item { 
+      display: flex; gap: 16px; padding: 12px; background: var(--card-bg); 
+      border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; 
+      transition: transform 0.2s, border-color 0.2s; align-items: center; 
+      box-shadow: var(--shadow-card);
+    }
+    .item.active { border-color: var(--accent); background: var(--accent-glow); transform: scale(1.02); }
+    
+    /* THUMBNAIL & HEART OVERLAY */
+    .item-thumb { flex: 0 0 130px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #f1f5f9; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .item-progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(0,0,0,0.1); }
+    
+    /* THE BEAUTIFUL HEART BUTTON */
+    .btn-fav-overlay { 
+      position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; 
+      background: rgba(255, 255, 255, 0.9); border-radius: 50%; 
+      display: flex; align-items: center; justify-content: center; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; z-index: 10;
+    }
+    .btn-fav-overlay svg { width: 18px; height: 18px; fill: #cbd5e1; transition: 0.3s; }
+    .btn-fav-overlay.active svg { fill: var(--fav-color); transform: scale(1.1); }
+    .btn-fav-overlay:active { transform: scale(0.9); }
+
+    .item-progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(0,0,0,0.1); }
     .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     
-    .item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 2px; }
-    .item-top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
-    .item-title { font-size: 0.95rem; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .btn-fav { padding: 4px; color: var(--border-soft); transition: 0.2s; flex-shrink: 0; }
-    .btn-fav.active { color: var(--fav-color); }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); }
+    .item-body { flex: 1; min-width: 0; padding-right: 4px; }
+    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; color: var(--text-main); margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .item-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
 
     /* --- OVERLAYS --- */
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px; }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 24px; padding: 24px; position: relative; }
-    .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; color: var(--text-muted); font-size: 1.2rem; padding: 5px; }
+    .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 30px; padding: 28px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+    .modal-close { position: absolute; top: 18px; right: 18px; background: transparent; color: var(--text-muted); font-size: 1.4rem; }
 
-    /* Driving Mode */
     #driving-mode { background: #000; flex-direction: column; }
-    .dm-controls { display: flex; gap: 25px; align-items: center; margin: 40px 0; }
-    .dm-btn { width: 75px; height: 75px; border-radius: 50%; background: rgba(255,255,255,0.15); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.3); }
-    .dm-btn.play { width: 95px; height: 95px; background: var(--accent); border: none; }
-    .dm-close-btn { margin-top: 20px; background: rgba(255,255,255,0.2); color: white; padding: 10px 24px; border-radius: 99px; font-weight: 600; }
+    .dm-controls { display: flex; gap: 24px; align-items: center; margin: 40px 0; }
+    .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: #1e293b; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); }
+    .dm-btn.play { width: 110px; height: 110px; background: var(--accent); border: none; box-shadow: 0 0 40px rgba(37, 99, 235, 0.4); }
+    .dm-close-btn { background: #334155; color: white; padding: 12px 30px; border-radius: 99px; font-weight: 700; margin-top: 30px; }
 
-    /* Utils */
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; z-index: 20000; opacity: 0; pointer-events: none; transition: 0.3s; }
-    .toast.show { opacity: 1; }
-    .skeleton-wrapper { padding: 20px; }
-    .skel-video { border-radius: 16px; height: 200px; width: 100%; background: var(--border-soft); animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
-    footer { text-align: center; font-size: 0.75rem; color: var(--text-muted); margin-top: 40px; }
-    
-    @media(min-width: 600px) {
-       .player-meta { flex-direction: row; justify-content: space-between; align-items: center; }
-       .item-thumb { flex: 0 0 150px; }
-    }
+    /* TOAST */
+    .toast { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 14px 28px; border-radius: 99px; font-weight: 600; z-index: 20000; opacity: 0; transition: 0.4s; pointer-events: none; }
+    .toast.show { opacity: 1; bottom: 50px; }
+
+    footer { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 50px; padding-bottom: 40px; font-weight: 500; }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
+
+    @media(max-width: 500px) { .item-thumb { flex: 0 0 110px; } .item-title { font-size: 0.9rem; } }
   </style>
 </head>
 <body>
 
 <div id="driving-mode" class="overlay">
-  <div style="color: #94a3b8; font-weight: 600;" id="dm-title">No Shiur Selected</div>
+  <div style="color: #94a3b8; font-weight: 600; margin-bottom: 10px;" id="dm-title">No Shiur Selected</div>
   <div class="dm-controls">
     <button class="dm-btn" onclick="seek(-30)">
-       <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
-       <span style="font-size:0.7rem; margin-top:2px">-30s</span>
+       <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+       <span style="font-size:0.7rem; margin-top:4px; font-weight:700;">-30s</span>
     </button>
     <button class="dm-btn play" onclick="togglePlay()">
-       <svg id="dm-play-icon" width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+       <svg id="dm-play-icon" width="45" height="45" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
     </button>
     <button class="dm-btn" onclick="seek(30)">
-       <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.16-3.16-1.88-5.12-1.88-3.54 0-6.55 2.31-7.6 5.5l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/></svg>
-       <span style="font-size:0.7rem; margin-top:2px">+30s</span>
+       <svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg>
+       <span style="font-size:0.7rem; margin-top:4px; font-weight:700;">+30s</span>
     </button>
   </div>
   <button class="dm-close-btn" onclick="toggleDrivingMode()">Exit Driving Mode</button>
@@ -147,11 +160,11 @@
 <div id="stats-overlay" class="overlay">
   <div class="modal">
     <button class="modal-close" onclick="closeOverlay('stats-overlay')">✕</button>
-    <h3 style="text-align:center; margin:0 0 20px;">My Torah Stats 📊</h3>
+    <h3 style="text-align:center; margin:0 0 24px;">My Torah Stats 📊</h3>
     <div style="display:flex; justify-content:space-around; text-align:center;">
-      <div><span id="stat-streak" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Streak</span></div>
-      <div><span id="stat-hours" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Hours</span></div>
-      <div><span id="stat-completed" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Watched</span></div>
+      <div><span id="stat-streak" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Day Streak</span></div>
+      <div><span id="stat-hours" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Hours learned</span></div>
+      <div><span id="stat-completed" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Watched</span></div>
     </div>
   </div>
 </div>
@@ -160,8 +173,8 @@
   <div class="modal">
     <button class="modal-close" onclick="closeOverlay('quote-overlay')">✕</button>
     <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" style="width:100%; height:100px; margin:20px 0; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit;" placeholder="Type the Rabbi's quote here..."></textarea>
-    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700;">Create & Share</button>
+    <textarea id="quote-text" style="width:100%; height:110px; margin:20px 0; border-radius:16px; padding:15px; border:1px solid var(--border-soft); font-family:inherit; font-size:1rem;" placeholder="Type a strong quote from the Rabbi..."></textarea>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:15px; border-radius:16px; font-weight:700; font-size:1rem;">Generate & Share</button>
   </div>
 </div>
 
@@ -202,23 +215,25 @@
             <button onclick="openQuoteCreator()" class="tool-btn">🎨 Quote</button>
             <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
           </div>
-          <textarea id="notes-input" class="notes-input" placeholder="Write thoughts... use 'Time' for bookmarks."></textarea>
+          <textarea id="notes-input" class="notes-input" placeholder="Write notes here... (Use 'Time' to add timestamps)"></textarea>
           <div id="notes-display" class="notes-display"></div>
         </div>
       </div>
     </section>
 
-    <section>
+    <section class="list-container">
       <div class="list-header">
         <input id="search-input" type="search" placeholder="Search topics or dates...">
-        <button id="fav-btn" class="fav-btn" onclick="toggleFavFilter()">Saved ❤️</button>
+        <button id="fav-filter-btn" class="fav-filter-btn" onclick="toggleFavFilter()" title="Show Saved Only">
+           <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
       </div>
       <ul id="shiur-list" class="list"></ul>
     </section>
   </div>
 </main>
 
-<footer>&copy; 2026 Mekor Chaim • Built by CC Design</footer>
+<footer>&copy; 2026 Mekor Chaim Staten Island • Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></footer>
 <div id="toast" class="toast"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -241,7 +256,7 @@
     await loadData();
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
-      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
+      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1, 'enablejsapi': 1 },
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
     updateStreak();
@@ -268,6 +283,7 @@
       const card = document.getElementById("player-card");
       window.scrollTo({top: card.getBoundingClientRect().top + window.pageYOffset - 20, behavior: 'smooth'});
     }
+    const url = new URL(window.location); url.searchParams.set('v', id); window.history.pushState({}, '', url);
   }
 
   function loadNotes(id) {
@@ -298,33 +314,12 @@
     if(!player) return;
     const t = Math.floor(player.getCurrentTime());
     const ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
-    const input = document.getElementById("notes-input");
-    input.value += ts;
-    notesMap[currentId] = input.value;
+    document.getElementById("notes-input").value += ts;
+    notesMap[currentId] = document.getElementById("notes-input").value;
     localStorage.setItem('mc_notes', JSON.stringify(notesMap));
   }
 
   window.seekTo = function(sec) { if(player) { player.seekTo(sec, true); player.playVideo(); } }
-
-  document.getElementById("notes-input").oninput = (e) => {
-    if(!currentId) return;
-    notesMap[currentId] = e.target.value;
-    localStorage.setItem('mc_notes', JSON.stringify(notesMap));
-  };
-
-  window.exportNotes = function() {
-    if(!currentId) return;
-    const text = notesMap[currentId] || "";
-    if(!text) { showToast("No notes to export"); return; }
-    const item = allData.find(d => d.id === currentId);
-    const title = item ? item.title : "Shiur Notes";
-    const fullText = `Notes for: ${title}\nDate: ${item ? item.dateNice : ""}\n\n${text}`;
-    if(navigator.share) { navigator.share({ title: title, text: fullText }).catch(console.error); } 
-    else {
-      const blob = new Blob([fullText], {type: 'text/plain'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes.txt'; a.click();
-    }
-  }
 
   async function loadData() {
     try {
@@ -340,7 +335,6 @@
     } catch(e) { console.error(e); }
   }
 
-  // RESTORED RENDER LIST WITH HEARTS
   function renderList(items) {
     const list = document.getElementById("shiur-list");
     list.innerHTML = "";
@@ -357,15 +351,13 @@
       li.innerHTML = `
         <div class="item-thumb">
           <img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg">
+          <button class="btn-fav-overlay ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav('${item.id}')">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </button>
           <div class="item-progress-container"><div class="item-progress-fill" style="width:${Math.min(prog,100)}%"></div></div>
         </div>
         <div class="item-body">
-          <div class="item-top-row">
-            <div class="item-title">${item.title}</div>
-            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav('${item.id}')">
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            </button>
-          </div>
+          <div class="item-title">${item.title}</div>
           <div class="item-date">${item.dateNice}</div>
         </div>`;
       li.onclick = () => playVideo(item.id, true);
@@ -379,24 +371,14 @@
     renderList(allData);
   }
 
-  function toggleFavFilter() { 
-    showFavoritesOnly = !showFavoritesOnly; 
-    document.getElementById("fav-btn").classList.toggle('active'); 
-    renderList(allData); 
-  }
+  function toggleFavFilter() { showFavoritesOnly = !showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(allData); }
 
   function onPlayerStateChange(e) {
     if (e.data === 1) {
       progressInterval = setInterval(() => {
         const t = Math.floor(player.getCurrentTime());
-        if(t > 5) { 
-          progressMap[currentId] = t; 
-          localStorage.setItem('mc_progress', JSON.stringify(progressMap)); 
-          stats.totalSeconds += 5; 
-          localStorage.setItem('mc_stats', JSON.stringify(stats));
-          renderList(allData); 
-        }
-      }, 5000); 
+        if(t > 5) { progressMap[currentId] = t; localStorage.setItem('mc_progress', JSON.stringify(progressMap)); stats.totalSeconds += 5; localStorage.setItem('mc_stats', JSON.stringify(stats)); renderList(allData); }
+      }, 5000);
       document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       watchedHistory.add(currentId); localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
     } else { 
@@ -412,8 +394,8 @@
   }
 
   window.toggleDrivingMode = function() {
-    const el = document.getElementById("driving-mode");
     isDrivingMode = !isDrivingMode;
+    const el = document.getElementById("driving-mode");
     el.classList.toggle('active', isDrivingMode);
     if(isDrivingMode) document.getElementById("dm-title").textContent = allData.find(d => d.id === currentId)?.title || "No Shiur Selected";
   }
