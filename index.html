@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- CSS VARIABLES --- */
+    /* --- VARIABLES --- */
     :root {
       --w: 900px;
       --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.15);
@@ -32,12 +32,9 @@
       --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3); --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
 
-    /* --- BASE STYLES --- */
+    /* --- BASE --- */
     * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main);
-      padding-bottom: 60px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;
-    }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 60px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent; }
     header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
     header { padding-top: 16px; padding-bottom: 16px; }
     button { font-family: inherit; cursor: pointer; border: none; }
@@ -61,7 +58,6 @@
     .player-header { padding: 16px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.1rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     
-    /* MOBILE-FIRST SPEED CONTROLS */
     .player-meta { display: flex; flex-direction: column; gap: 10px; }
     #player-date { font-size: 0.8rem; color: var(--text-muted); }
     .speed-btns { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -73,33 +69,35 @@
 
     /* --- NOTES --- */
     .notes-section { padding: 16px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
-    /* MOBILE-FIRST NOTES BUTTONS */
     .notes-actions { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .notes-actions::-webkit-scrollbar { display: none; }
     .tool-btn { padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 5px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); white-space: nowrap; }
     .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
-    
     .notes-input, .notes-display { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; margin-top: 12px; background: var(--card-bg); line-height: 1.5; }
     .notes-display { display: none; white-space: pre-wrap; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; }
 
-    /* --- LIST --- */
-    .list-header { margin-bottom: 16px; }
-    #search-input { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 0.9rem; }
+    /* --- LIST (RESTORED & FIXED ALIGNMENT) --- */
+    .list-header { margin-bottom: 16px; display: flex; gap: 10px; }
+    #search-input { flex: 1; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 0.9rem; }
+    .fav-btn { padding: 0 16px; border-radius: 12px; background: var(--card-bg); border: 1px solid var(--border-soft); font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
+    .fav-btn.active { color: var(--fav-color); border-color: var(--fav-color); background: #fff1f2; }
     
-    .item { display: flex; gap: 12px; padding: 10px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-soft); margin-bottom: 10px; transition: 0.2s; }
+    .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border-soft); margin-bottom: 12px; transition: 0.2s; align-items: stretch; }
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
-    .item-thumb { flex: 0 0 120px; border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; }
+    .item-thumb { flex: 0 0 120px; border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; align-self: flex-start; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    /* THE GREEN PROGRESS LINE */
     .item-progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: rgba(0,0,0,0.1); }
     .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     
-    .item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-    .item-title { font-size: 0.9rem; font-weight: 600; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .item-date { font-size: 0.75rem; color: var(--text-muted); }
+    .item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: flex-start; padding-top: 2px; }
+    .item-top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 6px; }
+    .item-title { font-size: 0.95rem; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .btn-fav { padding: 4px; color: var(--border-soft); transition: 0.2s; flex-shrink: 0; }
+    .btn-fav.active { color: var(--fav-color); }
+    .item-date { font-size: 0.8rem; color: var(--text-muted); }
 
-    /* --- OVERLAYS (Hidden by default) --- */
+    /* --- OVERLAYS --- */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); padding: 20px; }
     .overlay.active { display: flex !important; }
     .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 24px; padding: 24px; position: relative; }
@@ -122,7 +120,7 @@
     
     @media(min-width: 600px) {
        .player-meta { flex-direction: row; justify-content: space-between; align-items: center; }
-       .item-thumb { flex: 0 0 140px; }
+       .item-thumb { flex: 0 0 150px; }
     }
   </style>
 </head>
@@ -213,6 +211,7 @@
     <section>
       <div class="list-header">
         <input id="search-input" type="search" placeholder="Search topics or dates...">
+        <button id="fav-btn" class="fav-btn" onclick="toggleFavFilter()">Saved ❤️</button>
       </div>
       <ul id="shiur-list" class="list"></ul>
     </section>
@@ -228,8 +227,9 @@
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
   let allData = [], currentId = null, player = null, progressInterval = null;
-  let isNoteEditMode = true, isDrivingMode = false;
+  let isNoteEditMode = true, isDrivingMode = false, showFavoritesOnly = false;
   
+  let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
   let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
   let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
   let notesMap = JSON.parse(localStorage.getItem('mc_notes') || '{}');
@@ -340,15 +340,19 @@
     } catch(e) { console.error(e); }
   }
 
+  // RESTORED RENDER LIST WITH HEARTS
   function renderList(items) {
     const list = document.getElementById("shiur-list");
     list.innerHTML = "";
     const filter = document.getElementById("search-input").value.toLowerCase();
     items.forEach(item => {
       if(!item.title.toLowerCase().includes(filter)) return;
+      if(showFavoritesOnly && !favorites.has(item.id)) return;
+
       const li = document.createElement("li");
-      // Calculate progress percentage (assuming average 45m shiur = 2700s)
       const prog = (progressMap[item.id] || 0) / 2700 * 100; 
+      const isFav = favorites.has(item.id);
+
       li.className = `item ${item.id === currentId ? 'active' : ''}`;
       li.innerHTML = `
         <div class="item-thumb">
@@ -356,7 +360,12 @@
           <div class="item-progress-container"><div class="item-progress-fill" style="width:${Math.min(prog,100)}%"></div></div>
         </div>
         <div class="item-body">
-          <div class="item-title">${item.title}</div>
+          <div class="item-top-row">
+            <div class="item-title">${item.title}</div>
+            <button class="btn-fav ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav('${item.id}')">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </button>
+          </div>
           <div class="item-date">${item.dateNice}</div>
         </div>`;
       li.onclick = () => playVideo(item.id, true);
@@ -364,18 +373,30 @@
     });
   }
 
+  window.toggleFav = function(id) {
+    if(favorites.has(id)) favorites.delete(id); else favorites.add(id);
+    localStorage.setItem('mc_favorites', JSON.stringify([...favorites]));
+    renderList(allData);
+  }
+
+  function toggleFavFilter() { 
+    showFavoritesOnly = !showFavoritesOnly; 
+    document.getElementById("fav-btn").classList.toggle('active'); 
+    renderList(allData); 
+  }
+
   function onPlayerStateChange(e) {
     if (e.data === 1) {
       progressInterval = setInterval(() => {
         const t = Math.floor(player.getCurrentTime());
-        if(t > 5) { // Only save after 5 seconds
+        if(t > 5) { 
           progressMap[currentId] = t; 
           localStorage.setItem('mc_progress', JSON.stringify(progressMap)); 
           stats.totalSeconds += 5; 
           localStorage.setItem('mc_stats', JSON.stringify(stats));
-          renderList(allData); // Update the green lines live
+          renderList(allData); 
         }
-      }, 5000); // Update every 5 seconds
+      }, 5000); 
       document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       watchedHistory.add(currentId); localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
     } else { 
@@ -391,10 +412,10 @@
   }
 
   window.toggleDrivingMode = function() {
-    isDrivingMode = !isDrivingMode;
     const el = document.getElementById("driving-mode");
+    isDrivingMode = !isDrivingMode;
     el.classList.toggle('active', isDrivingMode);
-    if(isDrivingMode) document.getElementById("dm-title").textContent = allData.find(d => d.id === currentId)?.title || "No Shiur";
+    if(isDrivingMode) document.getElementById("dm-title").textContent = allData.find(d => d.id === currentId)?.title || "No Shiur Selected";
   }
 
   window.togglePlay = function() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
@@ -410,7 +431,6 @@
   window.openQuoteCreator = function() { document.getElementById('quote-overlay').classList.add('active'); }
   window.closeOverlay = (id) => document.getElementById(id).classList.remove('active');
   
-  // QUOTE GENERATOR LOGIC (RESTORED)
   window.generateAndShareQuote = function() {
     const text = document.getElementById('quote-text').value;
     if(!text.trim()) { showToast("Please write a quote first"); return; }
