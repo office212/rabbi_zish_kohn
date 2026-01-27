@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Weekly Shiur - Mekor Chaim Staten Island</title>
+  <title>Weekly Shiur - Mekor Chaim SI</title>
   
   <meta property="og:title" content="Mekor Chaim Staten Island - Weekly Shiur">
   <meta property="og:description" content="Listen to weekly shiurim by Rabbi Zish Kohn.">
@@ -23,123 +23,136 @@
       --w: 1000px;
       --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.15);
       --text-main: #0f172a; --text-muted: #64748b; --border-soft: #e2e8f0;
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       --header-bg: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
       --fav-color: #ef4444; --watched-color: #10b981;
     }
     body.dark-mode {
       --bg-main: #020617; --card-bg: #0f172a; --text-main: #f1f5f9; --text-muted: #94a3b8;
       --border-soft: #1e293b; --accent: #60a5fa; --accent-glow: rgba(96, 165, 250, 0.2);
-      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3); --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
 
     * { box-sizing: border-box; }
     body {
       margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main);
-      padding-bottom: 80px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent;
+      padding-bottom: 50px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent;
     }
 
     header, main, footer { max-width: var(--w); margin: 0 auto; padding: 0 16px; }
-    header { padding-top: 20px; padding-bottom: 24px; }
-    .layout { margin-top: 10px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: flex-start; }
+    header { padding-top: 20px; padding-bottom: 20px; }
+    
+    /* Layout: Fixed Desktop Look on Mobile */
+    .layout { display: grid; grid-template-columns: 1.6fr 1fr; gap: 24px; align-items: flex-start; }
     @media(max-width: 900px) { .layout { grid-template-columns: 1fr; } }
 
     /* HEADER */
-    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px 28px; color: white; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
-    h1 { margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; }
-    .sub { font-size: 0.9rem; opacity: 0.9; margin-top: 4px; }
-    .header-controls { margin-top: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2); }
+    h1 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+    .sub { font-size: 0.9rem; opacity: 0.9; margin: 4px 0 16px; }
+    .header-controls { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    /* BUTTONS STYLE */
+    /* BUTTONS */
     button { font-family: inherit; cursor: pointer; border: none; }
-    .nav-btn { border-radius: 99px; font-size: 0.8rem; font-weight: 600; padding: 8px 16px; display: inline-flex; align-items: center; gap: 6px; }
+    .nav-btn { border-radius: 99px; font-size: 0.8rem; font-weight: 600; padding: 8px 14px; display: inline-flex; align-items: center; gap: 6px; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
     .stats-btn { background: white; color: var(--accent); }
     .drive-mode-btn { background: rgba(0,0,0,0.2); color: white; }
 
     /* PLAYER CARD */
-    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; position: relative; }
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 20px; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
-    .player-title { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px; line-height: 1.3; }
-    .player-meta-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.3; }
     
-    .speed-controls { display: flex; gap: 6px; }
-    .speed-btn { background: var(--bg-main); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); transition: 0.2s; }
+    .speed-row { display: flex; justify-content: space-between; align-items: center; }
+    .speed-btns { display: flex; gap: 5px; }
+    .speed-btn { background: var(--bg-main); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); }
     .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-    .frame { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
-    iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+    .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
-    /* NOTES SECTION */
+    /* NOTES - FIXED SPACING */
     .notes-section { padding: 20px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
-    .notes-header { font-size: 0.9rem; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-    .notes-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .notes-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .tool-btn { padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 5px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); }
+    .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
     
-    .note-tool { padding: 6px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; gap: 4px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-muted); }
-    .note-tool.primary { background: var(--accent); color: white; border-color: var(--accent); }
+    .notes-input { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; margin-top: 5px; }
+    .notes-display { width: 100%; min-height: 100px; padding: 12px; background: var(--card-bg); border-radius: 12px; display: none; white-space: pre-wrap; font-size: 0.9rem; line-height: 1.5; border: 1px solid var(--border-soft); }
+    .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; }
+
+    /* LIST ITEMS & PROGRESS */
+    .list-header { display: flex; gap: 10px; margin: 10px 0 20px; }
+    #search-input { flex: 1; padding: 12px 16px; border-radius: 15px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; }
     
-    .notes-input { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; margin-top: 10px; display: block; }
-    .notes-display { width: 100%; min-height: 100px; padding: 12px; background: var(--bg-main); border-radius: 12px; font-size: 0.9rem; line-height: 1.6; display: none; white-space: pre-wrap; }
-    .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; padding: 0 2px; }
-
-    /* LIST */
-    .list-header { margin: 20px 0 15px; display: flex; gap: 10px; }
-    #search-input { flex: 1; padding: 12px 16px; border-radius: 14px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; }
-    .fav-filter { padding: 0 16px; border-radius: 14px; background: var(--card-bg); border: 1px solid var(--border-soft); font-weight: 600; color: var(--text-muted); }
-    .fav-filter.active { color: var(--fav-color); border-color: var(--fav-color); background: #fff1f2; }
-
-    .item { display: flex; gap: 15px; padding: 12px; background: var(--card-bg); border-radius: 18px; border: 1px solid var(--border-soft); margin-bottom: 12px; transition: 0.2s; }
+    .item { display: flex; gap: 12px; padding: 10px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 12px; transition: 0.2s; }
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
-    .item-thumb { flex: 0 0 120px; border-radius: 10px; overflow: hidden; position: relative; aspect-ratio: 16/9; }
+    .item-thumb { flex: 0 0 110px; border-radius: 12px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .item-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--watched-color); transition: 0.3s; }
+    
+    /* THE GREEN LINE - PROGRESS BAR */
+    .item-progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(0,0,0,0.1); }
+    .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
+
     .item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-    .item-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); }
+    .item-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 3px; line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .item-date { font-size: 0.75rem; color: var(--text-muted); }
 
     /* OVERLAYS */
-    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex; }
-    .modal { background: var(--card-bg); width: 90%; max-width: 400px; border-radius: 24px; padding: 24px; position: relative; }
+    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 28px; padding: 24px; position: relative; }
     
-    #driving-mode { background: #000; flex-direction: column; }
-    .dm-controls { display: flex; gap: 30px; align-items: center; margin: 40px 0; }
-    .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: #222; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    #driving-mode { background: #000; flex-direction: column; display: none; }
+    #driving-mode.active { display: flex; }
+    .dm-controls { display: flex; gap: 20px; align-items: center; margin: 40px 0; }
+    .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: #1e293b; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .dm-btn.play { width: 100px; height: 100px; background: var(--accent); }
-    .dm-close { position: absolute; top: 30px; right: 30px; color: white; background: #333; padding: 10px 20px; border-radius: 99px; }
+    .dm-close { position: absolute; top: 40px; right: 20px; background: #334155; color: white; padding: 10px 20px; border-radius: 99px; font-weight: 700; }
 
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 20000; opacity: 0; }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #back-to-top { position: fixed; bottom: 25px; right: 20px; padding: 12px 16px; border-radius: 99px; background: var(--text-main); color: var(--bg-main); font-weight: 700; display: none; border: none; }
+
+    @media(max-width: 600px) { .item-thumb { flex: 0 0 100px; } }
   </style>
 </head>
 <body>
 
 <div id="driving-mode" class="overlay">
-  <button class="dm-close" onclick="toggleDrivingMode()">Exit</button>
-  <div style="color: #94a3b8; margin-bottom: 20px;" id="dm-title">No Shiur Playing</div>
+  <button class="dm-close" onclick="toggleDrivingMode()">Close</button>
+  <div style="color: #94a3b8; text-align: center; margin-bottom: 20px; font-weight: 600;" id="dm-title">No Shiur Playing</div>
   <div class="dm-controls">
-    <button class="dm-btn" onclick="seek(-30)"><svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg><span>-30s</span></button>
-    <button class="dm-btn play" onclick="togglePlay()"><svg id="dm-play-icon" width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-    <button class="dm-btn" onclick="seek(30)"><svg width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.16-3.16-1.88-5.12-1.88-3.54 0-6.55 2.31-7.6 5.5l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/></svg><span>+30s</span></button>
+    <button class="dm-btn" onclick="seek(-30)">
+       <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
+       <span>-30s</span>
+    </button>
+    <button class="dm-btn play" onclick="togglePlay()">
+       <svg id="dm-play-icon" width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button class="dm-btn" onclick="seek(30)">
+       <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.16-3.16-1.88-5.12-1.88-3.54 0-6.55 2.31-7.6 5.5l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/></svg>
+       <span>+30s</span>
+    </button>
   </div>
 </div>
 
 <div id="stats-overlay" class="overlay">
   <div class="modal">
-    <button style="position:absolute; top:15px; right:15px;" onclick="closeOverlay('stats-overlay')">✕</button>
+    <button style="position:absolute; top:15px; right:15px; font-size:1.2rem;" onclick="closeOverlay('stats-overlay')">✕</button>
     <h3 style="text-align:center; margin-top:0;">My Torah Stats 📊</h3>
     <div style="display:flex; justify-content:space-around; text-align:center; margin-top:20px;">
-      <div><span id="stat-streak" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Streak</span></div>
-      <div><span id="stat-hours" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Hours</span></div>
-      <div><span id="stat-completed" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Watched</span></div>
+      <div><span id="stat-streak" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Streak</span></div>
+      <div><span id="stat-hours" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Hours</span></div>
+      <div><span id="stat-completed" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Watched</span></div>
     </div>
   </div>
 </div>
 
 <header>
   <div class="header-inner">
-    <h1>Mekor Chaim Staten Island</h1>
-    <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
+    <h1>Mekor Chaim SI</h1>
+    <div class="sub">Rabbi Zish Kohn - Weekly Shiurim</div>
     <div class="header-controls">
       <button onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
       <button onclick="toggleDrivingMode()" class="nav-btn drive-mode-btn">🚗 Audio Mode</button>
@@ -155,9 +168,9 @@
       <div id="player-content" style="display:none">
         <div class="player-header">
           <h2 class="player-title" id="player-title">Select a shiur</h2>
-          <div class="player-meta-row">
-            <span id="player-date" style="font-size:0.85rem; color:var(--text-muted);"></span>
-            <div class="speed-controls">
+          <div class="speed-row">
+            <span id="player-date" style="font-size:0.8rem; color:var(--text-muted);"></span>
+            <div class="speed-btns">
               <button class="speed-btn active" onclick="setSpeed(1, this)">1x</button>
               <button class="speed-btn" onclick="setSpeed(1.25, this)">1.25x</button>
               <button class="speed-btn" onclick="setSpeed(1.5, this)">1.5x</button>
@@ -165,18 +178,14 @@
             </div>
           </div>
         </div>
-        <div class="frame"><div id="player-placeholder"></div></div>
+        <div class="video-container"><div id="player-placeholder"></div></div>
         <div class="notes-section">
-          <div class="notes-header">
-            <span>My Notes 📝</span>
-            <div class="notes-actions">
-              <button onclick="toggleNoteMode()" id="note-mode-btn" class="note-tool primary">👁️ View</button>
-              <button onclick="insertTimestamp()" id="time-btn" class="note-tool">⏱️ Time</button>
-              <button onclick="openQuoteCreator()" class="note-tool">🎨 Quote</button>
-              <button onclick="exportNotes()" class="note-tool">💾 Export</button>
-            </div>
+          <div class="notes-actions">
+            <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ View</button>
+            <button onclick="insertTimestamp()" id="time-btn" class="tool-btn">⏱️ Time</button>
+            <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
           </div>
-          <textarea id="notes-input" class="notes-input" placeholder="Type notes... Use 'Time' to bookmark."></textarea>
+          <textarea id="notes-input" class="notes-input" placeholder="Notes... use 'Time' for bookmarks."></textarea>
           <div id="notes-display" class="notes-display"></div>
         </div>
       </div>
@@ -184,15 +193,14 @@
 
     <section>
       <div class="list-header">
-        <input id="search-input" type="search" placeholder="Search topics...">
-        <button id="fav-btn" class="fav-filter" onclick="toggleFavFilter()">Saved</button>
+        <input id="search-input" type="search" placeholder="Search topics or dates...">
       </div>
       <ul id="shiur-list" class="list"></ul>
     </section>
   </div>
 </main>
 
-<footer>&copy; 2026 Mekor Chaim Staten Island • <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></footer>
+<footer>&copy; 2026 Mekor Chaim • Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></footer>
 <button id="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Top</button>
 <div id="toast" class="toast"></div>
 
@@ -202,9 +210,8 @@
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
   let allData = [], currentId = null, player = null, progressInterval = null;
-  let isNoteEditMode = true, showFavoritesOnly = false;
+  let isNoteEditMode = true;
   
-  let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
   let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
   let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
   let notesMap = JSON.parse(localStorage.getItem('mc_notes') || '{}');
@@ -216,7 +223,7 @@
     await loadData();
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
-      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1, 'enablejsapi': 1 },
+      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
     updateStreak();
@@ -226,12 +233,13 @@
     const urlParams = new URLSearchParams(window.location.search);
     const v = urlParams.get('v');
     if (v) playVideo(v, false, parseInt(urlParams.get('t')) || 0);
-    else if (localStorage.getItem('lastWatched')) cueVideo(localStorage.getItem('lastWatched'), progressMap[localStorage.getItem('lastWatched')] || 0);
+    else if (localStorage.getItem('lastWatched')) playVideo(localStorage.getItem('lastWatched'), false);
   }
 
   function playVideo(id, autoScroll, time = null) {
     currentId = id; localStorage.setItem('lastWatched', id);
     const item = allData.find(d => d.id === id);
+    if(!item) return;
     document.getElementById("player-title").textContent = item.title;
     document.getElementById("player-date").textContent = item.dateNice;
     loadNotes(id);
@@ -242,15 +250,6 @@
       const card = document.getElementById("player-card");
       window.scrollTo({top: card.getBoundingClientRect().top + window.pageYOffset - 20, behavior: 'smooth'});
     }
-  }
-
-  function cueVideo(id, time) {
-    currentId = id; const item = allData.find(d => d.id === id);
-    document.getElementById("player-title").textContent = item.title;
-    document.getElementById("player-date").textContent = item.dateNice;
-    loadNotes(id);
-    if(player && player.cueVideoById) player.cueVideoById({videoId: id, startSeconds: time});
-    renderList(allData);
   }
 
   function loadNotes(id) {
@@ -269,27 +268,21 @@
 
   window.toggleNoteMode = function() {
     isNoteEditMode = !isNoteEditMode;
-    const input = document.getElementById("notes-input");
-    const display = document.getElementById("notes-display");
-    const btn = document.getElementById("note-mode-btn");
-    if(isNoteEditMode) {
-      input.style.display = 'block'; display.style.display = 'none'; btn.innerHTML = '👁️ View';
-    } else {
-      updateNotesDisplay(input.value);
-      input.style.display = 'none'; display.style.display = 'block'; btn.innerHTML = '✏️ Edit';
-    }
+    const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn");
+    if(isNoteEditMode) { input.style.display = 'block'; display.style.display = 'none'; btn.innerHTML = '👁️ View'; } 
+    else { updateNotesDisplay(input.value); input.style.display = 'none'; display.style.display = 'block'; btn.innerHTML = '✏️ Edit'; }
   }
 
   window.insertTimestamp = function() {
+    if(!player) return;
     const t = Math.floor(player.getCurrentTime());
     const ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
-    const input = document.getElementById("notes-input");
-    input.value += ts;
-    notesMap[currentId] = input.value;
+    document.getElementById("notes-input").value += ts;
+    notesMap[currentId] = document.getElementById("notes-input").value;
     localStorage.setItem('mc_notes', JSON.stringify(notesMap));
   }
 
-  window.seekTo = function(sec) { player.seekTo(sec, true); player.playVideo(); }
+  window.seekTo = function(sec) { if(player) { player.seekTo(sec, true); player.playVideo(); } }
 
   document.getElementById("notes-input").oninput = (e) => {
     if(!currentId) return;
@@ -317,13 +310,18 @@
     const filter = document.getElementById("search-input").value.toLowerCase();
     items.forEach(item => {
       if(!item.title.toLowerCase().includes(filter)) return;
-      if(showFavoritesOnly && !favorites.has(item.id)) return;
       const li = document.createElement("li");
-      const prog = (progressMap[item.id] || 0) / 2700 * 100;
+      const prog = (progressMap[item.id] || 0) / 2700 * 100; // Estimated 45min
       li.className = `item ${item.id === currentId ? 'active' : ''}`;
       li.innerHTML = `
-        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"><div class="item-progress" style="width:${Math.min(prog,100)}%"></div></div>
-        <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}</div></div>`;
+        <div class="item-thumb">
+          <img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg">
+          <div class="item-progress-container"><div class="item-progress-fill" style="width:${Math.min(prog,100)}%"></div></div>
+        </div>
+        <div class="item-body">
+          <div class="item-title">${item.title}</div>
+          <div class="item-date">${item.dateNice}</div>
+        </div>`;
       li.onclick = () => playVideo(item.id, true);
       list.appendChild(li);
     });
@@ -333,14 +331,16 @@
     if (e.data === 1) {
       progressInterval = setInterval(() => {
         const t = Math.floor(player.getCurrentTime());
-        if(t > 2) { progressMap[currentId] = t; localStorage.setItem('mc_progress', JSON.stringify(progressMap)); stats.totalSeconds += 1; localStorage.setItem('mc_stats', JSON.stringify(stats)); }
+        if(t > 2) { 
+          progressMap[currentId] = t; 
+          localStorage.setItem('mc_progress', JSON.stringify(progressMap)); 
+          stats.totalSeconds += 1; 
+          localStorage.setItem('mc_stats', JSON.stringify(stats));
+          renderList(allData); // Live update progress line
+        }
       }, 1000);
-      document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       watchedHistory.add(currentId); localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
-    } else {
-      clearInterval(progressInterval);
-      document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>';
-    }
+    } else { clearInterval(progressInterval); }
   }
 
   window.setSpeed = function(s, btn) { 
@@ -351,13 +351,13 @@
 
   window.toggleDrivingMode = function() {
     const el = document.getElementById("driving-mode");
-    isDrivingMode = !isDrivingMode;
-    el.classList.toggle('active', isDrivingMode);
+    el.classList.toggle('active');
     document.getElementById("dm-title").textContent = allData.find(d => d.id === currentId)?.title || "No Shiur";
   }
 
   window.togglePlay = function() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   window.seek = function(s) { player.seekTo(player.getCurrentTime() + s, true); }
+  
   window.openStats = function() { 
     document.getElementById('stat-streak').textContent = stats.streak;
     document.getElementById('stat-hours').textContent = (stats.totalSeconds/3600).toFixed(1);
@@ -365,13 +365,18 @@
     document.getElementById('stats-overlay').classList.add('active'); 
   }
   window.closeOverlay = (id) => document.getElementById(id).classList.remove('active');
+  
   function updateStreak() {
     const today = new Date().toISOString().split('T')[0];
-    if (stats.lastVisit !== today) { stats.streak = (stats.lastVisit === new Date(Date.now()-86400000).toISOString().split('T')[0]) ? stats.streak + 1 : 1; stats.lastVisit = today; localStorage.setItem('mc_stats', JSON.stringify(stats)); }
+    if (stats.lastVisit !== today) {
+      const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0];
+      stats.streak = (stats.lastVisit === yesterday) ? stats.streak + 1 : 1;
+      stats.lastVisit = today; localStorage.setItem('mc_stats', JSON.stringify(stats));
+    }
   }
+
   document.getElementById("search-input").oninput = () => renderList(allData);
-  function toggleFavFilter() { showFavoritesOnly = !showFavoritesOnly; document.getElementById("fav-btn").classList.toggle('active'); renderList(allData); }
-  document.getElementById("theme-toggle").onclick = () => { document.body.classList.toggle("dark-mode"); };
+  document.getElementById("theme-toggle").onclick = () => document.body.classList.toggle("dark-mode");
   window.onscroll = () => document.getElementById("back-to-top").style.display = window.scrollY > 400 ? "block" : "none";
 </script>
 </body>
