@@ -31,7 +31,7 @@
     }
 
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 60px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 80px; transition: background 0.3s ease, color 0.3s ease; -webkit-tap-highlight-color: transparent; }
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
     header { padding-top: 20px; padding-bottom: 20px; }
@@ -76,27 +76,29 @@
     .fav-filter-btn { padding: 12px 16px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
     .fav-filter-btn.active { color: var(--fav-color); border-color: var(--fav-color); background: #fff1f2; }
 
-    .list { list-style: none; padding: 0; margin: 0; }
+    .list { list-style: none; padding: 0; margin: 0; width: 100%; }
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; transition: 0.2s; align-items: center; box-shadow: var(--shadow-card); cursor: pointer; }
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
     .item-thumb { flex: 0 0 120px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    
     .btn-fav-overlay { position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; cursor: pointer; }
     .btn-fav-overlay svg { width: 18px; height: 18px; fill: #cbd5e1; }
     .btn-fav-overlay.active svg { fill: var(--fav-color); }
-    
     .item-progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(0,0,0,0.1); }
     .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     .item-body { flex: 1; min-width: 0; }
     .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .item-date { font-size: 0.8rem; color: var(--text-muted); }
 
+    /* EMPTY STATE STYLE */
+    .empty-state { padding: 40px 20px; text-align: center; width: 100%; border: 2px dashed var(--border-soft); border-radius: 24px; background: var(--card-bg); margin-top: 10px; }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+    .empty-state-text { font-size: 1rem; color: var(--text-muted); line-height: 1.6; }
+
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
     .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 28px; padding: 24px; position: relative; }
     .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; color: var(--text-muted); font-size: 1.2rem; border: none; cursor: pointer; }
-
     #driving-mode { background: #000; flex-direction: column; }
     .dm-controls { display: flex; gap: 20px; align-items: center; margin: 40px 0; }
     .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: #1e293b; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
@@ -104,7 +106,10 @@
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
-    footer { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 50px; padding-bottom: 40px; }
+
+    /* FOOTER FIXED CLICKABILITY */
+    footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; position: relative; z-index: 10; }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 700; cursor: pointer; pointer-events: auto; }
   </style>
 </head>
 <body>
@@ -136,7 +141,7 @@
     <button class="modal-close" onclick="closeOverlay('quote-overlay')">✕</button>
     <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
     <textarea id="quote-text" style="width:100%; height:100px; margin:20px 0; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit;" placeholder="Type quote here..."></textarea>
-    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer;">Share Image</button>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer;">Share</button>
   </div>
 </div>
 
@@ -199,7 +204,7 @@
   </div>
 </main>
 
-<footer>&copy; 2026 Mekor Chaim • CC Design</footer>
+<footer>&copy; 2026 Mekor Chaim SI • Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></footer>
 <div id="toast" class="toast"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -225,8 +230,7 @@
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1, 'enablejsapi': 1 },
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
-    updateStreak();
-    applySavedTheme();
+    updateStreak(); applySavedTheme();
   }
 
   function onPlayerReady() {
@@ -277,9 +281,8 @@
     if(!player) return;
     const t = Math.floor(player.getCurrentTime());
     const ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
-    const input = document.getElementById("notes-input");
-    input.value += ts;
-    notesMap[currentId] = input.value;
+    document.getElementById("notes-input").value += ts;
+    notesMap[currentId] = document.getElementById("notes-input").value;
     localStorage.setItem('mc_notes', JSON.stringify(notesMap));
   }
 
@@ -313,9 +316,30 @@
     const list = document.getElementById("shiur-list");
     list.innerHTML = "";
     const filter = document.getElementById("search-input").value.toLowerCase();
-    items.forEach(item => {
-      if(!item.title.toLowerCase().includes(filter)) return;
-      if(showFavoritesOnly && !favorites.has(item.id)) return;
+    
+    let filtered = items.filter(item => {
+      const matchesSearch = item.title.toLowerCase().includes(filter);
+      const matchesFav = !showFavoritesOnly || favorites.has(item.id);
+      return matchesSearch && matchesFav;
+    });
+
+    // FIXED: Show empty state ONLY when favorites filter is on and nothing found
+    if (showFavoritesOnly && filtered.length === 0) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <span class="empty-state-icon">❤️</span>
+          <div class="empty-state-text">
+            <strong>You haven't saved any shiurim yet.</strong><br>
+            Tap the heart icon ❤️ on a shiur to add it to your favorites.
+          </div>
+        </div>`;
+      return;
+    } else if (filtered.length === 0) {
+      list.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`;
+      return;
+    }
+
+    filtered.forEach(item => {
       const li = document.createElement("li");
       const prog = (progressMap[item.id] || 0) / 2700 * 100;
       li.className = `item ${item.id === currentId ? 'active' : ''}`;
@@ -347,7 +371,6 @@
   window.seek = function(s) { player.seekTo(player.getCurrentTime() + s, true); }
   window.openStats = function() { document.getElementById('stat-streak').textContent = stats.streak; document.getElementById('stat-hours').textContent = (stats.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = watchedHistory.size; document.getElementById('stats-overlay').classList.add('active'); }
   window.closeOverlay = (id) => document.getElementById(id).classList.remove('active');
-  
   window.toggleShareMenu = () => document.getElementById("share-menu").classList.toggle("show");
   window.shareLink = (t) => {
     let url = window.location.origin + window.location.pathname + '?v=' + currentId;
@@ -355,7 +378,6 @@
     navigator.clipboard.writeText(url); showToast("Link Copied!"); document.getElementById("share-menu").classList.remove("show");
   }
 
-  // --- RESTORED QUOTE LOGIC ---
   window.openQuoteCreator = () => document.getElementById('quote-overlay').classList.add('active');
   window.generateAndShareQuote = function() {
     const text = document.getElementById('quote-text').value;
@@ -382,11 +404,11 @@
     } ctx.fillText(line, x, y);
   }
 
-  // --- THEME LOGIC (FIXED) ---
+  // FIXED THEME LOGIC
   document.getElementById("theme-toggle").onclick = () => {
-    const isDark = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    updateThemeUI(isDark);
+    const isDarkNow = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", isDarkNow ? "dark" : "light");
+    updateThemeUI(isDarkNow);
   };
   function applySavedTheme() {
     const isDark = localStorage.getItem("theme") === "dark";
