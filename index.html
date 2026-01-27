@@ -56,12 +56,8 @@
     
     .theme-toggle { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; min-width: 130px; justify-content: center; }
     .install-btn { background: white; color: var(--accent); border: none; padding: 8px 16px; display: none; }
-    
-    .drive-mode-btn { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; transition: 0.2s; }
-    .drive-mode-btn:hover { background: rgba(0,0,0,0.5); }
-    
-    .stats-btn { background: rgba(255,255,255,0.9); color: var(--accent); border: none; padding: 8px 16px; transition: 0.2s; }
-    .stats-btn:hover { background: white; }
+    .drive-mode-btn { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 8px 16px; }
+    .stats-btn { background: rgba(255,255,255,0.9); color: var(--accent); border: none; padding: 8px 16px; }
 
     .share-container { position: relative; }
     .share-btn { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; cursor: pointer; }
@@ -71,21 +67,12 @@
       position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--card-bg); border: 1px solid var(--border-soft);
       border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: none; flex-direction: column; min-width: 160px; z-index: 50;
     }
-    .share-menu.show { display: flex; animation: fadeIn 0.2s; }
-    .share-menu button { background: none; border: none; padding: 12px; text-align: left; cursor: pointer; font-size: 0.9rem; color: var(--text-main); border-bottom: 1px solid var(--border-soft); transition: 0.2s; }
-    .share-menu button:hover { background: var(--bg-main); }
+    .share-menu.show { display: flex; }
+    .share-menu button { background: none; border: none; padding: 12px; text-align: left; cursor: pointer; font-size: 0.9rem; color: var(--text-main); border-bottom: 1px solid var(--border-soft); }
     .share-menu button:last-child { border-bottom: none; }
 
     /* PLAYER CARD */
-    .player-card { 
-      background: var(--card-bg); 
-      border-radius: 24px; 
-      box-shadow: var(--shadow-card); 
-      border: 1px solid var(--border-soft); 
-      position: relative; 
-      overflow: hidden; 
-    }
-    
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); position: relative; overflow: hidden; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.25rem; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
     .player-meta-row { display: flex; justify-content: space-between; align-items: center; }
@@ -95,30 +82,20 @@
     #player-placeholder { position: absolute; inset: 0; width: 100%; height: 100%; }
 
     .player-controls { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-    .control-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .control-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer; }
     .control-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-    /* PERSONAL NOTES - IMPROVED */
+    /* NOTES AREA */
     .notes-section { padding: 20px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
     .notes-header { font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .notes-input { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--card-bg); color: var(--text-main); resize: vertical; display: block; }
+    .notes-display { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); white-space: pre-wrap; display: none; line-height: 1.5; }
     
-    .notes-input { width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--card-bg); color: var(--text-main); resize: vertical; transition: 0.2s; display: block; }
-    .notes-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .ts-link { color: var(--accent); font-weight: 700; cursor: pointer; text-decoration: underline; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
     
-    .notes-display { 
-      width: 100%; min-height: 100px; padding: 12px; border-radius: 12px; border: 1px solid var(--border-soft); 
-      font-family: inherit; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); 
-      white-space: pre-wrap; display: none; line-height: 1.5;
-    }
-    
-    .ts-link { color: var(--accent); font-weight: 700; cursor: pointer; text-decoration: underline; background: var(--accent-glow); padding: 2px 6px; border-radius: 4px; }
-    .ts-link:hover { background: var(--accent); color: white; text-decoration: none; }
-
-    .notes-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    .tool-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 4px; }
-    .tool-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .notes-actions { display: flex; gap: 8px; align-items: center; }
+    .tool-btn { background: transparent; border: 1px solid var(--border-soft); color: var(--text-muted); padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 4px; }
     .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
-    .tool-btn.highlight { background: #fef3c7; color: #d97706; border-color: #fcd34d; }
 
     /* LIST */
     .list-header { background: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border-soft); display: flex; gap: 12px; flex-wrap: wrap; }
@@ -126,95 +103,50 @@
     .filters input, .filters select { border-radius: 12px; border: 1px solid var(--border-soft); padding: 10px 14px; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none; flex: 1; }
     .btn-fav-filter { background: var(--bg-main); border: 1px solid var(--border-soft); color: var(--text-muted); padding: 10px 14px; border-radius: 12px; cursor: pointer; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 6px; }
     .btn-fav-filter.active { background: #fef2f2; color: var(--fav-color); border-color: #fca5a5; }
-    body.dark-mode .btn-fav-filter.active { background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
 
     .list { list-style: none; margin: 0; padding: 0; }
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
-    .item:hover { transform: translateY(-2px); border-color: var(--accent); }
     .item.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
     .item.watched .item-title { color: var(--text-muted); }
-    .item.watched .item-thumb { opacity: 0.85; }
-
-    .item-progress-bg { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: transparent; }
-    .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
-
     .item-thumb { flex: 0 0 130px; position: relative; border-radius: 10px; overflow: hidden; }
     .item-thumb img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
-    .play-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; }
-    .item:hover .play-overlay { opacity: 1; }
-    .play-overlay svg { width: 32px; height: 32px; fill: white; }
-
+    .item-progress-bg { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: transparent; }
+    .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     .item-body { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; min-width: 0; }
     .item-top-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-    .item-title { font-size: 1rem; font-weight: 600; line-height: 1.4; color: var(--text-main); }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-    
-    .btn-fav { background: transparent; border: none; cursor: pointer; color: #cbd5e1; padding: 4px; }
+    .item-title { font-size: 1rem; font-weight: 600; color: var(--text-main); }
+    .item-date { font-size: 0.8rem; color: var(--text-muted); }
+    .btn-fav { background: transparent; border: none; cursor: pointer; color: #cbd5e1; }
     .btn-fav.active { color: var(--fav-color); }
-    .btn-fav svg { width: 22px; height: 22px; fill: currentColor; }
-
-    mark { background: #fef08a; color: #854d0e; padding: 0 2px; border-radius: 2px; }
-    body.dark-mode mark { background: #854d0e; color: #fef08a; }
-
-    .badge-new { background: #f59e0b; color: white; padding: 2px 8px; border-radius: 99px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; }
-    .equalizer { display: flex; align-items: flex-end; gap: 2px; height: 12px; width: 12px; margin-left: auto; }
+    .equalizer { display: flex; align-items: flex-end; gap: 2px; height: 12px; margin-left: auto; }
     .bar { width: 3px; background: var(--accent); animation: bounce 1s infinite ease-in-out; }
-    .bar:nth-child(2) { animation-delay: 0.1s; height: 60%; }
-    .bar:nth-child(3) { animation-delay: 0.2s; height: 30%; }
     @keyframes bounce { 0%, 100% { height: 20%; } 50% { height: 100%; } }
 
-    /* --- OVERLAYS (Driving, Stats, Quote) --- */
-    .overlay-fixed { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; backdrop-filter: blur(5px); }
-    .overlay-fixed.active { display: flex; opacity: 1; }
+    /* OVERLAYS - FIXED HIDING */
+    .overlay-fixed { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: none; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+    .overlay-fixed.active { display: flex !important; }
     
-    /* Stats & Quote Modal Box */
-    .modal-box { background: var(--card-bg); width: 90%; max-width: 400px; border-radius: 24px; padding: 24px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.3); transform: scale(0.95); transition: transform 0.2s; }
-    .overlay-fixed.active .modal-box { transform: scale(1); }
-    .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; cursor: pointer; color: var(--text-muted); }
-    
-    .stats-row { display: flex; justify-content: space-between; margin-top: 20px; text-align: center; }
-    .stat-item { flex: 1; }
-    .stat-val { font-size: 1.5rem; font-weight: 800; color: var(--accent); display: block; }
-    .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+    .modal-box { background: var(--card-bg); width: 90%; max-width: 400px; border-radius: 24px; padding: 24px; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; cursor: pointer; color: var(--text-muted); font-size: 1.2rem; }
 
-    /* Quote Creator */
-    .quote-input { width: 100%; height: 100px; padding: 12px; margin: 16px 0; border: 1px solid var(--border-soft); border-radius: 12px; font-family: inherit; background: var(--bg-main); color: var(--text-main); }
-    .btn-create { width: 100%; background: var(--accent); color: white; border: none; padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-
-    /* Driving Mode */
-    #driving-mode { background: #000; }
-    .dm-title { font-size: 1.2rem; margin-bottom: 30px; text-align: center; color: #9ca3af; padding: 0 20px; }
+    /* DRIVING MODE OVERLAY */
+    #driving-mode { background: #000; display: none; flex-direction: column; align-items: center; justify-content: center; }
+    .dm-title { font-size: 1.2rem; margin-bottom: 30px; text-align: center; color: #9ca3af; }
     .dm-controls { display: flex; gap: 30px; align-items: center; margin-bottom: 40px; }
-    .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; gap: 4px; }
-    .dm-btn:active { background: rgba(255,255,255,0.3); transform: scale(0.95); }
-    .dm-btn.play-pause { width: 100px; height: 100px; background: var(--accent); border: none; box-shadow: 0 0 30px rgba(37, 99, 235, 0.4); gap: 0; }
-    .dm-btn svg { width: 28px; height: 28px; fill: white; }
-    .dm-btn.play-pause svg { width: 40px; height: 40px; }
-    .dm-close { position: absolute; top: 30px; right: 30px; background: transparent; border: 1px solid #333; color: #888; padding: 8px 16px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; }
+    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+    .dm-btn.play-pause { width: 100px; height: 100px; background: var(--accent); border: none; }
+    .dm-btn svg { width: 32px; height: 32px; fill: white; }
+    .dm-close { position: absolute; top: 30px; right: 30px; background: #333; color: #fff; padding: 10px 20px; border-radius: 99px; border: none; }
 
     /* UTILS */
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.2); opacity: 0; transition: all 0.4s; z-index: 1000; }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; opacity: 0; transition: 0.4s; z-index: 10000; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-
-    #back-to-top { position: fixed; bottom: 30px; right: 20px; padding: 12px 18px; border-radius: 99px; background: var(--text-main); color: var(--bg-main); border: none; font-weight: 600; cursor: pointer; display: none; z-index: 50; }
-    .ios-prompt { background: rgba(255,255,255,0.95); backdrop-filter: blur(16px); padding: 30px 20px 40px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999; border-radius: 24px 24px 0 0; display: none; box-shadow: 0 -10px 40px rgba(0,0,0,0.1); }
-    .ios-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    
+    #back-to-top { position: fixed; bottom: 30px; right: 20px; padding: 12px 18px; border-radius: 99px; background: var(--text-main); color: var(--bg-main); border: none; font-weight: 600; display: none; z-index: 50; }
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 40px; }
-    .footer-credit { display: block; margin-top: 8px; font-size: 0.75rem; opacity: 0.7; }
-    .footer-credit a { color: inherit; text-decoration: none; border-bottom: 1px dotted; transition: opacity 0.2s; }
-    .footer-credit a:hover { opacity: 1; border-bottom: 1px solid; }
-    
-    .skeleton-wrapper { padding: 20px; background: var(--card-bg); }
-    .skel-line { height: 24px; margin-bottom: 12px; border-radius: 8px; background: var(--border-soft); animation: pulse 1.5s infinite; }
-    .skel-video { border-radius: 16px; height: 250px; width: 100%; }
-    .skel-list-item { display: flex; gap: 16px; padding: 12px; margin-bottom: 12px; border: 1px solid var(--border-soft); border-radius: 16px; }
-    .skel-thumb { width: 130px; height: 75px; background: var(--border-soft); border-radius: 10px; animation: pulse 1.5s infinite; }
-    .skel-content { flex: 1; display: flex; flex-direction: column; gap: 8px; justify-content: center; }
-    @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-
-    @media(max-width: 600px) { .item-thumb { flex: 0 0 100px; } .player-card { border-radius: 0 0 24px 24px; margin: 0 -16px; width: auto; border: none; } }
+    .skeleton-wrapper { padding: 20px; }
+    .skel-video { border-radius: 16px; height: 200px; width: 100%; background: var(--border-soft); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+    @media(max-width: 600px) { .item-thumb { flex: 0 0 100px; } .player-card { border-radius: 0 0 24px 24px; margin: 0 -16px; } }
   </style>
 </head>
 <body>
@@ -223,22 +155,10 @@
   <div class="modal-box">
     <button class="modal-close" onclick="closeOverlay('stats-overlay')">✕</button>
     <h3 style="margin:0; text-align:center;">My Torah Stats 📊</h3>
-    <div class="stats-row">
-      <div class="stat-item">
-        <span class="stat-val" id="stat-streak">0</span>
-        <span class="stat-label">Day Streak</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-val" id="stat-hours">0</span>
-        <span class="stat-label">Hours</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-val" id="stat-completed">0</span>
-        <span class="stat-label">Completed</span>
-      </div>
-    </div>
-    <div style="margin-top:20px; text-align:center; font-size:0.85rem; color:var(--text-muted)">
-      "Torah is the best merchandise"
+    <div style="display:flex; justify-content:space-between; margin-top:20px; text-align:center;">
+      <div><span id="stat-streak" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Streak</span></div>
+      <div><span id="stat-hours" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Hours</span></div>
+      <div><span id="stat-completed" style="font-size:1.5rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Watched</span></div>
     </div>
   </div>
 </div>
@@ -247,27 +167,25 @@
   <div class="modal-box">
     <button class="modal-close" onclick="closeOverlay('quote-overlay')">✕</button>
     <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" class="quote-input" placeholder="Type the quote here..."></textarea>
-    <button onclick="generateAndShareQuote()" class="btn-create">Generate Image</button>
-    <div id="canvas-container" style="display:none;"></div>
+    <textarea id="quote-text" style="width:100%; height:100px; margin:15px 0; border-radius:12px; padding:10px; border:1px solid var(--border-soft);" placeholder="Type the quote here..."></textarea>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:600;">Share Image</button>
   </div>
 </div>
 
-<div id="driving-mode" class="driving-mode-overlay" aria-hidden="true">
-  <button class="dm-close" onclick="toggleDrivingMode()" aria-label="Close Driving Mode">Exit Drive Mode</button>
+<div id="driving-mode" class="overlay-fixed" aria-hidden="true" style="background:#000; flex-direction:column;">
+  <button class="dm-close" onclick="toggleDrivingMode()">Exit Mode</button>
   <div class="dm-title" id="dm-title">No Shiur Playing</div>
   <div class="dm-controls">
-    <button class="dm-btn" onclick="seek(-30)" aria-label="Rewind 30 seconds">
+    <button class="dm-btn" onclick="seek(-30)">
       <svg viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg><span>-30s</span>
     </button>
-    <button class="dm-btn play-pause" id="dm-play-btn" onclick="togglePlay()" aria-label="Play or Pause">
-      <svg id="dm-play-icon" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+    <button class="dm-btn play-pause" id="dm-play-btn" onclick="togglePlay()">
+      <svg id="dm-play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
     </button>
-    <button class="dm-btn" onclick="seek(30)" aria-label="Forward 30 seconds">
-      <svg viewBox="0 0 24 24"><path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/></svg><span>+30s</span>
+    <button class="dm-btn" onclick="seek(30)">
+      <svg viewBox="0 0 24 24"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.16-3.16-1.88-5.12-1.88-3.54 0-6.55 2.31-7.6 5.5l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/></svg><span>+30s</span>
     </button>
   </div>
-  <div style="color:#666; font-size:0.9rem">Screen stays dark for safety</div>
 </div>
 
 <header>
@@ -275,14 +193,9 @@
     <h1>Mekor Chaim Staten Island</h1>
     <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
-      <button onclick="openStats()" class="stats-btn" aria-label="Open Stats">📊 Stats</button>
-      <button class="drive-mode-btn" onclick="toggleDrivingMode()" aria-label="Open Audio Driving Mode">
-        <svg style="vertical-align:middle" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg> Audio Mode
-      </button>
-      <button id="install-btn" class="install-btn" aria-label="Install Application">App</button>
-      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light and dark theme">
-        <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
-      </button>
+      <button onclick="openStats()" class="stats-btn">📊 Stats</button>
+      <button class="drive-mode-btn" onclick="toggleDrivingMode()">🚗 Audio Mode</button>
+      <button id="theme-toggle" class="theme-toggle"><span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span></button>
     </div>
   </div>
 </header>
@@ -290,56 +203,35 @@
 <main>
   <div class="layout">
     <section class="player-card" id="player-card">
-      <div id="skeleton" class="skeleton-wrapper">
-        <div class="skel-video"></div>
-        <div class="skel-line" style="width:70%; margin-top: 16px;"></div>
-      </div>
-
+      <div id="skeleton" class="skeleton-wrapper"><div class="skel-video"></div></div>
       <div id="player-content" style="display:none">
         <div class="player-header">
           <h2 class="player-title" id="player-title">Select a shiur</h2>
           <div class="player-meta-row">
-            <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.85rem;color:var(--text-muted); margin-left: 8px;"></span></div>
+            <div><span class="badge-main">Torah</span> <span id="player-date"></span></div>
             <div class="share-container">
-              <button onclick="toggleShareMenu()" class="share-btn" aria-label="Share options" aria-expanded="false" id="share-btn-main">
-                <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg> Share
-              </button>
-              <div id="share-menu" class="share-menu" role="menu">
-                <button onclick="shareLink(false)" role="menuitem">Copy Link</button>
-                <button onclick="shareLink(true)" role="menuitem">Copy at Current Time ⏱️</button>
-              </div>
+              <button onclick="toggleShareMenu()" class="share-btn" id="share-btn-main">Share</button>
+              <div id="share-menu" class="share-menu"><button onclick="shareLink(false)">Link</button><button onclick="shareLink(true)">At Current Time ⏱️</button></div>
             </div>
           </div>
           <div class="player-controls">
-            <button class="control-btn active" data-speed="1" onclick="setSpeed(1)" aria-label="Speed 1x">1x</button>
-            <button class="control-btn" data-speed="1.25" onclick="setSpeed(1.25)" aria-label="Speed 1.25x">1.25x</button>
-            <button class="control-btn" data-speed="1.5" onclick="setSpeed(1.5)" aria-label="Speed 1.5x">1.5x</button>
-            <button class="control-btn" data-speed="2" onclick="setSpeed(2)" aria-label="Speed 2x">2x</button>
+            <button class="control-btn active" data-speed="1" onclick="setSpeed(1)">1x</button>
+            <button class="control-btn" data-speed="1.25" onclick="setSpeed(1.25)">1.25x</button>
+            <button class="control-btn" data-speed="1.5" onclick="setSpeed(1.5)">1.5x</button>
           </div>
         </div>
-        
         <div class="frame"><div id="player-placeholder"></div></div>
-        
         <div class="notes-section">
-          <div class="notes-header">
-            <span>My Notes 📝</span>
+          <div class="notes-header"><span>My Notes 📝</span>
             <div class="notes-actions">
-              <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary" aria-label="Toggle View or Edit Mode">
-                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> View
-              </button>
-              <button onclick="insertTimestamp()" class="tool-btn" id="time-btn" aria-label="Insert Timestamp">
-                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Time
-              </button>
-              <button onclick="openQuoteCreator()" class="tool-btn highlight" aria-label="Create Quote">
-                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg> Create Quote
-              </button>
-              <button onclick="exportNotes()" class="tool-btn" aria-label="Export Notes">
-                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Export
-              </button>
+              <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ View</button>
+              <button onclick="insertTimestamp()" class="tool-btn" id="time-btn">⏱️ Time</button>
+              <button onclick="openQuoteCreator()" class="tool-btn">🎨 Quote</button>
+              <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
             </div>
           </div>
-          <textarea id="notes-input" class="notes-input" placeholder="Write thoughts here..." disabled aria-label="Personal Notes"></textarea>
-          <div id="notes-display" class="notes-display" aria-label="Read Notes"></div>
+          <textarea id="notes-input" class="notes-input" placeholder="Write thoughts here..." disabled></textarea>
+          <div id="notes-display" class="notes-display"></div>
         </div>
       </div>
     </section>
@@ -347,143 +239,34 @@
     <section class="list-card">
       <div class="list-header">
         <div class="filters">
-          <input id="search-input" type="search" placeholder="Search shiurim..." aria-label="Search">
-          <select id="year-filter" aria-label="Filter by Year"><option value="">All Years</option></select>
-          <button id="fav-filter-btn" class="btn-fav-filter" aria-label="Show Saved Only">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg> Saved
-          </button>
+          <input id="search-input" type="search" placeholder="Search shiurim...">
+          <select id="year-filter"><option value="">All Years</option></select>
+          <button id="fav-filter-btn" class="btn-fav-filter">Saved</button>
         </div>
       </div>
-      <div id="list-skeleton">
-        <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:60%"></div><div class="skel-text" style="width:30%"></div></div></div>
-        <div class="skel-list-item"><div class="skel-thumb"></div><div class="skel-content"><div class="skel-text" style="width:70%"></div><div class="skel-text" style="width:40%"></div></div></div>
-      </div>
-      <ul id="shiur-list" class="list" style="display:none"></ul>
+      <ul id="shiur-list" class="list"></ul>
     </section>
   </div>
 </main>
 
-<footer>&copy; <span id="year-copy"></span> Mekor Chaim Staten Island<span class="footer-credit">Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></span></footer>
-<button id="back-to-top" aria-label="Back to Top">↑ Top</button>
+<footer>&copy; 2026 Mekor Chaim<span class="footer-credit">Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a></span></footer>
+<button id="back-to-top">↑ Top</button>
 <div id="toast" class="toast"></div>
-<div id="ios-install-prompt" class="ios-prompt"><span class="ios-close">&times;</span><h3 style="margin:0 0 8px;font-size:1.1rem">Install App</h3><div style="font-size:0.95rem; line-height:1.5; color: var(--text-muted)">Tap <strong>Share</strong> <svg style="vertical-align:middle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> below,<br>then <strong>"Add to Home Screen"</strong>.</div></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 <script>
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I";
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
-  let allData = []; let currentId = null; let showFavoritesOnly = false;
-  let player = null; let progressInterval = null; let isDrivingMode = false; let isNoteEditMode = true;
-  
+  let allData = [], currentId = null, player = null, progressInterval = null, isDrivingMode = false, isNoteEditMode = true;
   let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
   let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
   let watchedHistory = new Set(JSON.parse(localStorage.getItem('mc_watched') || '[]'));
   let notesMap = JSON.parse(localStorage.getItem('mc_notes') || '{}');
-  
-  // Stats Data
   let stats = JSON.parse(localStorage.getItem('mc_stats') || '{"totalSeconds":0, "streak":0, "lastVisit":""}');
 
-  // DOM
-  const listEl = document.getElementById("shiur-list");
-  const listSkeleton = document.getElementById("list-skeleton");
-  const searchInput = document.getElementById("search-input");
-  const yearFilter = document.getElementById("year-filter");
-  const favFilterBtn = document.getElementById("fav-filter-btn");
-  const toast = document.getElementById("toast");
-  const notesInput = document.getElementById("notes-input");
-  const notesDisplay = document.getElementById("notes-display");
-  const noteModeBtn = document.getElementById("note-mode-btn");
-  const timeBtn = document.getElementById("time-btn");
-  const dmOverlay = document.getElementById("driving-mode");
-  const dmTitle = document.getElementById("dm-title");
-  const dmPlayIcon = document.getElementById("dm-play-icon");
-  const themeToggle = document.getElementById("theme-toggle");
-  const themeIcon = document.getElementById("theme-icon");
-  const themeText = document.getElementById("theme-text");
-
-  document.getElementById("year-copy").textContent = new Date().getFullYear();
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.log);
-
-  // --- STATS LOGIC ---
-  function updateStatsLogic() {
-    const today = new Date().toISOString().split('T')[0];
-    if (stats.lastVisit !== today) {
-        const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
-        const yStr = yesterday.toISOString().split('T')[0];
-        if (stats.lastVisit === yStr) stats.streak++; else stats.streak = 1;
-        stats.lastVisit = today;
-        localStorage.setItem('mc_stats', JSON.stringify(stats));
-    }
-  }
-  updateStatsLogic(); // Run on load
-
-  window.openStats = function() {
-    document.getElementById('stat-streak').textContent = stats.streak;
-    document.getElementById('stat-hours').textContent = (stats.totalSeconds / 3600).toFixed(1);
-    document.getElementById('stat-completed').textContent = watchedHistory.size;
-    document.getElementById('stats-overlay').classList.add('active');
-  }
-
-  // --- QUOTE GENERATOR ---
-  window.openQuoteCreator = function() {
-    document.getElementById('quote-overlay').classList.add('active');
-  }
-  
-  window.closeOverlay = function(id) {
-    document.getElementById(id).classList.remove('active');
-  }
-
-  window.generateAndShareQuote = function() {
-    const text = document.getElementById('quote-text').value;
-    if(!text.trim()) { showToast("Please write a quote first"); return; }
-    
-    // Create canvas
-    const canvas = document.createElement('canvas');
-    canvas.width = 1080; canvas.height = 1080;
-    const ctx = canvas.getContext('2d');
-    
-    // Background
-    const gradient = ctx.createLinearGradient(0, 0, 0, 1080);
-    gradient.addColorStop(0, '#1e3a8a'); gradient.addColorStop(1, '#172554');
-    ctx.fillStyle = gradient; ctx.fillRect(0,0,1080,1080);
-    
-    // Decoration
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 10; ctx.strokeRect(40,40,1000,1000);
-    
-    // Text
-    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 60px Inter, sans-serif'; ctx.textAlign = 'center';
-    wrapText(ctx, text, 540, 400, 900, 80);
-    
-    // Footer
-    ctx.fillStyle = '#93c5fd'; ctx.font = '40px Inter, sans-serif';
-    ctx.fillText("Rabbi Zish Kohn", 540, 800);
-    ctx.font = '30px Inter, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText("Mekor Chaim Staten Island", 540, 900);
-
-    // Export
-    canvas.toBlob(blob => {
-        const file = new File([blob], "quote.png", {type: "image/png"});
-        if(navigator.share) {
-            navigator.share({files: [file]}).catch(e => console.log(e));
-        } else {
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-            a.download = 'quote.png'; a.click();
-        }
-        closeOverlay('quote-overlay');
-    });
-  }
-
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-    const words = text.split(' '); let line = '';
-    for(let n = 0; n < words.length; n++) {
-      const testLine = line + words[n] + ' ';
-      const metrics = ctx.measureText(testLine);
-      if (metrics.width > maxWidth && n > 0) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; }
-      else { line = testLine; }
-    }
-    ctx.fillText(line, x, y);
-  }
+  const listEl = document.getElementById("shiur-list"), searchInput = document.getElementById("search-input"), yearFilter = document.getElementById("year-filter");
+  const notesInput = document.getElementById("notes-input"), notesDisplay = document.getElementById("notes-display"), noteModeBtn = document.getElementById("note-mode-btn");
 
   function onYouTubeIframeAPIReady() { initApp(); }
 
@@ -496,36 +279,23 @@
     });
   }
 
-  function onPlayerReady(event) {
+  function onPlayerReady() {
     const urlParams = new URLSearchParams(window.location.search);
-    const urlVideo = urlParams.get('v');
-    const urlTime = urlParams.get('t');
-    const lastWatched = localStorage.getItem('lastWatched');
-
-    if (allData.length > 0) {
-      if (urlVideo && allData.find(d => d.id === urlVideo)) {
-        playVideo(urlVideo, false, parseInt(urlTime) || 0);
-      } else if (lastWatched && allData.find(d => d.id === lastWatched)) {
-        const savedTime = progressMap[lastWatched] || 0;
-        cueVideo(lastWatched, savedTime);
-      } else {
-        cueVideo(allData[0].id, 0);
-      }
-    }
+    const v = urlParams.get('v');
+    if (v) playVideo(v, false, parseInt(urlParams.get('t')) || 0);
+    else if (localStorage.getItem('lastWatched')) cueVideo(localStorage.getItem('lastWatched'), progressMap[localStorage.getItem('lastWatched')] || 0);
   }
 
-  function playVideo(id, autoScroll, startTimeOverride = null) {
+  function playVideo(id, autoScroll, time = null) {
     currentId = id; localStorage.setItem('lastWatched', id);
-    const newUrl = new URL(window.location); newUrl.searchParams.set('v', id); window.history.pushState({}, '', newUrl);
     const item = allData.find(d => d.id === id);
-    updatePlayerMeta(item.title, item.dateNice); loadNotes(id); updateMediaSession();
-    let startSeconds = (startTimeOverride !== null) ? startTimeOverride : (progressMap[id] || 0);
-    if (player && player.loadVideoById) player.loadVideoById({ videoId: id, startSeconds: startSeconds });
-    renderList(allData.filter(filterLogic)); setSpeed(1);
+    updatePlayerMeta(item.title, item.dateNice); loadNotes(id);
+    let start = (time !== null) ? time : (progressMap[id] || 0);
+    if (player && player.loadVideoById) player.loadVideoById({ videoId: id, startSeconds: start });
+    renderList(allData);
     if(autoScroll) {
       const card = document.getElementById("player-card");
-      if(card && window.innerWidth < 900) { const y = card.getBoundingClientRect().top + window.pageYOffset - 20; window.scrollTo({top: y, behavior: 'smooth'}); }
-      else { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+      window.scrollTo({top: card.getBoundingClientRect().top + window.pageYOffset - 20, behavior: 'smooth'});
     }
   }
 
@@ -533,52 +303,44 @@
     currentId = id; const item = allData.find(d => d.id === id);
     updatePlayerMeta(item.title, item.dateNice); loadNotes(id);
     if(player && player.cueVideoById) player.cueVideoById({videoId: id, startSeconds: time});
-    renderList(allData); setTimeout(updateMediaSession, 1000); 
+    renderList(allData);
   }
 
-  // --- NOTES LOGIC ---
+  // NOTES LOGIC
   function loadNotes(id) {
     const text = notesMap[id] || "";
-    notesInput.value = text;
-    notesInput.disabled = false;
+    notesInput.value = text; notesInput.disabled = false;
     updateNotesDisplay(text);
   }
-  
+
   function updateNotesDisplay(text) {
     const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => {
-        const seconds = parseInt(m) * 60 + parseInt(s);
-        return `<span class="ts-link" onclick="seekTo(${seconds})">${match}</span>`;
+        const total = parseInt(m) * 60 + parseInt(s);
+        return `<span class="ts-link" onclick="seekTo(${total})">${match}</span>`;
     });
-    notesDisplay.innerHTML = html || "<span style='color:var(--text-muted);font-style:italic'>No notes yet. Click 'View' to toggle Edit Mode.</span>";
+    notesDisplay.innerHTML = html || "No notes yet.";
   }
 
   window.toggleNoteMode = function() {
     isNoteEditMode = !isNoteEditMode;
     if(isNoteEditMode) {
       notesInput.style.display = 'block'; notesDisplay.style.display = 'none';
-      noteModeBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> View';
-      timeBtn.style.display = 'flex'; notesInput.focus();
+      noteModeBtn.innerHTML = '👁️ View'; document.getElementById('time-btn').style.display = 'flex';
     } else {
       updateNotesDisplay(notesInput.value);
       notesInput.style.display = 'none'; notesDisplay.style.display = 'block';
-      noteModeBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg> Edit';
-      timeBtn.style.display = 'none';
+      noteModeBtn.innerHTML = '✏️ Edit'; document.getElementById('time-btn').style.display = 'none';
     }
   }
 
   window.insertTimestamp = function() {
-    if(!player || !player.getCurrentTime) return;
-    const t = Math.floor(player.getCurrentTime()); const min = Math.floor(t / 60); const sec = t % 60;
-    const timeStr = `[${min}:${sec < 10 ? '0'+sec : sec}] `;
-    const start = notesInput.selectionStart; const end = notesInput.selectionEnd; const text = notesInput.value;
-    notesInput.value = text.substring(0, start) + timeStr + text.substring(end);
-    notesInput.selectionStart = notesInput.selectionEnd = start + timeStr.length;
-    notesInput.focus(); notesInput.dispatchEvent(new Event('input'));
+    if(!player) return;
+    const t = Math.floor(player.getCurrentTime());
+    const ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
+    notesInput.value += ts; notesInput.dispatchEvent(new Event('input'));
   }
-  
-  window.seekTo = function(seconds) {
-    if(player && player.seekTo) { player.seekTo(seconds, true); player.playVideo(); }
-  }
+
+  window.seekTo = function(sec) { if(player) { player.seekTo(sec, true); player.playVideo(); } }
 
   notesInput.addEventListener("input", () => {
     if(!currentId) return;
@@ -586,168 +348,87 @@
     localStorage.setItem('mc_notes', JSON.stringify(notesMap));
   });
 
-  window.exportNotes = function() {
-    if(!currentId) return;
-    const text = notesMap[currentId] || "";
-    if(!text) { showToast("No notes to export"); return; }
-    const item = allData.find(d => d.id === currentId);
-    const title = item ? item.title : "Shiur Notes";
-    const fullText = `Notes for: ${title}\nDate: ${item ? item.dateNice : ""}\n\n${text}`;
-    if(navigator.share) { navigator.share({ title: title, text: fullText }).catch(() => downloadTxt(title, fullText)); } 
-    else { downloadTxt(title, fullText); }
+  // OVERLAYS
+  window.openStats = function() {
+    document.getElementById('stat-streak').textContent = stats.streak;
+    document.getElementById('stat-hours').textContent = (stats.totalSeconds / 3600).toFixed(1);
+    document.getElementById('stat-completed').textContent = watchedHistory.size;
+    document.getElementById('stats-overlay').classList.add('active');
   }
-
-  function downloadTxt(title, text) {
-    const blob = new Blob([text], {type: 'text/plain'});
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `${title.replace(/[^a-z0-9]/gi, '_')}_notes.txt`; a.click(); showToast("Notes Downloaded");
-  }
-
-  function updateMediaSession() {
-    if ('mediaSession' in navigator) {
-      const item = allData.find(d => d.id === currentId); if (!item) return;
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: item.title, artist: "Rabbi Zish Kohn", album: "Mekor Chaim",
-        artwork: [{ src: `https://i.ytimg.com/vi/${item.id}/mqdefault.jpg`, sizes: '320x180', type: 'image/jpeg' }]
-      });
-      navigator.mediaSession.setActionHandler('play', () => player.playVideo());
-      navigator.mediaSession.setActionHandler('pause', () => player.pauseVideo());
-      navigator.mediaSession.setActionHandler('nexttrack', playNextVideo);
-      navigator.mediaSession.setActionHandler('previoustrack', playPrevVideo);
-    }
-  }
-
-  function onPlayerStateChange(event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-      startProgressTracking(); dmPlayIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; 
-      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "playing";
-      if (currentId && !watchedHistory.has(currentId)) {
-        watchedHistory.add(currentId); localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
-        renderList(allData.filter(filterLogic));
-      }
-    } else {
-      stopProgressTracking(); dmPlayIcon.innerHTML = '<path d="M8 5v14l11-7z"/>'; 
-      if ('mediaSession' in navigator) navigator.mediaSession.playbackState = "paused";
-    }
-    if (event.data == YT.PlayerState.ENDED) playNextVideo();
-  }
-
-  function startProgressTracking() {
-    stopProgressTracking();
-    progressInterval = setInterval(() => {
-      if(player && player.getCurrentTime) {
-        const t = Math.floor(player.getCurrentTime());
-        if (t > 2) {
-          progressMap[currentId] = t;
-          localStorage.setItem('mc_progress', JSON.stringify(progressMap));
-          // Stats Update
-          stats.totalSeconds += 2;
-          localStorage.setItem('mc_stats', JSON.stringify(stats));
-        }
-      }
-    }, 2000);
-  }
-  function stopProgressTracking() { if (progressInterval) clearInterval(progressInterval); }
-
-  function playNextVideo() {
-    const currentIndex = allData.findIndex(d => d.id === currentId);
-    if (currentIndex >= 0 && currentIndex < allData.length - 1) {
-      const nextVid = allData[currentIndex + 1]; playVideo(nextVid.id, true); showToast("Autoplaying next...");
-    }
-  }
-  function playPrevVideo() {
-    const currentIndex = allData.findIndex(d => d.id === currentId);
-    if (currentIndex > 0) { const prevVid = allData[currentIndex - 1]; playVideo(prevVid.id, true); }
-  }
+  window.openQuoteCreator = function() { document.getElementById('quote-overlay').classList.add('active'); }
+  window.closeOverlay = function(id) { document.getElementById(id).classList.remove('active'); }
 
   window.toggleDrivingMode = function() {
     isDrivingMode = !isDrivingMode;
-    if(isDrivingMode) { dmOverlay.classList.add('active'); dmOverlay.setAttribute('aria-hidden', 'false'); const item = allData.find(d => d.id === currentId); dmTitle.textContent = item ? item.title : "No Shiur Selected"; } 
-    else { dmOverlay.classList.remove('active'); dmOverlay.setAttribute('aria-hidden', 'true'); }
+    const el = document.getElementById("driving-mode");
+    if(isDrivingMode) {
+      el.classList.add('active');
+      document.getElementById("dm-title").textContent = allData.find(d => d.id === currentId)?.title || "No Shiur";
+    } else {
+      el.classList.remove('active');
+    }
   }
-  
-  window.togglePlay = function() { if(!player) return; const state = player.getPlayerState(); if(state === YT.PlayerState.PLAYING) player.pauseVideo(); else player.playVideo(); }
-  window.seek = function(seconds) { if(!player) return; const cur = player.getCurrentTime(); player.seekTo(cur + seconds, true); }
 
-  window.toggleShareMenu = function() { const menu = document.getElementById("share-menu"); const btn = document.getElementById("share-btn-main"); menu.classList.toggle("show"); btn.setAttribute('aria-expanded', menu.classList.contains('show')); }
-  window.shareLink = function(withTime) {
-    if (!currentId) { showToast("Select a shiur first"); return; }
-    document.getElementById("share-menu").classList.remove("show"); document.getElementById("share-btn-main").setAttribute('aria-expanded', 'false');
-    let url = window.location.origin + window.location.pathname + '?v=' + currentId;
-    if(withTime && player && player.getCurrentTime) { const t = Math.floor(player.getCurrentTime()); if(t > 0) url += '&t=' + t; }
-    if (navigator.share) { navigator.share({ title: 'Mekor Chaim Shiur', url: url }); } else { navigator.clipboard.writeText(url); showToast("Link copied!"); }
+  window.togglePlay = function() {
+    const state = player.getPlayerState();
+    if(state === 1) player.pauseVideo(); else player.playVideo();
   }
-  
-  document.addEventListener('click', function(e) { if (!e.target.closest('.share-container')) { document.getElementById("share-menu").classList.remove("show"); const btn = document.getElementById("share-btn-main"); if(btn) btn.setAttribute('aria-expanded', 'false'); } });
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { document.getElementById("share-menu").classList.remove("show"); const btn = document.getElementById("share-btn-main"); if(btn) btn.setAttribute('aria-expanded', 'false'); } });
+  window.seek = function(s) { player.seekTo(player.getCurrentTime() + s, true); }
 
+  // YOUTUBE STATE
+  function onPlayerStateChange(e) {
+    if (e.data === 1) {
+      startTracking(); document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      if(!watchedHistory.has(currentId)) { watchedHistory.add(currentId); localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory])); renderList(allData); }
+    } else {
+      stopTracking(); document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>';
+    }
+  }
+  function startTracking() { progressInterval = setInterval(() => {
+    const t = Math.floor(player.getCurrentTime());
+    if(t > 2) { progressMap[currentId] = t; localStorage.setItem('mc_progress', JSON.stringify(progressMap)); stats.totalSeconds += 1; localStorage.setItem('mc_stats', JSON.stringify(stats)); }
+  }, 1000); }
+  function stopTracking() { clearInterval(progressInterval); }
+
+  // DATA
   async function loadData() {
     try {
-      const items = await fetchAllItems(); processData(items); renderList(allData);
-      document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block"; listSkeleton.style.display = "none"; listEl.style.display = "block";
-    } catch(err) { console.error(err); document.getElementById("skeleton").style.display = "none"; listSkeleton.style.display = "none"; listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">Could not load shiurim. Please try again later.</li>`; showToast("Error loading shiurim"); }
-  }
-
-  async function fetchAllItems(token = "", acc = []) {
-    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
-    const res = await fetch(url); if (!res.ok) throw new Error("API Error"); const data = await res.json(); acc.push(...data.items);
-    if (data.nextPageToken) return fetchAllItems(data.nextPageToken, acc); return acc;
-  }
-
-  function processData(items) {
-    items.sort((a,b) => new Date(b.contentDetails.videoPublishedAt) - new Date(a.contentDetails.videoPublishedAt));
-    allData = items.map((item, idx) => {
-      const d = new Date(item.contentDetails.videoPublishedAt || item.snippet.publishedAt);
-      return {
+      const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}`);
+      const data = await res.json();
+      allData = data.items.map(item => ({
         id: item.contentDetails.videoId, title: item.snippet.title,
-        dateNice: d.toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}),
-        year: d.getFullYear().toString(), desc: item.snippet.description || "", isNew: idx === 0
-      };
-    });
-    const years = [...new Set(allData.map(d => d.year))];
-    years.forEach(y => { const opt = document.createElement("option"); opt.value = y; opt.textContent = y; yearFilter.appendChild(opt); });
+        dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}),
+        year: new Date(item.contentDetails.videoPublishedAt).getFullYear().toString()
+      }));
+      renderList(allData);
+      document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
+    } catch(e) { console.error(e); }
   }
 
   function renderList(items) {
-    listEl.innerHTML = ""; if (items.length === 0) { listEl.innerHTML = `<li style="text-align:center; padding:20px; color:var(--text-muted)">No shiurim found.</li>`; return; }
-    const searchVal = searchInput.value.toLowerCase().trim(); const regex = searchVal ? new RegExp(`(${searchVal.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi') : null;
+    listEl.innerHTML = "";
     items.forEach(item => {
       const li = document.createElement("li");
-      const isFav = favorites.has(item.id); const isWatched = watchedHistory.has(item.id); const savedTime = progressMap[item.id] || 0;
-      let progressWidth = '0%'; if (savedTime > 0) progressWidth = Math.min((savedTime / 2700) * 100, 100) + '%'; 
+      const isWatched = watchedHistory.has(item.id);
+      const prog = (progressMap[item.id] || 0) / 2700 * 100;
       li.className = `item ${item.id === currentId ? 'active' : ''} ${isWatched ? 'watched' : ''}`;
-      let badgeHTML = item.isNew ? `<span class="badge-new">New</span>` : ""; if (isWatched) badgeHTML += `<span style="color:var(--watched-color);font-weight:600;font-size:0.75rem;display:flex;align-items:center;gap:3px;margin-left:6px">✔ Played</span>`;
-      let eqHTML = (item.id === currentId) ? `<div class="equalizer"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>` : "";
-      let displayTitle = item.title; if (regex) displayTitle = displayTitle.replace(regex, '<mark>$1</mark>');
       li.innerHTML = `
-        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy" alt="thumb"><div class="play-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><div class="item-progress-bg"><div class="item-progress-fill" style="width:${progressWidth}"></div></div></div>
-        <div class="item-body"><div class="item-top-row"><div class="item-title">${displayTitle}</div><button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFavorite(event, '${item.id}')" aria-label="Toggle Favorite"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button></div><div class="item-date">${badgeHTML} ${item.dateNice} ${eqHTML}</div></div>`;
-      li.addEventListener("click", (e) => { if(!e.target.closest('.btn-fav')) playVideo(item.id, true); });
+        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"><div class="item-progress-bg"><div class="item-progress-fill" style="width:${Math.min(prog, 100)}%"></div></div></div>
+        <div class="item-body"><div class="item-top-row"><div class="item-title">${item.title}</div></div><div class="item-date">${item.dateNice} ${item.id === currentId ? '🎵' : ''}</div></div>`;
+      li.onclick = () => playVideo(item.id, true);
       listEl.appendChild(li);
     });
   }
 
-  window.toggleFavorite = function(e, id) { e.stopPropagation(); if (favorites.has(id)) { favorites.delete(id); showToast("Removed from Saved"); } else { favorites.add(id); showToast("Added to Saved"); } localStorage.setItem('mc_favorites', JSON.stringify([...favorites])); if (showFavoritesOnly) applyFilters(); else { e.currentTarget.classList.toggle('active'); } }
-  favFilterBtn.addEventListener("click", () => { showFavoritesOnly = !showFavoritesOnly; favFilterBtn.classList.toggle('active'); applyFilters(); });
-  function filterLogic(item) { const q = searchInput.value.toLowerCase().trim(); const y = yearFilter.value; return (item.title.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)) && (!y || item.year === y) && (!showFavoritesOnly || favorites.has(item.id)); }
-  function applyFilters() { renderList(allData.filter(filterLogic)); }
-  searchInput.addEventListener("input", applyFilters); yearFilter.addEventListener("change", applyFilters);
-  window.setSpeed = function(rate) { document.querySelectorAll('.control-btn').forEach(btn => btn.classList.toggle('active', parseFloat(btn.dataset.speed) === rate)); if(player && player.setPlaybackRate) player.setPlaybackRate(rate); }
-  function showToast(msg) { toast.textContent = msg; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 2000); }
-  function updatePlayerMeta(title, date) { document.getElementById("player-title").textContent = title; document.getElementById("player-date").textContent = date; }
-  
-  function updateThemeButton(isDark) { themeIcon.textContent = isDark ? "☀️" : "🌙"; themeText.textContent = isDark ? "Light Mode" : "Dark Mode"; }
-  const savedTheme = localStorage.getItem("theme");
-  if(savedTheme === 'dark') { document.body.classList.add('dark-mode'); updateThemeButton(true); } else { updateThemeButton(false); }
-  themeToggle.addEventListener("click", () => { document.body.classList.toggle("dark-mode"); const isDark = document.body.classList.contains("dark-mode"); localStorage.setItem("theme", isDark ? "dark" : "light"); updateThemeButton(isDark); });
-
-  let deferredPrompt; const installBtn = document.getElementById("install-btn");
-  window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installBtn.style.display = 'inline-flex'; });
-  installBtn.addEventListener('click', async () => { if (!deferredPrompt) return; deferredPrompt.prompt(); deferredPrompt = null; installBtn.style.display = 'none'; });
-  const isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-  if (isIos && !('standalone' in window.navigator && window.navigator.standalone)) { const iosPrompt = document.getElementById("ios-install-prompt"); setTimeout(() => iosPrompt.style.display = "block", 3000); document.querySelector(".ios-close").addEventListener("click", () => iosPrompt.style.display="none"); }
-  window.addEventListener("scroll", () => { document.getElementById("back-to-top").style.display = window.scrollY > 300 ? "block" : "none"; });
-  document.getElementById("back-to-top").addEventListener("click", () => window.scrollTo({top:0, behavior:'smooth'}));
+  // THEME
+  const toggle = document.getElementById("theme-toggle");
+  toggle.onclick = () => {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
+    document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode";
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  };
 </script>
 </body>
 </html>
