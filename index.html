@@ -8,7 +8,6 @@
   <meta property="og:title" content="Mekor Chaim Staten Island - Weekly Shiur">
   <meta property="og:description" content="Listen to weekly shiurim by Rabbi Zish Kohn.">
   <meta property="og:image" content="https://office212.github.io/rabbi_zish_kohn/icon-512(1).png">
-  
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2563eb">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -18,10 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    /* --- VARIABLES --- */
     :root {
-      --w: 100%; /* Stretch to full width */
-      --max-app-w: 600px; /* Limit on large screens for readability */
       --bg-main: #f8fafc; --card-bg: #ffffff; --accent: #2563eb; --accent-glow: rgba(37, 99, 235, 0.1);
       --text-main: #0f172a; --text-muted: #64748b; --border-soft: #e2e8f0;
       --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -31,114 +27,85 @@
     body.dark-mode {
       --bg-main: #020617; --card-bg: #0f172a; --text-main: #f1f5f9; --text-muted: #94a3b8;
       --border-soft: #1e293b; --accent: #60a5fa; --accent-glow: rgba(96, 165, 250, 0.15);
-      --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
 
     * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main);
-      padding-bottom: 60px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent;
-    }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 60px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent; }
+    header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
-    header, main, footer { max-width: var(--max-app-w); margin: 0 auto; padding: 0 16px; }
-    header { padding: 20px 16px; }
-    button { font-family: inherit; cursor: pointer; border: none; outline: none; }
-
-    /* --- HEADER --- */
+    /* HEADER */
+    header { padding-top: 20px; padding-bottom: 20px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
     h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
-    .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 16px; }
-    .header-controls { display: flex; gap: 8px; flex-wrap: wrap; }
-    .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; }
+    .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+    .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
     .stats-btn { background: white; color: var(--accent); }
     .drive-mode-btn { background: rgba(0,0,0,0.25); color: white; }
 
-    /* --- PLAYER CARD --- */
-    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; width: 100%; }
+    /* PLAYER */
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
-    .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; color: var(--text-main); }
+    .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
+    .player-meta { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .badge-main { background: var(--accent-glow); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
     
-    .player-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-    #player-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
-    .speed-btns { display: flex; gap: 6px; }
-    .speed-btn { background: var(--bg-main); color: var(--text-muted); padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); }
-    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    /* SHARE MENU */
+    .share-container { position: relative; }
+    .share-btn { background: #ecfdf5; color: #059669; border: 1px solid #d1fae5; border-radius: 99px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
+    .share-menu { position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 12px; box-shadow: 0 10px 15px rgba(0,0,0,0.1); display: none; flex-direction: column; min-width: 170px; z-index: 50; }
+    .share-menu.show { display: flex; }
+    .share-menu button { background: none; border: none; padding: 12px; text-align: left; cursor: pointer; font-size: 0.85rem; color: var(--text-main); border-bottom: 1px solid var(--border-soft); }
 
     .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-    /* --- NOTES --- */
-    .notes-section { padding: 20px; background: var(--bg-main); border-top: 1px solid var(--border-soft); }
+    /* SPEED & NOTES */
+    .speed-btns { display: flex; gap: 6px; padding: 15px 20px; background: var(--bg-main); border-bottom: 1px solid var(--border-soft); }
+    .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; }
+    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+
+    .notes-section { padding: 20px; background: var(--bg-main); }
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
-    .notes-actions::-webkit-scrollbar { display: none; }
-    
-    .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); white-space: nowrap; }
-    .tool-btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
-    .tool-btn.highlight { background: #fef3c7; color: #d97706; border-color: #fcd34d; }
-    
-    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 14px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; color: var(--text-main); }
+    .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); white-space: nowrap; border: none; cursor: pointer; }
+    .tool-btn.primary { background: var(--accent); color: white; }
+    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 14px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
     .notes-display { display: none; white-space: pre-wrap; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
 
-    /* --- LIST & SEARCH (CENTERED & FULL WIDTH) --- */
-    .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; width: 100%; }
+    /* LIST (FULL WIDTH) */
+    .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; }
     #search-input { flex: 1; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; }
-    .fav-filter-btn { padding: 12px 16px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; font-size: 0.9rem; }
+    .fav-filter-btn { padding: 12px 16px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
     .fav-filter-btn.active { color: var(--fav-color); border-color: var(--fav-color); background: #fff1f2; }
 
-    .list { list-style: none; padding: 0; margin: 0; width: 100%; }
-    .item { 
-      display: flex; gap: 16px; padding: 12px; background: var(--card-bg); 
-      border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; 
-      transition: 0.2s; align-items: center; width: 100%;
-      box-shadow: var(--shadow-card);
-    }
-    .item.active { border-color: var(--accent); background: var(--accent-glow); transform: scale(1.01); }
-    
-    .item-thumb { flex: 0 0 120px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #f1f5f9; }
+    .list { list-style: none; padding: 0; margin: 0; }
+    .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; transition: 0.2s; align-items: center; box-shadow: var(--shadow-card); cursor: pointer; }
+    .item.active { border-color: var(--accent); background: var(--accent-glow); }
+    .item-thumb { flex: 0 0 120px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    
-    /* HEART BUTTON ON THUMBNAIL */
-    .btn-fav-overlay { 
-      position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; 
-      background: rgba(255, 255, 255, 0.9); border-radius: 50%; 
-      display: flex; align-items: center; justify-content: center; 
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1); z-index: 5;
-    }
-    .btn-fav-overlay svg { width: 18px; height: 18px; fill: #cbd5e1; transition: 0.3s; }
-    .btn-fav-overlay.active svg { fill: var(--fav-color); transform: scale(1.1); }
-
+    .btn-fav-overlay { position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border: none; cursor: pointer; }
+    .btn-fav-overlay svg { width: 18px; height: 18px; fill: #cbd5e1; }
+    .btn-fav-overlay.active svg { fill: var(--fav-color); }
     .item-progress-container { position: absolute; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(0,0,0,0.1); }
     .item-progress-fill { height: 100%; background: var(--watched-color); width: 0%; transition: width 0.3s; }
-    
     .item-body { flex: 1; min-width: 0; }
-    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; color: var(--text-main); margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .item-date { font-size: 0.8rem; color: var(--text-muted); }
 
-    /* EMPTY STATE MESSAGE */
-    .empty-state { padding: 40px 20px; text-align: center; background: var(--card-bg); border-radius: 24px; border: 2px dashed var(--border-soft); margin-top: 10px; }
-    .empty-state-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
-    .empty-state-text { font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; }
-
-    /* --- OVERLAYS --- */
+    /* OVERLAYS */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
     .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 28px; padding: 24px; position: relative; }
-    .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; color: var(--text-muted); font-size: 1.2rem; }
-
+    .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; color: var(--text-muted); font-size: 1.2rem; border: none; cursor: pointer; }
     #driving-mode { background: #000; flex-direction: column; }
     .dm-controls { display: flex; gap: 20px; align-items: center; margin: 40px 0; }
-    .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: #1e293b; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .dm-btn.play { width: 100px; height: 100px; background: var(--accent); }
-    .dm-close-btn { background: #334155; color: white; padding: 12px 30px; border-radius: 99px; font-weight: 700; margin-top: 30px; }
+    .dm-btn { width: 80px; height: 80px; border-radius: 50%; background: #1e293b; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+    .dm-btn.play { width: 100px; height: 100px; background: var(--accent); border: none; }
 
-    /* UTILS */
-    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    #back-to-top { position: fixed; bottom: 25px; right: 20px; padding: 12px 16px; border-radius: 99px; background: var(--text-main); color: var(--bg-main); font-weight: 700; display: none; border: none; cursor: pointer; }
-
-    @media(max-width: 600px) { .item-thumb { flex: 0 0 100px; } .item-title { font-size: 0.9rem; } }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
+    .toast.show { opacity: 1; }
+    footer { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin-top: 50px; padding-bottom: 40px; }
   </style>
 </head>
 <body>
@@ -146,19 +113,11 @@
 <div id="driving-mode" class="overlay">
   <div style="color: #94a3b8; text-align: center; margin-bottom: 20px; font-weight: 600;" id="dm-title">No Shiur Playing</div>
   <div class="dm-controls">
-    <button class="dm-btn" onclick="seek(-30)">
-       <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg>
-       <span style="font-size:0.7rem; margin-top:4px">-30s</span>
-    </button>
-    <button class="dm-btn play" onclick="togglePlay()">
-       <svg id="dm-play-icon" width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-    </button>
-    <button class="dm-btn" onclick="seek(30)">
-       <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.16-3.16-1.88-5.12-1.88-3.54 0-6.55 2.31-7.6 5.5l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/></svg>
-       <span style="font-size:0.7rem; margin-top:4px">+30s</span>
-    </button>
+    <button class="dm-btn" onclick="seek(-30)"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/></svg><span>-30s</span></button>
+    <button class="dm-btn play" onclick="togglePlay()"><svg id="dm-play-icon" width="40" height="40" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <button class="dm-btn" onclick="seek(30)"><svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M11.5 8c2.65 0 5.05.99 6.9 2.6L22 7v9h-9l3.62-3.62c-1.39-1.16-3.16-1.88-5.12-1.88-3.54 0-6.55 2.31-7.6 5.5l-2.37-.78C2.92 11.03 6.85 8 11.5 8z"/></svg><span>+30s</span></button>
   </div>
-  <button class="dm-close-btn" onclick="toggleDrivingMode()">Exit Driving Mode</button>
+  <button style="background:#334155; color:white; padding:12px 30px; border-radius:99px; border:none; cursor:pointer;" onclick="toggleDrivingMode()">Exit</button>
 </div>
 
 <div id="stats-overlay" class="overlay">
@@ -166,9 +125,9 @@
     <button class="modal-close" onclick="closeOverlay('stats-overlay')">✕</button>
     <h3 style="text-align:center; margin-top:0;">My Torah Stats 📊</h3>
     <div style="display:flex; justify-content:space-around; text-align:center; margin-top:20px;">
-      <div><span id="stat-streak" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Streak</span></div>
-      <div><span id="stat-hours" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Hours</span></div>
-      <div><span id="stat-completed" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted); font-weight:600;">Watched</span></div>
+      <div><span id="stat-streak" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Streak</span></div>
+      <div><span id="stat-hours" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Hours</span></div>
+      <div><span id="stat-completed" style="font-size:1.6rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Watched</span></div>
     </div>
   </div>
 </div>
@@ -177,15 +136,14 @@
   <div class="modal">
     <button class="modal-close" onclick="closeOverlay('quote-overlay')">✕</button>
     <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" style="width:100%; height:110px; margin:20px 0; border-radius:16px; padding:15px; border:1px solid var(--border-soft); font-family:inherit; font-size:1rem;" placeholder="Type a quote from the Rabbi..."></textarea>
-    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:15px; border-radius:16px; font-weight:700;">Generate & Share</button>
+    <textarea id="quote-text" style="width:100%; height:100px; margin:20px 0; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit;" placeholder="Type quote here..."></textarea>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; cursor:pointer;">Share</button>
   </div>
 </div>
 
 <header>
   <div class="header-inner">
     <h1>Mekor Chaim SI</h1>
-    <div class="sub">Rabbi Zish Kohn - Weekly Shiurim</div>
     <div class="header-controls">
       <button onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
       <button onclick="toggleDrivingMode()" class="nav-btn drive-mode-btn">🚗 Audio Mode</button>
@@ -202,24 +160,31 @@
         <div class="player-header">
           <h2 class="player-title" id="player-title">Select a shiur</h2>
           <div class="player-meta">
-            <span id="player-date"></span>
-            <div class="speed-btns">
-              <button class="speed-btn active" onclick="setSpeed(1, this)">1x</button>
-              <button class="speed-btn" onclick="setSpeed(1.25, this)">1.25x</button>
-              <button class="speed-btn" onclick="setSpeed(1.5, this)">1.5x</button>
-              <button class="speed-btn" onclick="setSpeed(2, this)">2x</button>
+            <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
+            <div class="share-container">
+              <button onclick="toggleShareMenu()" class="share-btn">Share</button>
+              <div id="share-menu" class="share-menu">
+                <button onclick="shareLink(false)">Link</button>
+                <button onclick="shareLink(true)">At Current Time ⏱️</button>
+              </div>
             </div>
           </div>
         </div>
         <div class="video-container"><div id="player-placeholder"></div></div>
+        <div class="speed-btns">
+            <button class="speed-btn active" onclick="setSpeed(1, this)">1x</button>
+            <button class="speed-btn" onclick="setSpeed(1.25, this)">1.25x</button>
+            <button class="speed-btn" onclick="setSpeed(1.5, this)">1.5x</button>
+            <button class="speed-btn" onclick="setSpeed(2, this)">2x</button>
+        </div>
         <div class="notes-section">
           <div class="notes-actions">
             <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ View</button>
             <button onclick="insertTimestamp()" id="time-btn" class="tool-btn">⏱️ Time</button>
-            <button onclick="openQuoteCreator()" class="tool-btn highlight">🎨 Quote</button>
+            <button onclick="openQuoteCreator()" class="tool-btn">🎨 Quote</button>
             <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
           </div>
-          <textarea id="notes-input" class="notes-input" placeholder="Write thoughts here..."></textarea>
+          <textarea id="notes-input" class="notes-input" placeholder="Type notes... use 'Time' for bookmarks."></textarea>
           <div id="notes-display" class="notes-display"></div>
         </div>
       </div>
@@ -227,7 +192,7 @@
 
     <section>
       <div class="list-header">
-        <input id="search-input" type="search" placeholder="Search topics or dates...">
+        <input id="search-input" type="search" placeholder="Search shiurim...">
         <button id="fav-btn" class="fav-filter-btn" onclick="toggleFavFilter()">Saved ❤️</button>
       </div>
       <ul id="shiur-list" class="list"></ul>
@@ -235,8 +200,7 @@
   </div>
 </main>
 
-<footer>&copy; 2026 Mekor Chaim • CC Design</footer>
-<button id="back-to-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑ Top</button>
+<footer>&copy; 2026 Mekor Chaim • Built by CC Design</footer>
 <div id="toast" class="toast"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -245,7 +209,7 @@
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
   let allData = [], currentId = null, player = null, progressInterval = null;
-  let isNoteEditMode = true, showFavoritesOnly = false;
+  let isNoteEditMode = true, isDrivingMode = false, showFavoritesOnly = false;
   
   let favorites = new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]'));
   let progressMap = JSON.parse(localStorage.getItem('mc_progress') || '{}');
@@ -262,8 +226,7 @@
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1, 'enablejsapi': 1 },
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
-    updateStreak();
-    applySavedTheme();
+    updateStreak(); applySavedTheme();
   }
 
   function onPlayerReady() {
@@ -305,27 +268,42 @@
 
   window.toggleNoteMode = function() {
     isNoteEditMode = !isNoteEditMode;
-    const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn");
-    if(isNoteEditMode) { input.style.display = 'block'; display.style.display = 'none'; btn.innerHTML = '👁️ View'; } 
-    else { updateNotesDisplay(input.value); input.style.display = 'none'; display.style.display = 'block'; btn.innerHTML = '✏️ Edit'; }
+    const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"), timeBtn = document.getElementById("time-btn");
+    if(isNoteEditMode) { input.style.display = 'block'; display.style.display = 'none'; btn.innerHTML = '👁️ View'; timeBtn.style.display = 'flex'; } 
+    else { updateNotesDisplay(input.value); input.style.display = 'none'; display.style.display = 'block'; btn.innerHTML = '✏️ Edit'; timeBtn.style.display = 'none'; }
   }
 
   window.insertTimestamp = function() {
     if(!player) return;
     const t = Math.floor(player.getCurrentTime());
     const ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
-    document.getElementById("notes-input").value += ts;
-    notesMap[currentId] = document.getElementById("notes-input").value;
+    const input = document.getElementById("notes-input");
+    input.value += ts;
+    notesMap[currentId] = input.value;
     localStorage.setItem('mc_notes', JSON.stringify(notesMap));
   }
 
   window.seekTo = function(sec) { if(player) { player.seekTo(sec, true); player.playVideo(); } }
 
-  document.getElementById("notes-input").oninput = (e) => {
-    if(!currentId) return;
-    notesMap[currentId] = e.target.value;
-    localStorage.setItem('mc_notes', JSON.stringify(notesMap));
-  };
+  window.exportNotes = function() {
+    if(!currentId) { showToast("Select a shiur first"); return; }
+    const text = notesMap[currentId] || "";
+    if(!text) { showToast("No notes to export"); return; }
+    const title = allData.find(d => d.id === currentId)?.title || "Notes";
+    const fullText = `Shiur: ${title}\n\n${text}`;
+    
+    if(navigator.share) {
+      navigator.share({ title: title, text: fullText }).catch(() => downloadTxt(title, fullText));
+    } else {
+      downloadTxt(title, fullText);
+    }
+  }
+
+  function downloadTxt(title, text) {
+    const blob = new Blob([text], {type: 'text/plain'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'notes.txt'; a.click();
+    showToast("Notes Downloaded");
+  }
 
   async function loadData() {
     try {
@@ -345,132 +323,51 @@
     const list = document.getElementById("shiur-list");
     list.innerHTML = "";
     const filter = document.getElementById("search-input").value.toLowerCase();
-    
-    let filtered = items.filter(item => {
-      const matchesSearch = item.title.toLowerCase().includes(filter);
-      const matchesFav = !showFavoritesOnly || favorites.has(item.id);
-      return matchesSearch && matchesFav;
-    });
-
-    if (showFavoritesOnly && filtered.length === 0) {
-      list.innerHTML = `
-        <div class="empty-state">
-          <span class="empty-state-icon">❤️</span>
-          <div class="empty-state-text">
-            <strong>You haven't saved any shiurim yet.</strong><br>
-            Tap the heart icon on a shiur thumbnail to add it to your favorites.
-          </div>
-        </div>`;
-      return;
-    }
-
-    filtered.forEach(item => {
+    items.forEach(item => {
+      if(!item.title.toLowerCase().includes(filter)) return;
+      if(showFavoritesOnly && !favorites.has(item.id)) return;
       const li = document.createElement("li");
       const prog = (progressMap[item.id] || 0) / 2700 * 100;
-      const isFav = favorites.has(item.id);
       li.className = `item ${item.id === currentId ? 'active' : ''}`;
       li.innerHTML = `
-        <div class="item-thumb">
-          <img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg">
-          <div class="btn-fav-overlay ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav('${item.id}')">
-            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-          </div>
-          <div class="item-progress-container"><div class="item-progress-fill" style="width:${Math.min(prog,100)}%"></div></div>
-        </div>
-        <div class="item-body">
-          <div class="item-title">${item.title}</div>
-          <div class="item-date">${item.dateNice}</div>
-        </div>`;
+        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"><div class="btn-fav-overlay ${favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div><div class="item-progress-container"><div class="item-progress-fill" style="width:${Math.min(prog,100)}%"></div></div></div>
+        <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}</div></div>`;
       li.onclick = () => playVideo(item.id, true);
       list.appendChild(li);
     });
   }
 
-  window.toggleFav = function(id) {
-    if(favorites.has(id)) favorites.delete(id); else favorites.add(id);
-    localStorage.setItem('mc_favorites', JSON.stringify([...favorites]));
-    renderList(allData);
-  }
-
-  window.toggleFavFilter = function() { 
-    showFavoritesOnly = !showFavoritesOnly; 
-    document.getElementById("fav-btn").classList.toggle('active'); 
-    renderList(allData); 
-  }
-
+  window.toggleFav = function(id) { if(favorites.has(id)) favorites.delete(id); else favorites.add(id); localStorage.setItem('mc_favorites', JSON.stringify([...favorites])); renderList(allData); }
+  window.toggleFavFilter = function() { showFavoritesOnly = !showFavoritesOnly; document.getElementById("fav-btn").classList.toggle('active'); renderList(allData); }
+  
   function onPlayerStateChange(e) {
     if (e.data === 1) {
       progressInterval = setInterval(() => {
         const t = Math.floor(player.getCurrentTime());
-        if(t > 5) { 
-          progressMap[currentId] = t; 
-          localStorage.setItem('mc_progress', JSON.stringify(progressMap)); 
-          stats.totalSeconds += 5; 
-          localStorage.setItem('mc_stats', JSON.stringify(stats));
-          renderList(allData); 
-        }
+        if(t > 5) { progressMap[currentId] = t; localStorage.setItem('mc_progress', JSON.stringify(progressMap)); stats.totalSeconds += 5; localStorage.setItem('mc_stats', JSON.stringify(stats)); renderList(allData); }
       }, 5000);
       document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
       watchedHistory.add(currentId); localStorage.setItem('mc_watched', JSON.stringify([...watchedHistory]));
-    } else { 
-      clearInterval(progressInterval);
-      document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>';
-    }
+    } else { clearInterval(progressInterval); document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>'; }
   }
 
-  window.setSpeed = function(s, btn) { 
-    player.setPlaybackRate(s);
-    document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
-
-  window.toggleDrivingMode = function() {
-    const el = document.getElementById("driving-mode");
-    isDrivingMode = !isDrivingMode;
-    el.classList.toggle('active', isDrivingMode);
-    if(isDrivingMode) document.getElementById("dm-title").textContent = allData.find(d => d.id === currentId)?.title || "No Shiur Selected";
-  }
-
+  window.setSpeed = function(s, btn) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  window.toggleDrivingMode = function() { isDrivingMode = !isDrivingMode; document.getElementById("driving-mode").classList.toggle('active'); document.getElementById("dm-title").textContent = allData.find(d => d.id === currentId)?.title || "No Shiur"; }
   window.togglePlay = function() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   window.seek = function(s) { player.seekTo(player.getCurrentTime() + s, true); }
-  
-  window.openStats = function() { 
-    document.getElementById('stat-streak').textContent = stats.streak;
-    document.getElementById('stat-hours').textContent = (stats.totalSeconds/3600).toFixed(1);
-    document.getElementById('stat-completed').textContent = watchedHistory.size;
-    document.getElementById('stats-overlay').classList.add('active'); 
-  }
+  window.openStats = function() { document.getElementById('stat-streak').textContent = stats.streak; document.getElementById('stat-hours').textContent = (stats.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = watchedHistory.size; document.getElementById('stats-overlay').classList.add('active'); }
   window.closeOverlay = (id) => document.getElementById(id).classList.remove('active');
-
-  // --- THEME LOGIC ---
-  function updateThemeUI() {
-    const isDark = document.body.classList.contains("dark-mode");
-    document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
-    document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode";
+  window.toggleShareMenu = () => document.getElementById("share-menu").classList.toggle("show");
+  window.shareLink = (t) => {
+    let url = window.location.origin + window.location.pathname + '?v=' + currentId;
+    if(t && player) url += '&t=' + Math.floor(player.getCurrentTime());
+    navigator.clipboard.writeText(url); showToast("Link Copied!"); document.getElementById("share-menu").classList.remove("show");
   }
-
-  document.getElementById("theme-toggle").onclick = () => {
-    document.body.classList.toggle("dark-mode");
-    updateThemeUI();
-    localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light");
-  };
-
-  function applySavedTheme() {
-    if (localStorage.getItem("theme") === "dark") document.body.classList.add("dark-mode");
-    updateThemeUI();
-  }
-
-  function updateStreak() {
-    const today = new Date().toISOString().split('T')[0];
-    if (stats.lastVisit !== today) {
-      const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0];
-      stats.streak = (stats.lastVisit === yesterday) ? stats.streak + 1 : 1;
-      stats.lastVisit = today; localStorage.setItem('mc_stats', JSON.stringify(stats));
-    }
-  }
-
+  function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2000); }
   document.getElementById("search-input").oninput = () => renderList(allData);
-  window.onscroll = () => document.getElementById("back-to-top").style.display = window.scrollY > 400 ? "block" : "none";
+  document.getElementById("theme-toggle").onclick = () => { document.body.classList.toggle("dark-mode"); applySavedTheme(); localStorage.setItem("theme", document.body.classList.contains("dark-mode")?"dark":"light"); };
+  function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark" || document.body.classList.contains("dark-mode"); document.body.classList.toggle("dark-mode", isDark); document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙"; document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode"; }
+  function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (stats.lastVisit !== today) { stats.streak = (stats.lastVisit === new Date(Date.now()-86400000).toISOString().split('T')[0]) ? stats.streak + 1 : 1; stats.lastVisit = today; localStorage.setItem('mc_stats', JSON.stringify(stats)); } }
 </script>
 </body>
 </html>
