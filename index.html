@@ -47,19 +47,26 @@
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); position: relative; }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
-    .player-meta { display: flex; justify-content: space-between; align-items: center; }
+    
+    /* SHARE MENU STYLES */
+    .share-container { position: relative; display: inline-block; }
+    .share-menu { position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 200px; z-index: 100; overflow: hidden; }
+    .share-menu.active { display: flex; }
+    .share-option { padding: 14px 16px; font-size: 0.9rem; font-weight: 600; text-align: left; background: none; border: none; border-bottom: 1px solid var(--border-soft); cursor: pointer; color: var(--text-main); display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
+    .share-option:last-child { border-bottom: none; }
+    .share-option:active { background: var(--bg-main); }
+
     .badge-main { background: var(--accent-glow); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
     
     #resume-prompt { position: absolute; bottom: 0; left: 0; right: 0; background: var(--accent); color: white; padding: 12px 20px; display: none; align-items: center; justify-content: space-between; font-size: 0.85rem; font-weight: 700; z-index: 50; animation: slideUp 0.3s; }
     #resume-prompt button { background: white; color: var(--accent); padding: 6px 14px; border-radius: 8px; font-weight: 800; border: none; cursor: pointer; }
-    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
 
     .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; transition: 0.3s; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-    .speed-btns { display: flex; gap: 6px; padding: 15px 20px; background: var(--bg-main); border-bottom: 1px solid var(--border-soft); overflow-x: auto; scrollbar-width: none; }
-    .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; white-space: nowrap; }
-    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); border-bottom: 1px solid var(--border-soft); overflow-x: auto; scrollbar-width: none; }
+    .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 10px 16px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; white-space: nowrap; transition: 0.2s; }
+    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); transform: scale(1.05); }
 
     .notes-section { padding: 20px; background: var(--bg-main); }
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none; }
@@ -70,8 +77,8 @@
     .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 14px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
     .notes-display { display: none; white-space: pre-wrap; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; transition: background 0.2s; }
-    .ts-link:active { background: var(--accent); color: white; }
 
+    /* LIST */
     .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; width: 100%; }
     #search-input { flex: 1; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; }
     .fav-filter-btn { padding: 12px 16px; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
@@ -100,38 +107,38 @@
 
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 28px; padding: 24px; position: relative; }
+    .modal { background: var(--card-bg); width: 100%; max-width: 380px; border-radius: 28px; padding: 24px; position: relative; border: 1px solid var(--border-soft); }
     .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; color: var(--text-muted); font-size: 1.2rem; border: none; cursor: pointer; }
+
+    /* QUOTE MODAL UI */
+    #quote-text { width:100%; height:120px; margin-top:20px; border-radius:16px; padding:16px; border:1px solid var(--border-soft); font-family:inherit; font-size:1rem; background: var(--bg-main); color: var(--text-main); resize: none; }
+    #btn-generate-quote { width:100%; background:var(--accent); color:white; border:none; padding:16px; border-radius:16px; font-weight:700; margin-top:15px; cursor:pointer; font-size: 1rem; }
 
     #driving-mode { background: #000; flex-direction: column; text-align: center; }
     .dm-controls { display: flex; gap: 20px; align-items: center; margin: 40px 0; }
     .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.1); }
     .dm-btn.play { width: 110px; height: 110px; background: var(--accent); border: none; }
-    .dm-exit { background: #334155; color: white; padding: 12px 35px; border-radius: 99px; font-weight: 700; margin-top: 30px; border: none; cursor: pointer; }
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
-    .empty-state { padding: 40px 20px; text-align: center; width: 100%; border: 2px dashed var(--border-soft); border-radius: 24px; background: var(--card-bg); margin-top: 10px; }
-
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
-    footer a { color: var(--accent); text-decoration: none; font-weight: 700; }
   </style>
 </head>
 <body>
 
 <div id="driving-mode" class="overlay">
-  <div style="color: #94a3b8; text-align: center; margin-bottom: 20px; font-weight: 600;" id="dm-title">No Shiur Playing</div>
+  <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px;" id="dm-title">No Shiur Playing</div>
   <div class="dm-controls">
     <button class="dm-btn" id="dm-seek-back" aria-label="Back 30s">-30s</button>
     <button class="dm-btn play" id="dm-toggle-play" aria-label="Play/Pause"><svg id="dm-play-icon" width="45" height="45" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     <button class="dm-btn" id="dm-seek-forward" aria-label="Forward 30s">+30s</button>
   </div>
-  <button class="dm-exit" id="btn-exit-driving">Exit Mode</button>
+  <button style="background:#334155; color:white; padding:12px 35px; border-radius:99px; border:none; cursor:pointer;" onclick="toggleDrivingMode()">Exit Mode</button>
 </div>
 
 <div id="stats-overlay" class="overlay">
   <div class="modal">
-    <button class="modal-close" id="close-stats" aria-label="Close Stats">✕</button>
+    <button class="modal-close" id="close-stats">✕</button>
     <h3 style="text-align:center; margin-top:0;">My Torah Stats 📊</h3>
     <div style="display:flex; justify-content:space-around; text-align:center; margin-top:20px;">
       <div><span id="stat-streak" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Streak</span></div>
@@ -143,10 +150,10 @@
 
 <div id="quote-overlay" class="overlay">
   <div class="modal">
-    <button class="modal-close" id="close-quote" aria-label="Close Quote Creator">✕</button>
+    <button class="modal-close" id="close-quote">✕</button>
     <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" placeholder="Type a quote here..."></textarea>
-    <button id="btn-generate-quote" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Share Image</button>
+    <textarea id="quote-text" placeholder="Type a holy word from the Shiur..."></textarea>
+    <button id="btn-generate-quote">Share Designed Image</button>
   </div>
 </div>
 
@@ -155,9 +162,9 @@
     <h1>Mekor Chaim Staten Island</h1>
     <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
-      <button id="btn-stats" class="nav-btn stats-btn" aria-label="View Stats">📊 Stats</button>
-      <button id="btn-driving" class="nav-btn drive-mode-btn" aria-label="Enter Driving Mode">🚗 Audio Mode</button>
-      <button id="theme-toggle" class="nav-btn theme-toggle" aria-label="Toggle Dark Mode"><span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span></button>
+      <button id="btn-stats" class="nav-btn stats-btn">📊 Stats</button>
+      <button id="btn-driving" class="nav-btn drive-mode-btn">🚗 Audio Mode</button>
+      <button id="theme-toggle" class="nav-btn theme-toggle" aria-label="Toggle Theme"><span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span></button>
     </div>
   </div>
 </header>
@@ -170,7 +177,15 @@
         <h2 class="player-title" id="player-title">Select a shiur</h2>
         <div class="player-meta">
           <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
-          <button id="btn-share" class="nav-btn" style="background:var(--accent-glow); color:var(--accent);">Share</button>
+          
+          <div class="share-container">
+            <button id="btn-share-main" class="nav-btn" style="background:var(--accent-glow); color:var(--accent);">Share</button>
+            <div id="share-dropdown" class="share-menu">
+              <button class="share-option" onclick="shareCurrent(false)">🔗 Copy Video Link</button>
+              <button class="share-option" onclick="shareCurrent(true)">⏱️ Share at Current Time</button>
+            </div>
+          </div>
+          
         </div>
         <div id="resume-prompt">
           <span>Resume from <span id="resume-time">0:00</span>?</span>
@@ -199,7 +214,7 @@
 
   <div class="list-header">
     <input id="search-input" type="search" placeholder="Search topics or dates..." aria-label="Search shiurim">
-    <button id="fav-filter-btn" class="fav-filter-btn" aria-label="Show Favorites">Saved ❤️</button>
+    <button id="fav-filter-btn" class="fav-filter-btn">Saved ❤️</button>
   </div>
   <ul id="shiur-list" class="list"></ul>
 </main>
@@ -248,8 +263,7 @@
   function onPlayerReady() {
     const params = new URLSearchParams(window.location.search);
     const v = params.get('v');
-    const timeParam = params.get('t');
-    if (v) playVideo(v, false, parseInt(timeParam) || 0);
+    if (v) playVideo(v, false, parseInt(params.get('t')) || 0);
     else if (localStorage.getItem('lastWatched')) playVideo(localStorage.getItem('lastWatched'), false);
   }
 
@@ -269,7 +283,7 @@
         isWeekly: new Date(item.contentDetails.videoPublishedAt) > sevenDaysAgo
       }));
       renderList(); document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
-    } catch(e) { console.error(e); showToast("Error loading shiurim"); }
+    } catch(e) { console.error(e); }
   }
 
   function playVideo(id, autoScroll, time = null) {
@@ -346,10 +360,10 @@
       li.className = `item ${item.id === appState.currentId ? 'active' : ''} ${item.isWeekly ? 'weekly' : ''}`;
       li.dataset.id = item.id;
       li.innerHTML = `
-        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy" alt="${item.title}">
+        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy">
           ${item.isWeekly ? '<div class="weekly-badge">New</div>' : ''}
           ${isComp ? '<div class="completed-icon">✔</div>' : ''}
-          <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" aria-label="Favorite"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+          <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" data-id="${item.id}"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
           <div class="item-progress-container"><div class="item-progress-fill" style="width:${percent}%"></div></div>
         </div>
         <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}</div></div>`;
@@ -364,8 +378,12 @@
     document.getElementById("btn-stats").onclick = openStats;
     document.getElementById("btn-driving").onclick = toggleDrivingMode;
     document.getElementById("theme-toggle").onclick = toggleTheme;
-    document.getElementById("btn-share").onclick = shareCurrent;
-    document.getElementById("btn-confirm-resume").onclick = confirmResume;
+    
+    // SHARE DROPDOWN LOGIC
+    document.getElementById("btn-share-main").onclick = (e) => { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); };
+    window.onclick = () => document.getElementById("share-dropdown").classList.remove("active");
+
+    document.getElementById("btn-confirm-resume").onclick = () => { player.seekTo(appState.progress[appState.currentId], true); document.getElementById("resume-prompt").style.display = "none"; };
     document.getElementById("note-mode-btn").onclick = toggleNoteMode;
     document.getElementById("time-btn").onclick = insertTimestamp;
     document.getElementById("quote-btn").onclick = () => document.getElementById('quote-overlay').classList.add('active');
@@ -374,41 +392,79 @@
     document.getElementById("btn-generate-quote").onclick = generateAndShareQuote;
     document.getElementById("close-stats").onclick = () => closeOverlay('stats-overlay');
     document.getElementById("close-quote").onclick = () => closeOverlay('quote-overlay');
-    document.querySelectorAll(".speed-btn").forEach(b => b.onclick = () => setSpeed(parseFloat(b.dataset.speed), b));
+    
+    // FIX SPEED BUTTONS
+    document.querySelectorAll(".speed-btn").forEach(b => {
+      b.onclick = () => {
+        const s = parseFloat(b.dataset.speed);
+        if(player && player.setPlaybackRate) {
+          player.setPlaybackRate(s);
+          document.querySelectorAll('.speed-btn').forEach(btn => btn.classList.remove('active'));
+          b.classList.add('active');
+          showToast(`Speed: ${s}x`);
+        }
+      };
+    });
+
     document.getElementById("dm-seek-back").onclick = () => seek(-30);
     document.getElementById("dm-seek-forward").onclick = () => seek(30);
-    document.getElementById("dm-toggle-play").onclick = () => togglePlay();
+    document.getElementById("dm-toggle-play").onclick = () => { if(player) player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); };
     document.getElementById("btn-exit-driving").onclick = toggleDrivingMode;
     document.getElementById("notes-input").oninput = (e) => { appState.notes[appState.currentId] = e.target.value; appState.save(); };
   }
 
-  function seekTo(s, el) { 
-    if(!player) return; 
-    try {
-        player.seekTo(s, true); player.playVideo(); 
-        if (el) { el.style.background = 'var(--accent)'; el.style.color = 'white'; setTimeout(() => { el.style.background = ''; el.style.color = ''; }, 500); }
-    } catch(e) {}
-  }
-  function seek(s) { 
-    if(!player) return; 
-    try {
-        const t = Math.max(0, player.getCurrentTime() + s); player.seekTo(t, true); 
-    } catch(e) {}
-  }
-  function confirmResume() { if(player) player.seekTo(appState.progress[appState.currentId], true); document.getElementById("resume-prompt").style.display = "none"; }
-  function togglePlay() { if(player) player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
-
-  function toggleDrivingMode() {
-    appState.isDrivingMode = !appState.isDrivingMode;
-    const el = document.getElementById("driving-mode"), vid = document.getElementById("video-container");
-    el.classList.toggle('active'); vid.style.display = appState.isDrivingMode ? 'none' : 'block';
-    if(appState.isDrivingMode) {
-        document.getElementById("dm-title").textContent = appState.allData.find(d => d.id === appState.currentId)?.title || "No Shiur";
-        if(screen.orientation?.lock) screen.orientation.lock('landscape').catch(()=>{});
-    } else { if(screen.orientation?.unlock) screen.orientation.unlock(); }
+  function shareCurrent(withTime) {
+    const item = appState.allData.find(d => d.id === appState.currentId);
+    if(!item) return showToast("Select a shiur first");
+    let url = `https://www.youtube.com/watch?v=${item.id}`;
+    if(withTime) {
+        const t = Math.floor(player.getCurrentTime());
+        url += `&t=${t}`;
+    }
+    
+    if(navigator.share) {
+        navigator.share({ title: item.title, url: url }).catch(()=>{});
+    } else {
+        navigator.clipboard.writeText(url); showToast("Link Copied!");
+    }
   }
 
-  function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
+  function generateAndShareQuote() {
+    const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first");
+    const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
+    
+    // BEAUTIFUL GRADIENT BACKGROUND
+    const grad = ctx.createLinearGradient(0, 0, 1080, 1080);
+    grad.addColorStop(0, '#1e40af'); // Deep blue
+    grad.addColorStop(1, '#1e3a8a'); // Even deeper blue
+    ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080);
+    
+    // ELEGANT BORDER
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 40; ctx.strokeRect(20,20,1040,1040);
+    
+    // TYPOGRAPHY
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 70px Inter, sans-serif'; ctx.textAlign = 'center';
+    wrapText(ctx, `"${text}"`, 540, 480, 900, 90);
+    
+    // FOOTER
+    ctx.fillStyle = '#93c5fd'; ctx.font = '50px Inter, sans-serif'; ctx.fillText("Rabbi Zish Kohn", 540, 880);
+    ctx.font = '30px Inter, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim Staten Island", 540, 950);
+    
+    canvas.toBlob(b => { 
+      const f = new File([b], "quote.png", {type: "image/png"}); 
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) { navigator.share({files:[f]}); } 
+      else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!"); }
+    });
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' '); let line = '';
+    for(let n = 0; n < words.length; n++) {
+      let testLine = line + words[n] + ' ';
+      if (ctx.measureText(testLine).width > maxWidth && n > 0) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line = testLine;
+    } ctx.fillText(line, x, y);
+  }
+
   function toggleTheme() { const isDarkNow = document.body.classList.toggle("dark-mode"); localStorage.setItem("theme", isDarkNow ? "dark" : "light"); updateThemeUI(isDarkNow); }
   function updateThemeUI(isDark) { document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙"; document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode"; }
   function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark"; document.body.classList.toggle("dark-mode", isDark); updateThemeUI(isDark); }
@@ -428,11 +484,20 @@
   function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = 'block'; display.style.display = 'none'; btn.innerHTML = '👁️ View'; } else { updateNotesDisplay(input.value); input.style.display = 'none'; display.style.display = 'block'; btn.innerHTML = '✏️ Edit'; } }
   function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="seekTo(${parseInt(m)*60+parseInt(s)}, this)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
   function loadNotes(id) { document.getElementById("notes-input").value = appState.notes[id] || ""; updateNotesDisplay(appState.notes[id] || ""); }
-  function shareCurrent() { const item = appState.allData.find(d => d.id === appState.currentId); if(!item) return; const url = `${location.origin}${location.pathname}?v=${item.id}&t=${Math.floor(player.getCurrentTime())}`; if(navigator.share) navigator.share({title: item.title, url: url}).catch(()=>{}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); } }
-  function generateAndShareQuote() { const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first"); const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d'); const grad = ctx.createLinearGradient(0,0,0,1080); grad.addColorStop(0, '#1e3a8a'); grad.addColorStop(1, '#172554'); ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 60px Inter'; ctx.textAlign = 'center'; wrapText(ctx, text, 540, 450, 900, 80); ctx.fillStyle = '#93c5fd'; ctx.font = '40px Inter'; ctx.fillText("Rabbi Zish Kohn", 540, 850); canvas.toBlob(b => { const f = new File([b], "quote.png", {type: "image/png"}); if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) navigator.share({files:[f]}); else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!"); } }); }
-  function wrapText(ctx, text, x, y, maxWidth, lineHeight) { const words = text.split(' '); let line = ''; for(let n = 0; n < words.length; n++) { if (ctx.measureText(line + words[n]).width > maxWidth) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line += words[n] + ' '; } ctx.fillText(line, x, y); }
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
   function toggleFav(id) { if(appState.favorites.has(id)) appState.favorites.delete(id); else appState.favorites.add(id); appState.save(); renderList(); }
+  function seekTo(s, el) { if(!player) return; player.seekTo(s, true); player.playVideo(); if (el) { el.style.background = 'var(--accent)'; el.style.color = 'white'; setTimeout(() => { el.style.background = ''; el.style.color = ''; }, 500); } }
+  function seek(s) { if(!player) return; const t = Math.max(0, player.getCurrentTime() + s); player.seekTo(t, true); }
+  function toggleDrivingMode() { 
+    appState.isDrivingMode = !appState.isDrivingMode; 
+    const el = document.getElementById("driving-mode"), vid = document.getElementById("video-container"); 
+    el.classList.toggle('active'); vid.style.display = appState.isDrivingMode ? 'none' : 'block'; 
+    if(appState.isDrivingMode) {
+        document.getElementById("dm-title").textContent = appState.allData.find(d => d.id === appState.currentId)?.title || "No Shiur";
+        if(screen.orientation?.lock) screen.orientation.lock('landscape').catch(()=>{});
+    } else { if(screen.orientation?.unlock) screen.orientation.unlock(); }
+  }
+  function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
   function insertTimestamp() { if(!player) return; const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; document.getElementById("notes-input").dispatchEvent(new Event('input')); }
   function exportNotes() { const text = appState.notes[appState.currentId]; if(!text) return showToast("Nothing to export"); const blob = new Blob([text], {type: 'text/plain'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'shiur_notes.txt'; a.click(); }
 </script>
