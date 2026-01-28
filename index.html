@@ -49,7 +49,7 @@
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
     .player-meta { display: flex; justify-content: space-between; align-items: center; }
-    .badge-main { background: var(--accent-glow); color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+    .badge-main { background: var(--accent-glow); color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
 
     .btn-share-pill { background: #eff6ff; color: #2563eb; padding: 10px 22px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; }
     .share-container { position: relative; }
@@ -57,7 +57,7 @@
     .share-menu.active { display: flex; }
     .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; width: 100%; }
 
-    .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+    .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; transition: 0.3s; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
     .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); border-bottom: 1px solid var(--border-soft); overflow-x: auto; scrollbar-width: none; }
@@ -68,11 +68,9 @@
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
     .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; }
     .tool-btn.primary { background: var(--accent); color: white; }
-    .tool-btn.done { background: #dcfce7; color: #166534; }
     .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
     .notes-display { display: none; white-space: pre-wrap; max-height: 350px; overflow-y: auto; }
 
-    .list-header { margin-bottom: 24px; display: flex; gap: 12px; align-items: center; width: 100%; }
     .search-wrapper { position: relative; flex: 1; }
     .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
     #search-input { width: 100%; padding: 15px 20px 15px 48px; border-radius: 99px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; box-shadow: var(--shadow-card); transition: 0.3s; }
@@ -83,8 +81,6 @@
     .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; }
     .empty-state-icon { color: #ef4444; font-size: 2.5rem; margin-bottom: 12px; display: block; }
 
-    .new-badge { background: var(--gold); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; margin-left: 8px; vertical-align: middle; }
-
     .list { list-style: none; padding: 0; margin: 0; width: 100%; }
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; transition: 0.2s; align-items: center; box-shadow: var(--shadow-card); cursor: pointer; position: relative; }
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
@@ -93,8 +89,8 @@
     .completed-icon { position: absolute; top: 4px; left: 4px; background: var(--watched-color); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .item-progress-fill { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     
-    .item-body { flex: 1; min-width: 0; }
-    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
+    .item-body { flex: 1; min-width: 0; text-align: left; }
+    .item-title { font-size: 1rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
     .item-date { font-size: 0.8rem; color: var(--text-muted); }
     .btn-fav-overlay { position: absolute; bottom: 6px; right: 6px; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
     .btn-fav-overlay svg { width: 16px; height: 16px; fill: #cbd5e1; }
@@ -102,7 +98,7 @@
 
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); }
+    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
 
     #driving-mode { background: #000; flex-direction: column; text-align: center; }
     .dm-controls { display: flex; gap: 30px; align-items: center; justify-content: center; margin: 40px 0; }
@@ -158,7 +154,7 @@
     <div id="skeleton" style="height:200px; background:#eee; border-radius:24px; margin:20px;"></div>
     <div id="player-content" style="display:none">
       <div class="player-header">
-        <h2 class="player-title" id="player-title">Select a shiur</h2>
+        <h2 class="player-title" id="player-title">Loading...</h2>
         <div class="player-meta">
           <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
           <div class="share-container">
@@ -184,7 +180,7 @@
           <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
           <button id="btn-mark-done" onclick="toggleManualComplete()" class="tool-btn done">☐ Mark as Completed</button>
         </div>
-        <textarea id="notes-input" dir="auto" class="notes-input" placeholder="Notes autosave while typing..."></textarea>
+        <textarea id="notes-input" dir="auto" class="notes-input" placeholder="Notes autosave..."></textarea>
         <div id="notes-display" dir="auto" class="notes-display"></div>
       </div>
     </div>
@@ -211,7 +207,7 @@
 
   const appState = {
     allData: JSON.parse(localStorage.getItem('mc_all_data') || '[]'),
-    currentId: null, playerReady: false, initialLoadAttempted: false,
+    currentId: null, playerReady: false, 
     autoPlay: localStorage.getItem('mc_autoplay') === 'true',
     favorites: new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]')),
     progress: JSON.parse(localStorage.getItem('mc_progress') || '{}'),
@@ -236,55 +232,84 @@
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
-      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
-      events: { 'onReady': () => { appState.playerReady = true; forceLoadFirstVideo(); }, 'onStateChange': onPlayerStateChange }
+      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1, 'origin': window.location.origin },
+      events: { 
+        'onReady': () => { appState.playerReady = true; startWatchdog(); },
+        'onStateChange': onPlayerStateChange 
+      }
     });
     initApp();
   }
 
   function initApp() {
-    if(appState.allData.length > 0) { renderList(); showPlayerUI(); }
+    // 1. Instant render from cache
+    if(appState.allData.length > 0) {
+        renderList();
+        showPlayerUI();
+    }
+    // 2. Refresh from YouTube with cache bypass
     fetchAllData();
     updateStreak(); applySavedTheme(); updateAutoPlayUI();
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
   }
 
-  function showPlayerUI() { document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block"; }
+  function showPlayerUI() { 
+      document.getElementById("skeleton").style.display = "none"; 
+      document.getElementById("player-content").style.display = "block"; 
+  }
 
-  function forceLoadFirstVideo() {
-    if (!appState.playerReady || appState.allData.length === 0 || appState.initialLoadAttempted) return;
-    const p = new URLSearchParams(window.location.search);
-    const v = p.get('v') || localStorage.getItem('lastWatched') || appState.allData[0].id;
-    playVideo(v, false, p.get('t'));
-    appState.initialLoadAttempted = true;
+  // Watchdog: ensures video is loaded and "Select a shiur" is gone
+  function startWatchdog() {
+      const watchdog = setInterval(() => {
+          if (appState.playerReady && appState.allData.length > 0) {
+              const title = document.getElementById("player-title").textContent;
+              if (title === "Loading..." || title === "Select a shiur") {
+                  const p = new URLSearchParams(window.location.search);
+                  const v = p.get('v') || localStorage.getItem('lastWatched') || appState.allData[0].id;
+                  playVideo(v, false, p.get('t'));
+              } else {
+                  clearInterval(watchdog);
+              }
+          }
+      }, 500);
+      // Safety bailout after 10 seconds
+      setTimeout(() => clearInterval(watchdog), 10000);
   }
 
   async function fetchAllData(token = "", acc = []) {
     try {
-      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
+      // Force freshness by adding timestamp
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}&_t=${Date.now()}`;
       const res = await fetch(url);
       const data = await res.json();
       if (!data.items) throw new Error("API Limit");
       acc.push(...data.items);
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
       
-      const newData = acc.map(item => ({
-        id: item.contentDetails.videoId, title: item.snippet.title, pubDate: item.contentDetails.videoPublishedAt,
-        dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"})
+      const newData = acc.map(item => ({ 
+        id: item.contentDetails.videoId, title: item.snippet.title, 
+        pubDate: item.contentDetails.videoPublishedAt, 
+        dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}) 
       })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
 
       if(JSON.stringify(newData) !== JSON.stringify(appState.allData)) {
-          appState.allData = newData; appState.save(); renderList(); showPlayerUI();
-          if(!appState.initialLoadAttempted) forceLoadFirstVideo();
+          appState.allData = newData; 
+          appState.save(); 
+          renderList(); 
+          showPlayerUI();
       }
-    } catch(e) { console.warn("Using offline mode."); }
+    } catch(e) { 
+        console.warn("API Error, relying on cache."); 
+        showPlayerUI(); // Always show UI even on failure
+    }
   }
 
   function playVideo(id, autoScroll, time = null) {
-    if(!appState.playerReady) { setTimeout(() => playVideo(id, autoScroll, time), 300); return; }
+    if(!appState.playerReady) return;
     appState.currentId = id; localStorage.setItem('lastWatched', id);
     const item = appState.allData.find(d => d.id === id);
     if(!item) return;
+    
     localStorage.setItem('mc_viewed_' + id, 'true');
     document.getElementById("player-title").textContent = item.title;
     document.getElementById("player-date").textContent = item.dateNice;
@@ -292,13 +317,16 @@
     document.getElementById("dm-title").textContent = item.title; 
     updateNotesDisplay(appState.notes[id] || "");
     updateManualBtnUI();
+    
     let start = (time !== null) ? parseInt(time) : (appState.progress[id] || 0);
     player.loadVideoById({ videoId: id, startSeconds: start });
-    renderList(); if(autoScroll) window.scrollTo({top: 0, behavior: 'smooth'});
+    renderList();
+    if(autoScroll) window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
   function onPlayerStateChange(e) {
     if (e.data === YT.PlayerState.PLAYING) {
+      if (progressInterval) clearInterval(progressInterval);
       progressInterval = setInterval(() => {
         const t = Math.floor(player.getCurrentTime()), dur = player.getDuration();
         appState.progress[appState.currentId] = t;
@@ -306,7 +334,8 @@
         if(dur > 0) {
           appState.durations[appState.currentId] = dur;
           if (t > dur * 0.9 && !appState.completed.has(appState.currentId)) {
-            appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            appState.completed.add(appState.currentId); showToast("Shiur Completed! 🙌");
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             renderList(); updateManualBtnUI();
           }
           if (t >= dur - 2 && appState.autoPlay) {
@@ -317,26 +346,31 @@
         appState.save(); updateLiveProgressBar(t, dur);
       }, 1000);
       document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-    } else { clearInterval(progressInterval); document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>'; }
+    } else { 
+      clearInterval(progressInterval); 
+      document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>'; 
+    }
   }
 
   function renderList() {
     const list = document.getElementById("shiur-list"), filter = document.getElementById("search-input").value.toLowerCase();
     list.innerHTML = "";
     const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
+    
     if (appState.showFavoritesOnly && filtered.length === 0) {
       list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons.</div></div>`; return;
     }
     filtered.forEach((item) => {
-      const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id);
+      const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_' + item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
-      const isNew = item.pubDate === localStorage.getItem('mc_latest') && !localStorage.getItem('mc_viewed_'+item.id);
+      const isNew = item.pubDate === localStorage.getItem('mc_latest') && !isViewed;
       const li = document.createElement("li"); li.className = `item ${item.id === appState.currentId ? 'active' : ''}`;
-      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
+      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
       li.onclick = () => playVideo(item.id, true); list.appendChild(li);
     });
   }
 
+  // --- Utility Functions ---
   function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
   function toggleFav(id) { appState.favorites.has(id) ? appState.favorites.delete(id) : appState.favorites.add(id); appState.save(); renderList(); }
   function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
