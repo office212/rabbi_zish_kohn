@@ -35,7 +35,7 @@
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
     header { padding: 20px 16px; }
-    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); position: relative; }
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
     h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
     .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 12px; }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
@@ -44,11 +44,6 @@
     .autoplay-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
-
-    /* INSTALL BANNER */
-    .install-banner { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--card-bg); border-radius: 20px; padding: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-soft); display: none; align-items: center; gap: 15px; z-index: 10001; animation: slideUp 0.5s; }
-    .install-icon-box { background: var(--accent); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
-    .install-text { font-size: 0.85rem; line-height: 1.4; flex-grow: 1; color: var(--text-main); font-weight: 500; }
 
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
@@ -73,13 +68,13 @@
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
     .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; }
     .tool-btn.primary { background: var(--accent); color: white; }
-    .tool-btn.highlight { background: #fef3c7; color: #d97706; border-color: #fcd34d; }
+    .tool-btn.highlight { background: #fef3c7; color: #d97706; }
     .tool-btn.done { background: #dcfce7; color: #166534; }
-    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; text-align: left; }
+    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
     .notes-display { display: none; white-space: pre-wrap; max-height: 350px; overflow-y: auto; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
 
-    /* SEARCH UI */
+    /* MODERN SEARCH UI */
     .list-header { margin-bottom: 24px; display: flex; gap: 12px; align-items: center; width: 100%; }
     .search-wrapper { position: relative; flex: 1; }
     .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
@@ -90,7 +85,6 @@
 
     .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; }
     .empty-state-icon { color: #ef4444; font-size: 2.5rem; margin-bottom: 12px; display: block; }
-    .empty-state-text { font-size: 1rem; font-weight: 600; color: var(--text-main); line-height: 1.5; }
 
     .new-badge { background: var(--gold); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; margin-left: 8px; vertical-align: middle; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
@@ -111,7 +105,7 @@
 
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); }
+    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
 
     #driving-mode { background: #000; flex-direction: column; text-align: center; }
     .dm-controls { display: flex; gap: 30px; align-items: center; justify-content: center; margin: 40px 0; width: 100%; }
@@ -121,20 +115,11 @@
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
 
-    @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
     footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; cursor: pointer !important; }
   </style>
 </head>
 <body>
-
-<div id="install-prompt" class="install-banner">
-  <div class="install-icon-box">📲</div>
-  <div class="install-text">Enjoying the shiurim? <b>Add to Home Screen</b> for a faster, better experience.</div>
-  <button id="btn-do-install" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:10px; font-weight:700; cursor:pointer;">Install</button>
-  <button onclick="document.getElementById('install-prompt').style.display='none'" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
-</div>
 
 <div id="driving-mode" class="overlay">
   <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title">No Shiur Playing</div>
@@ -163,7 +148,7 @@
     <button class="modal-close" onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; color:var(--text-muted); cursor:pointer;">✕</button>
     <h3 style="margin:0;">Share a Quote 🎨</h3>
     <textarea id="quote-text" dir="auto" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
-    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Create & Share Image</button>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Share Image</button>
   </div>
 </div>
 
@@ -187,7 +172,7 @@
       <div class="player-header">
         <h2 class="player-title" id="player-title">Select a shiur</h2>
         <div class="player-meta">
-          <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-right:8px;"></span></div>
+          <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
           <div class="share-container">
             <button onclick="toggleShareMenu(event)" class="btn-share-pill">Share</button>
             <div id="share-dropdown" class="share-menu">
@@ -245,7 +230,8 @@
   };
 
   const appState = {
-    allData: [], currentId: null, showFavoritesOnly: false, isNoteEditMode: true,
+    allData: JSON.parse(localStorage.getItem('mc_all_data') || '[]'),
+    currentId: null, showFavoritesOnly: false, isNoteEditMode: true,
     autoPlay: localStorage.getItem('mc_autoplay') === 'true',
     favorites: new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]')),
     progress: JSON.parse(localStorage.getItem('mc_progress') || '{}'),
@@ -253,7 +239,6 @@
     durations: JSON.parse(localStorage.getItem('mc_durations') || '{}'),
     stats: loadStats(),
     completed: new Set(JSON.parse(localStorage.getItem('mc_completed') || '[]')),
-    deferredPrompt: null,
     save() {
       localStorage.setItem('mc_favorites', JSON.stringify([...this.favorites]));
       localStorage.setItem('mc_progress', JSON.stringify(this.progress));
@@ -262,6 +247,7 @@
       localStorage.setItem('mc_stats', JSON.stringify(this.stats));
       localStorage.setItem('mc_completed', JSON.stringify([...this.completed]));
       localStorage.setItem('mc_autoplay', this.autoPlay);
+      localStorage.setItem('mc_all_data', JSON.stringify(this.allData));
     }
   };
 
@@ -270,6 +256,12 @@
   function onYouTubeIframeAPIReady() { initApp(); }
 
   async function initApp() {
+    if(appState.allData.length > 0) {
+        renderList();
+        document.getElementById("skeleton").style.display = "none";
+        document.getElementById("player-content").style.display = "block";
+    }
+    
     await fetchAllData();
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
@@ -277,37 +269,14 @@
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
     updateStreak(); applySavedTheme(); updateAutoPlayUI();
-    initInstallLogic();
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
   }
 
-  function initInstallLogic() {
-      window.addEventListener('beforeinstallprompt', (e) => {
-          e.preventDefault(); appState.deferredPrompt = e;
-          document.getElementById('install-prompt').style.display = 'flex';
-      });
-      document.getElementById('btn-do-install').onclick = async () => {
-          if (!appState.deferredPrompt) return;
-          appState.deferredPrompt.prompt();
-          await appState.deferredPrompt.userChoice;
-          appState.deferredPrompt = null;
-          document.getElementById('install-prompt').style.display = 'none';
-      };
-  }
+  function onPlayerReady() { loadInitialVideo(); }
 
-  function updateAutoPlayUI() {
-    const btn = document.getElementById('autoplay-toggle');
-    btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF";
-    btn.classList.toggle('active', appState.autoPlay);
-  }
-
-  function toggleAutoPlay() {
-    appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI();
-    showToast(`Auto Play ${appState.autoPlay ? 'Enabled' : 'Disabled'}`);
-  }
-
-  function onPlayerReady() {
+  function loadInitialVideo() {
+    if (!player || !player.loadVideoById || appState.allData.length === 0) return;
     const p = new URLSearchParams(window.location.search);
     const v = p.get('v'), last = localStorage.getItem('lastWatched');
     if (v) playVideo(v, false, parseInt(p.get('t')) || 0);
@@ -322,60 +291,33 @@
       const data = await res.json();
       acc.push(...data.items);
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
-      
-      appState.allData = acc.map(item => ({
-        id: item.contentDetails.videoId, title: item.snippet.title,
-        pubDate: item.contentDetails.videoPublishedAt,
-        dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"})
-      })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
-
-      const latestDate = appState.allData[0]?.pubDate || "";
-      const prevLatest = localStorage.getItem('mc_latest');
-      if (prevLatest && latestDate > prevLatest) { showToast("New Shiur Available! 🔥"); }
-      localStorage.setItem('mc_latest', latestDate);
-
-      renderList(); document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
-    } catch(e) { console.error(e); }
+      const newData = acc.map(item => ({ id: item.contentDetails.videoId, title: item.snippet.title, pubDate: item.contentDetails.videoPublishedAt, dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}) })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
+      if(JSON.stringify(newData) !== JSON.stringify(appState.allData)) {
+          const latestDate = newData[0]?.pubDate || ""; const prevLatest = localStorage.getItem('mc_latest');
+          if (prevLatest && latestDate > prevLatest) { showToast("New Shiur Available! 🔥"); }
+          localStorage.setItem('mc_latest', latestDate);
+          appState.allData = newData; appState.save(); renderList();
+          document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
+          if (!appState.currentId) loadInitialVideo();
+      }
+    } catch(e) { console.error("Fetch failed"); }
   }
 
   function playVideo(id, autoScroll, time = null) {
     appState.currentId = id; localStorage.setItem('lastWatched', id);
     const item = appState.allData.find(d => d.id === id);
     if(!item) return;
-
-    // MARK AS VIEWED TO HIDE "NEW" TAG
     localStorage.setItem('mc_viewed_' + id, 'true');
-
     document.getElementById("player-title").textContent = item.title;
     document.getElementById("player-date").textContent = item.dateNice;
     document.getElementById("notes-input").value = appState.notes[id] || "";
     document.getElementById("dm-title").textContent = item.title; 
     updateNotesDisplay(appState.notes[id] || "");
     updateManualBtnUI();
-    
     let start = (time !== null) ? time : (appState.progress[id] || 0);
-    player.loadVideoById({ videoId: id, startSeconds: start });
-    
+    if (player && player.loadVideoById) player.loadVideoById({ videoId: id, startSeconds: start });
     renderList();
     if(autoScroll) window.scrollTo({top: 0, behavior: 'smooth'});
-  }
-
-  function toggleManualComplete() {
-      if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId);
-      else {
-          appState.completed.add(appState.currentId);
-          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-      }
-      appState.save(); renderList(); updateManualBtnUI();
-  }
-
-  function updateManualBtnUI() {
-      const btn = document.getElementById('btn-mark-done');
-      if(appState.completed.has(appState.currentId)) {
-          btn.innerHTML = "✅ Completed"; btn.classList.add('done');
-      } else {
-          btn.innerHTML = "☐ Mark as Completed"; btn.classList.remove('done');
-      }
   }
 
   function onPlayerStateChange(e) {
@@ -385,7 +327,6 @@
         const t = Math.floor(player.getCurrentTime()), dur = player.getDuration();
         appState.progress[appState.currentId] = t;
         appState.stats.totalSeconds += 1; appState.stats.dailySeconds += 1;
-        
         if(dur > 0) {
           appState.durations[appState.currentId] = dur;
           if (t > dur * 0.9 && !appState.completed.has(appState.currentId)) {
@@ -393,67 +334,43 @@
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             renderList(); updateManualBtnUI();
           }
-          if (t >= dur - 2 && appState.autoPlay) {
-             const idx = appState.allData.findIndex(d => d.id === appState.currentId);
-             if (idx < appState.allData.length - 1) playVideo(appState.allData[idx + 1].id, false);
-          }
+          if (t >= dur - 2 && appState.autoPlay) { const idx = appState.allData.findIndex(d => d.id === appState.currentId); if (idx < appState.allData.length - 1) playVideo(appState.allData[idx + 1].id, false); }
         }
         appState.save(); updateLiveProgressBar(t, dur);
       }, 1000);
       document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-    } else { 
-      clearInterval(progressInterval); 
-      document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>';
-    }
+    } else { clearInterval(progressInterval); document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>'; }
   }
 
-  function updateLiveProgressBar(t, dur) {
-    const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`);
-    if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%';
+  function toggleManualComplete() {
+      if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId);
+      else { appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); }
+      appState.save(); renderList(); updateManualBtnUI();
+  }
+
+  function updateManualBtnUI() {
+      const btn = document.getElementById('btn-mark-done');
+      if(appState.completed.has(appState.currentId)) { btn.innerHTML = "✅ Completed"; btn.classList.add('done'); }
+      else { btn.innerHTML = "☐ Mark as Completed"; btn.classList.remove('done'); }
   }
 
   function renderList() {
     const list = document.getElementById("shiur-list"), filter = document.getElementById("search-input").value.toLowerCase();
     list.innerHTML = "";
     const latestDate = localStorage.getItem('mc_latest');
-    const filtered = appState.allData.filter(i => 
-       (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && 
-       (!appState.showFavoritesOnly || appState.favorites.has(i.id))
-    );
-    
+    const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
     if (appState.showFavoritesOnly && filtered.length === 0) {
-      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved shiurim.<br>Tap the heart to save.</div></div>`; return;
+      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons. Tap the heart to save.</div></div>`; return;
     }
-
     filtered.forEach((item) => {
-      const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0;
-      const isComp = appState.completed.has(item.id);
-      const isViewed = localStorage.getItem('mc_viewed_' + item.id);
+      const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_' + item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
       const isNew = item.pubDate === latestDate && !isViewed;
-      const li = document.createElement("li");
-      li.className = `item ${item.id === appState.currentId ? 'active' : ''}`;
-      li.dataset.id = item.id;
-      
+      const li = document.createElement("li"); li.className = `item ${item.id === appState.currentId ? 'active' : ''}`; li.dataset.id = item.id;
       const durationText = dur > 0 ? ` • ${Math.round(dur/60)} min` : '';
-
-      li.innerHTML = `
-        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy">
-          ${isComp ? '<div class="completed-icon">✔</div>' : ''}
-          <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
-          <div class="item-progress-fill" style="width:${percent}%"></div>
-        </div>
-        <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${durationText}</div></div>`;
-      li.onclick = () => playVideo(item.id, true);
-      list.appendChild(li);
+      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${durationText}</div></div>`;
+      li.onclick = () => playVideo(item.id, true); list.appendChild(li);
     });
-  }
-
-  function shareCurrent(withTime) {
-    const item = appState.allData.find(d => d.id === appState.currentId); if(!item) return;
-    let url = window.location.origin + window.location.pathname + '?v=' + item.id;
-    if(withTime) url += '&t=' + Math.floor(player.getCurrentTime());
-    if(navigator.share) navigator.share({title: item.title, url: url}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); }
   }
 
   function setSpeed(s, btn) { if(player && player.setPlaybackRate) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); } }
@@ -466,27 +383,17 @@
   function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark"; document.body.classList.toggle("dark-mode", isDark); updateThemeUI(isDark); }
   function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
-  function insertTimestamp() { const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save(); }
-  function toggleNoteMode() {
-    appState.isNoteEditMode = !appState.isNoteEditMode;
-    const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn");
-    if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; }
-    else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; }
-  }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
   function exportNotes() { const text = appState.notes[appState.currentId]; if(!text) return showToast("No notes to export"); const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
-  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
-  function generateAndShareQuote() {
-    const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first");
-    const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0,0,1080,1080); grad.addColorStop(0, '#1e3a8a'); grad.addColorStop(1, '#1e40af'); ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080);
-    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 40; ctx.strokeRect(20,20,1040,1040);
-    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 70px "Inter", sans-serif'; ctx.textAlign = 'center'; wrapText(ctx, `"${text}"`, 540, 480, 900, 95); 
-    ctx.fillStyle = '#93c5fd'; ctx.font = '50px Inter'; ctx.fillText("Rabbi Zish Kohn", 540, 880);
-    ctx.font = '32px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim Staten Island", 540, 940);
-    canvas.toBlob(b => { const f = new File([b], "quote.png", {type: "image/png"}); if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) { navigator.share({files:[f]}).catch(()=>{}); } else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!"); } });
-  }
+  function generateAndShareQuote() { const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first"); const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d'); const grad = ctx.createLinearGradient(0,0,1080,1080); grad.addColorStop(0, '#1e3a8a'); grad.addColorStop(1, '#1e40af'); ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080); ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 40; ctx.strokeRect(20,20,1040,1040); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 70px "Inter", sans-serif'; ctx.textAlign = 'center'; wrapText(ctx, `"${text}"`, 540, 480, 900, 95); ctx.fillStyle = '#93c5fd'; ctx.font = '50px Inter'; ctx.fillText("Rabbi Zish Kohn", 540, 880); ctx.font = '32px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim Staten Island", 540, 940); canvas.toBlob(b => { const f = new File([b], "quote.png", {type: "image/png"}); if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) { navigator.share({files:[f]}).catch(()=>{}); } else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!"); } }); }
   function wrapText(ctx, text, x, y, maxWidth, lineHeight) { const words = text.split(' '); let line = ''; for(let n = 0; n < words.length; n++) { let testLine = line + words[n] + ' '; if (ctx.measureText(testLine).width > maxWidth) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line = testLine; } ctx.fillText(line, x, y); }
+  function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; } }
+  function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); showToast(`Auto Play ${appState.autoPlay ? 'Enabled' : 'Disabled'}`); }
+  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); }
+  function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
+  function insertTimestamp() { const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save(); }
+  function shareCurrent(withTime) { const item = appState.allData.find(d => d.id === appState.currentId); if(!item) return; let url = window.location.origin + window.location.pathname + '?v=' + item.id; if(withTime) url += '&t=' + Math.floor(player.getCurrentTime()); if(navigator.share) navigator.share({title: item.title, url: url}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); } }
   function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); document.getElementById("video-container").style.display = document.getElementById("driving-mode").classList.contains('active') ? 'none' : 'block'; }
   function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
