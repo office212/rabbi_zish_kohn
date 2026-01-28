@@ -27,11 +27,10 @@
     header { padding: 20px 16px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
-    .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; }
+    .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; }
     .stats-btn { background: white; color: var(--accent); }
     .resume-btn { background: #10b981; color: white; }
-    .drive-btn { background: rgba(0,0,0,0.2); color: white; }
-    .autoplay-btn { background: rgba(255,255,255,0.15); color: white; }
+    .autoplay-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
     .autoplay-btn.active { background: #10b981; }
 
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; }
@@ -39,6 +38,7 @@
     .player-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; }
     .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    
     .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); overflow-x: auto; scrollbar-width: none; }
     .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 10px 18px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; }
     .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
@@ -58,23 +58,30 @@
     .fav-filter-btn.active { background: #fee2e2; color: #ef4444; }
 
     .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; }
+    .empty-state-icon { color: #ef4444; font-size: 2.5rem; margin-bottom: 12px; display: block; }
+
     .list { list-style: none; padding: 0; margin: 0; }
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; align-items: center; cursor: pointer; position: relative; }
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
     .item-thumb { flex: 0 0 110px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .completed-icon { position: absolute; top: 4px; left: 4px; background: var(--watched-color); color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; }
     .item-progress-fill { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--watched-color); width: 0%; }
     .new-badge { background: var(--gold); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; margin-left: 8px; }
 
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); }
+    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+    
     #driving-mode { background: #000; flex-direction: column; text-align: center; }
-    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; border: none; font-weight: 700; cursor: pointer; }
+    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .dm-btn.play { width: 110px; height: 110px; background: var(--accent); }
+    
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; opacity: 0; transition: 0.4s; z-index: 10001; }
     .toast.show { opacity: 1; }
+
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
+    footer a { color: #2563eb !important; font-weight: 700; text-decoration: none; }
   </style>
 </head>
 <body>
@@ -105,7 +112,7 @@
   <div class="modal">
     <button onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
     <h3>Share Quote 🎨</h3>
-    <textarea id="quote-text" dir="auto" style="width:100%; height:100px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit;"></textarea>
+    <textarea id="quote-text" dir="auto" style="width:100%; height:120px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit;"></textarea>
     <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Share Image</button>
   </div>
 </div>
@@ -118,8 +125,8 @@
       <button onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
       <button onclick="resumeLast()" class="nav-btn resume-btn">▶️ Resume</button>
       <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn">⏭️ Auto Play: OFF</button>
-      <button onclick="toggleDrivingMode()" class="nav-btn drive-btn">🚗 Audio Mode</button>
-      <button onclick="toggleTheme()" class="nav-btn theme-toggle">🌙 Theme</button>
+      <button onclick="toggleDrivingMode()" class="nav-btn nav-btn" style="background:rgba(0,0,0,0.2); color:white;">🚗 Audio Mode</button>
+      <button onclick="toggleTheme()" class="nav-btn nav-btn" style="background:rgba(255,255,255,0.2); color:white;">🌙 Theme</button>
     </div>
   </div>
 </header>
@@ -132,7 +139,7 @@
         <h2 class="player-title" id="player-title">Loading...</h2>
         <div style="display:flex; justify-content:space-between; align-items:center;">
           <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
-          <button onclick="shareCurrent(false)" style="background:#eff6ff; color:#2563eb; padding:8px 16px; border-radius:99px; border:none; font-weight:700; cursor:pointer;">Share</button>
+          <button onclick="shareCurrent(false)" style="background:#eff6ff; color:#2563eb; padding:8px 20px; border-radius:99px; border:none; font-weight:700; cursor:pointer;">Share</button>
         </div>
       </div>
       <div class="video-container"><div id="player-placeholder"></div></div>
@@ -156,7 +163,7 @@
   </div>
 
   <div class="list-header" style="display:flex; gap:12px; align-items:center;">
-    <div class="search-wrapper">
+    <div class="search-wrapper" style="flex:1;">
       <input id="search-input" type="search" placeholder="Search topics or dates..." oninput="renderList()">
     </div>
     <button id="fav-filter-btn" class="fav-filter-btn" onclick="toggleFavFilter()">Saved ❤️</button>
@@ -171,6 +178,7 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I", PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
+  
   const appState = {
     allData: JSON.parse(localStorage.getItem('mc_all_data') || '[]'),
     currentId: null, playerReady: false, 
@@ -198,8 +206,8 @@
   function onYouTubeIframeAPIReady() {
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
-      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
-      events: { 'onReady': () => { appState.playerReady = true; }, 'onStateChange': onPlayerStateChange }
+      playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1, 'origin': window.location.origin },
+      events: { 'onReady': () => { appState.playerReady = true; startWatchdog(); }, 'onStateChange': onPlayerStateChange }
     });
     initApp();
   }
@@ -208,19 +216,25 @@
     if(appState.allData.length > 0) { renderList(); showUI(); }
     fetchAllData();
     updateAutoPlayUI(); applySavedTheme();
-    setInterval(() => {
-        const title = document.getElementById("player-title").textContent;
-        if (appState.playerReady && appState.allData.length > 0 && (title === "Loading..." || title === "Select a shiur")) {
-            const last = localStorage.getItem('lastWatched');
-            const id = last && appState.allData.some(d => d.id === last) ? last : appState.allData[0].id;
-            playVideo(id, false);
-        }
-    }, 1000);
     window.addEventListener('beforeunload', () => { appState.save(); });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.error);
   }
 
   function showUI() { document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block"; }
+
+  function startWatchdog() {
+      const watchdog = setInterval(() => {
+          if (appState.playerReady && appState.allData.length > 0) {
+              const title = document.getElementById("player-title").textContent;
+              if (title === "Loading..." || title === "Select a shiur") {
+                  const last = localStorage.getItem('lastWatched');
+                  const id = last && appState.allData.some(d => d.id === last) ? last : appState.allData[0].id;
+                  playVideo(id, false);
+              } else { clearInterval(watchdog); }
+          }
+      }, 800);
+      setTimeout(() => clearInterval(watchdog), 10000);
+  }
 
   async function fetchAllData(token = "", acc = []) {
     try {
@@ -231,10 +245,10 @@
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
       const newData = acc.map(i => ({ id: i.contentDetails.videoId, title: i.snippet.title, pubDate: i.contentDetails.videoPublishedAt, dateNice: new Date(i.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}) })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
       if(JSON.stringify(newData) !== JSON.stringify(appState.allData)) { appState.allData = newData; appState.save(); renderList(); showUI(); }
-    } catch(e) { showUI(); }
+    } catch(e) { console.warn("Showing cached data."); showUI(); }
   }
 
-  function playVideo(id, autoScroll) {
+  function playVideo(id, autoScroll, time = null) {
     if(!appState.playerReady) return;
     appState.currentId = id; localStorage.setItem('lastWatched', id);
     const item = appState.allData.find(d => d.id === id);
@@ -246,7 +260,8 @@
     document.getElementById("dm-title").textContent = item.title;
     updateNotesDisplay(appState.notes[id] || "");
     updateManualBtnUI();
-    player.loadVideoById({ videoId: id, startSeconds: (appState.progress[id] || 0) });
+    let start = (time !== null) ? parseInt(time) : (appState.progress[id] || 0);
+    player.loadVideoById({ videoId: id, startSeconds: start });
     renderList(); if(autoScroll) window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
@@ -262,65 +277,57 @@
         if(dur > 0) {
           appState.durations[appState.currentId] = dur;
           if (t > dur * 0.9 && !appState.completed.has(appState.currentId)) {
-            appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            appState.completed.add(appState.currentId); showToast("Shiur Completed! 🙌");
+            confetti({ particleCount: 100, spread: 70 });
             renderList(); updateManualBtnUI();
           }
-          if (t >= dur - 2 && appState.autoPlay) {
-             const idx = appState.allData.findIndex(d => d.id === appState.currentId);
-             if (idx < appState.allData.length - 1) playVideo(appState.allData[idx + 1].id, false);
-          }
+          if (t >= dur - 2 && appState.autoPlay) { const idx = appState.allData.findIndex(d => d.id === appState.currentId); if (idx < appState.allData.length - 1) playVideo(appState.allData[idx + 1].id, false); }
         }
         updateLiveProgressBar(t, dur);
       }, 1000);
-      document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-    } else { clearInterval(progressInterval); document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>'; }
+    } else { clearInterval(progressInterval); }
   }
 
   function renderList() {
     const list = document.getElementById("shiur-list"), filter = document.getElementById("search-input").value.toLowerCase();
     list.innerHTML = "";
     const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
-    if (appState.showFavoritesOnly && filtered.length === 0) { list.innerHTML = `<div class="empty-state">No saved lessons.</div>`; return; }
+    if (appState.showFavoritesOnly && filtered.length === 0) { list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons.</div></div>`; return; }
     filtered.forEach((item) => {
       const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_'+item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
+      const isNew = item.pubDate === localStorage.getItem('mc_latest') && !isViewed;
       const li = document.createElement("li"); li.className = `item ${item.id === appState.currentId ? 'active' : ''}`;
-      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div style="position:absolute;top:4px;right:4px;background:#10b981;color:white;border-radius:50%;width:20px;height:20px;text-align:center;font-size:12px;line-height:20px;">✔</div>' : ''} <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
+      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
       li.onclick = () => playVideo(item.id, true); list.appendChild(li);
     });
-  }
-
-  function generateAndShareQuote() {
-    const text = document.getElementById('quote-text').value; if(!text.trim()) return;
-    const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#1e3a8a'; ctx.fillRect(0,0,1080,1080);
-    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 60px Inter'; ctx.textAlign = 'center';
-    ctx.fillText(`"${text}"`, 540, 500);
-    ctx.font = '40px Inter'; ctx.fillText("Rabbi Zish Kohn - Mekor Chaim SI", 540, 950);
-    canvas.toBlob(b => { const f = new File([b], "quote.png", {type: "image/png"}); if(navigator.share) navigator.share({files:[f]}).catch(console.error); });
   }
 
   function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
   function toggleFav(id) { appState.favorites.has(id) ? appState.favorites.delete(id) : appState.favorites.add(id); appState.save(); renderList(); }
   function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
   function setSpeed(s, btn) { if(player && player.setPlaybackRate) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); } }
+  function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
   function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
-  function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; } }
   function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
   function exportNotes() { const text = appState.notes[appState.currentId]; if(!text) return; const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "notes.txt"; a.click(); }
-  function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); }
-  function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); }
-  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); if(btn) { btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); } }
+  function generateAndShareQuote() { const text = document.getElementById('quote-text').value; if(!text.trim()) return; const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d'); ctx.fillStyle = '#1e3a8a'; ctx.fillRect(0,0,1080,1080); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 60px Inter'; ctx.textAlign = 'center'; wrapText(ctx, `"${text}"`, 540, 500, 900, 80); ctx.font = '40px Inter'; ctx.fillText("Rabbi Zish Kohn - Mekor Chaim SI", 540, 950); canvas.toBlob(b => { const f = new File([b], "quote.png", {type: "image/png"}); if(navigator.share) navigator.share({files:[f]}).catch(console.error); }); }
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) { const words = text.split(' '); let line = ''; for(let n = 0; n < words.length; n++) { let testLine = line + words[n] + ' '; if (ctx.measureText(testLine).width > maxWidth) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line = testLine; } ctx.fillText(line, x, y); }
   function toggleManualComplete() { if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId); else { appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70 }); } appState.save(); renderList(); updateManualBtnUI(); }
   function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(btn) { btn.innerHTML = appState.completed.has(appState.currentId) ? "✅ Completed" : "☐ Mark as Completed"; } }
-  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
+  function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); }
   function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
-  function toggleTheme() { document.body.classList.toggle("dark-mode"); }
-  function updateStreak() { /* logic preserved */ }
-  function applySavedTheme() { /* logic preserved */ }
+  function toggleTheme() { const isDark = document.body.classList.toggle("dark-mode"); localStorage.setItem("theme", isDark ? "dark" : "light"); }
+  function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); }
+  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); if(btn) { btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); } }
+  function applySavedTheme() { if(localStorage.getItem("theme") === "dark") document.body.classList.add("dark-mode"); }
+  function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
+  function shareCurrent(withTime) { const item = appState.allData.find(d => d.id === appState.currentId); if(!item) return; let url = window.location.origin + window.location.pathname + '?v=' + item.id; if(withTime) url += '&t=' + Math.floor(player.getCurrentTime()); if(navigator.share) navigator.share({title: item.title, url: url}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); } }
+  function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }
 </script>
 </body>
 </html>
