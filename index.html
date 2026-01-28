@@ -35,13 +35,20 @@
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
     header { padding: 20px 16px; }
-    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); position: relative; }
+    h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
+    .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 12px; }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
     .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; }
     .stats-btn { background: white; color: var(--accent); }
     .autoplay-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
-    .theme-toggle { background: rgba(255,255,255,0.2); color: white; }
+    .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
+
+    /* INSTALL BANNER */
+    .install-banner { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--card-bg); border-radius: 20px; padding: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-soft); display: none; align-items: center; gap: 15px; z-index: 10001; animation: slideUp 0.5s; }
+    .install-icon-box { background: var(--accent); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+    .install-text { font-size: 0.85rem; line-height: 1.4; flex-grow: 1; color: var(--text-main); font-weight: 500; }
 
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
@@ -51,7 +58,7 @@
 
     .share-container { position: relative; }
     .btn-share-pill { background: #eff6ff; color: #2563eb; padding: 10px 22px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; }
-    .share-menu { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 200px; z-index: 1000; overflow: hidden; }
+    .share-menu { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 190px; z-index: 1000; overflow: hidden; }
     .share-menu.active { display: flex; }
     .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; width: 100%; }
 
@@ -81,13 +88,11 @@
     .fav-filter-btn { padding: 12px 24px; border-radius: 99px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 700; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-card); }
     .fav-filter-btn.active { background: #fee2e2; border-color: #fecaca; color: #ef4444; }
 
-    /* DASHED BOX EMPTY STATE */
     .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; }
     .empty-state-icon { color: #ef4444; font-size: 2.5rem; margin-bottom: 12px; display: block; }
     .empty-state-text { font-size: 1rem; font-weight: 600; color: var(--text-main); line-height: 1.5; }
 
-    /* NEW TAG STYLE */
-    .new-badge { background: var(--gold); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; margin-left: 8px; vertical-align: middle; }
+    .new-badge { background: var(--gold); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; margin-left: 8px; vertical-align: middle; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
     .list { list-style: none; padding: 0; margin: 0; width: 100%; }
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; transition: 0.2s; align-items: center; box-shadow: var(--shadow-card); cursor: pointer; position: relative; }
@@ -116,11 +121,20 @@
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
 
+    @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
     footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; cursor: pointer !important; }
   </style>
 </head>
 <body>
+
+<div id="install-prompt" class="install-banner">
+  <div class="install-icon-box">📲</div>
+  <div class="install-text">Enjoying the shiurim? <b>Add to Home Screen</b> for a faster, better experience.</div>
+  <button id="btn-do-install" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:10px; font-weight:700; cursor:pointer;">Install</button>
+  <button onclick="document.getElementById('install-prompt').style.display='none'" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+</div>
 
 <div id="driving-mode" class="overlay">
   <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title">No Shiur Playing</div>
@@ -148,7 +162,7 @@
   <div class="modal">
     <button class="modal-close" onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; color:var(--text-muted); cursor:pointer;">✕</button>
     <h3 style="margin:0;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" dir="auto" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a quote..."></textarea>
+    <textarea id="quote-text" dir="auto" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
     <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Create & Share Image</button>
   </div>
 </div>
@@ -173,7 +187,7 @@
       <div class="player-header">
         <h2 class="player-title" id="player-title">Select a shiur</h2>
         <div class="player-meta">
-          <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
+          <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-right:8px;"></span></div>
           <div class="share-container">
             <button onclick="toggleShareMenu(event)" class="btn-share-pill">Share</button>
             <div id="share-dropdown" class="share-menu">
@@ -196,7 +210,7 @@
           <button onclick="insertTimestamp()" class="tool-btn">⏱️ Time</button>
           <button onclick="openQuoteCreator()" class="tool-btn highlight">🎨 Quote</button>
           <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
-          <button id="btn-mark-done" onclick="toggleManualComplete()" class="tool-btn done">✅ Mark Done</button>
+          <button id="btn-mark-done" onclick="toggleManualComplete()" class="tool-btn done">☐ Mark as Completed</button>
         </div>
         <textarea id="notes-input" dir="auto" class="notes-input" placeholder="Notes autosave while typing..."></textarea>
         <div id="notes-display" dir="auto" class="notes-display"></div>
@@ -239,6 +253,7 @@
     durations: JSON.parse(localStorage.getItem('mc_durations') || '{}'),
     stats: loadStats(),
     completed: new Set(JSON.parse(localStorage.getItem('mc_completed') || '[]')),
+    deferredPrompt: null,
     save() {
       localStorage.setItem('mc_favorites', JSON.stringify([...this.favorites]));
       localStorage.setItem('mc_progress', JSON.stringify(this.progress));
@@ -262,8 +277,23 @@
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
     updateStreak(); applySavedTheme(); updateAutoPlayUI();
+    initInstallLogic();
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  }
+
+  function initInstallLogic() {
+      window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault(); appState.deferredPrompt = e;
+          document.getElementById('install-prompt').style.display = 'flex';
+      });
+      document.getElementById('btn-do-install').onclick = async () => {
+          if (!appState.deferredPrompt) return;
+          appState.deferredPrompt.prompt();
+          await appState.deferredPrompt.userChoice;
+          appState.deferredPrompt = null;
+          document.getElementById('install-prompt').style.display = 'none';
+      };
   }
 
   function updateAutoPlayUI() {
@@ -299,12 +329,9 @@
         dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"})
       })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
 
-      // NEW SHIUR ALERT
       const latestDate = appState.allData[0]?.pubDate || "";
       const prevLatest = localStorage.getItem('mc_latest');
-      if (prevLatest && latestDate > prevLatest) {
-          showToast("New Shiur Available! 🔥");
-      }
+      if (prevLatest && latestDate > prevLatest) { showToast("New Shiur Available! 🔥"); }
       localStorage.setItem('mc_latest', latestDate);
 
       renderList(); document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
@@ -316,10 +343,13 @@
     const item = appState.allData.find(d => d.id === id);
     if(!item) return;
 
+    // MARK AS VIEWED TO HIDE "NEW" TAG
+    localStorage.setItem('mc_viewed_' + id, 'true');
+
     document.getElementById("player-title").textContent = item.title;
     document.getElementById("player-date").textContent = item.dateNice;
     document.getElementById("notes-input").value = appState.notes[id] || "";
-    document.getElementById("dm-title").textContent = item.title;
+    document.getElementById("dm-title").textContent = item.title; 
     updateNotesDisplay(appState.notes[id] || "");
     updateManualBtnUI();
     
@@ -344,7 +374,7 @@
       if(appState.completed.has(appState.currentId)) {
           btn.innerHTML = "✅ Completed"; btn.classList.add('done');
       } else {
-          btn.innerHTML = "⬜ Mark Done"; btn.classList.remove('done');
+          btn.innerHTML = "☐ Mark as Completed"; btn.classList.remove('done');
       }
   }
 
@@ -398,18 +428,22 @@
     filtered.forEach((item) => {
       const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0;
       const isComp = appState.completed.has(item.id);
+      const isViewed = localStorage.getItem('mc_viewed_' + item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
-      const isNew = item.pubDate === latestDate;
+      const isNew = item.pubDate === latestDate && !isViewed;
       const li = document.createElement("li");
       li.className = `item ${item.id === appState.currentId ? 'active' : ''}`;
       li.dataset.id = item.id;
+      
+      const durationText = dur > 0 ? ` • ${Math.round(dur/60)} min` : '';
+
       li.innerHTML = `
         <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy">
           ${isComp ? '<div class="completed-icon">✔</div>' : ''}
           <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
           <div class="item-progress-fill" style="width:${percent}%"></div>
         </div>
-        <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}</div></div>`;
+        <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${durationText}</div></div>`;
       li.onclick = () => playVideo(item.id, true);
       list.appendChild(li);
     });
