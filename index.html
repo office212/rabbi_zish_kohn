@@ -35,7 +35,7 @@
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
     header { padding: 20px 16px; }
-    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
+    .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); position: relative; }
     h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
     .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 12px; }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -44,27 +44,31 @@
     .drive-mode-btn { background: rgba(0,0,0,0.25); color: white; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
 
+    /* PLAYER CARD */
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
-    .player-meta { display: flex; justify-content: space-between; align-items: center; position: relative; }
+    .player-meta { display: flex; justify-content: space-between; align-items: center; width: 100%; position: relative; }
 
     /* TORAH BADGE STYLE */
     .badge-main { background: var(--accent-glow); color: var(--accent); padding: 6px 14px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .btn-share-pill { background: #eff6ff; color: #2563eb; padding: 10px 22px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; }
+    /* SHARE UI */
     .share-container { position: relative; }
+    .btn-share-pill { background: #eff6ff; color: #2563eb; padding: 10px 22px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; }
     .share-menu { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 190px; z-index: 1000; overflow: hidden; }
     .share-menu.active { display: flex; }
-    .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; }
+    .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; width: 100%; }
 
-    .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
+    .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; transition: 0.3s; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
+    /* SPEED BUTTONS PILLS */
     .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); border-bottom: 1px solid var(--border-soft); overflow-x: auto; scrollbar-width: none; }
-    .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 10px 18px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; transition: 0.2s; white-space: nowrap; }
-    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 10px 16px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; transition: 0.2s; white-space: nowrap; }
+    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); transform: scale(1.05); }
 
+    /* TOOL BUTTONS & NOTES */
     .notes-section { padding: 20px; background: var(--bg-main); }
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; }
     .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); border: none; cursor: pointer; }
@@ -74,14 +78,18 @@
     .notes-display { display: none; white-space: pre-wrap; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
 
+    /* SAVED BUTTON DESIGN */
     .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; width: 100%; }
     #search-input { flex: 1; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; }
-    .fav-filter-btn { padding: 10px 22px; border-radius: 99px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer; }
+    .fav-filter-btn { padding: 10px 22px; border-radius: 99px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
     .fav-filter-btn.active { background: #fee2e2; border-color: #fecaca; color: #ef4444; }
 
+    /* EMPTY STATE (THE DASHED FRAME) */
     .empty-state { padding: 50px 20px; text-align: center; width: 100%; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; }
     .empty-state-icon { color: #ef4444; font-size: 2.2rem; margin-bottom: 12px; display: block; }
+    .empty-state-text { font-size: 1rem; font-weight: 600; color: var(--text-main); line-height: 1.5; }
 
+    /* LIST ITEMS WITH PROGRESS BAR */
     .list { list-style: none; padding: 0; margin: 0; width: 100%; }
     .item { display: flex; gap: 16px; padding: 12px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-soft); margin-bottom: 16px; transition: 0.2s; align-items: center; box-shadow: var(--shadow-card); cursor: pointer; position: relative; }
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
@@ -97,21 +105,23 @@
     .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .item-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
 
+    /* OVERLAYS */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; border: 1px solid var(--border-soft); }
+    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
     .modal-close { position: absolute; top: 16px; right: 16px; background: transparent; color: var(--text-muted); font-size: 1.4rem; border: none; cursor: pointer; }
 
     #driving-mode { background: #000; flex-direction: column; text-align: center; }
     .dm-controls { display: flex; gap: 30px; align-items: center; margin: 40px 0; }
-    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; font-weight: 700; }
+    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; border: none; font-weight: 700; }
     .dm-btn.play { width: 110px; height: 110px; background: var(--accent); }
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
 
+    /* FOOTER FIXED LINK */
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
-    footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; }
+    footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; cursor: pointer !important; }
   </style>
 </head>
 <body>
@@ -123,7 +133,7 @@
     <button class="dm-btn play" onclick="togglePlay()"><svg id="dm-play-icon" width="45" height="45" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     <button class="dm-btn" onclick="seek(30)">+30s</button>
   </div>
-  <button style="background:#334155; color:white; padding:12px 45px; border-radius:99px; border:none; cursor:pointer; font-weight:700;" onclick="toggleDrivingMode()">Exit Mode</button>
+  <button style="background:#334155; color:white; padding:12px 35px; border-radius:99px; border:none; cursor:pointer; font-weight:700;" onclick="toggleDrivingMode()">Exit Mode</button>
 </div>
 
 <div id="stats-overlay" class="overlay">
@@ -135,6 +145,15 @@
       <div><span id="stat-hours" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Hours</span></div>
       <div><span id="stat-completed" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Completed</span></div>
     </div>
+  </div>
+</div>
+
+<div id="quote-overlay" class="overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeOverlay('quote-overlay')">✕</button>
+    <h3 style="margin:0; text-align:center;">Share a Quote 🎨</h3>
+    <textarea id="quote-text" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; font-size:1rem; background: var(--bg-main); color: var(--text-main); resize: none;" placeholder="Type quote here..."></textarea>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Share Designed Image</button>
   </div>
 </div>
 
@@ -152,7 +171,7 @@
 
 <main>
   <div class="player-card" id="player-card">
-    <div id="skeleton" style="height:220px; background:#eee; border-radius:24px; margin:20px;"></div>
+    <div id="skeleton" style="height:200px; background:#eee; border-radius:24px; margin:20px;"></div>
     <div id="player-content" style="display:none">
       <div class="player-header">
         <h2 class="player-title" id="player-title">Select a shiur</h2>
@@ -162,7 +181,7 @@
             <button onclick="toggleShareMenu(event)" class="btn-share-pill">Share</button>
             <div id="share-dropdown" class="share-menu">
               <button class="share-option" onclick="shareCurrent(false)">🔗 Copy App Link</button>
-              <button class="share-option" onclick="shareCurrent(true)">⏱️ Link with Current Time</button>
+              <button class="share-option" onclick="shareCurrent(true)">⏱️ Link at Current Time</button>
             </div>
           </div>
         </div>
@@ -178,7 +197,7 @@
         <div class="notes-actions">
           <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ View</button>
           <button onclick="insertTimestamp()" class="tool-btn">⏱️ Time</button>
-          <button onclick="openQuoteCreator()" class="tool-btn">🎨 Quote</button>
+          <button id="quote-btn" onclick="openQuoteCreator()" class="tool-btn highlight">🎨 Quote</button>
           <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
         </div>
         <textarea id="notes-input" class="notes-input" placeholder="Notes autosave while typing..."></textarea>
@@ -231,7 +250,7 @@
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
       events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
     });
-    applySavedTheme();
+    updateStreak(); applySavedTheme();
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
   }
 
@@ -280,7 +299,7 @@
         if(dur > 0) {
           appState.durations[appState.currentId] = dur;
           if (t > dur * 0.9 && !appState.completed.has(appState.currentId)) {
-            appState.completed.add(appState.currentId); showToast("Completed! 🙌"); renderList();
+            appState.completed.add(appState.currentId); showToast("Shiur Completed! 🙌"); renderList();
           }
         }
         appState.save(); updateLiveProgressBar(t, dur);
@@ -314,7 +333,7 @@
       li.innerHTML = `
         <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg">
           ${isComp ? '<div class="completed-icon">✔</div>' : ''}
-          <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
+          <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
           <div class="item-progress-fill" style="width:${percent}%"></div>
         </div>
         <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}</div></div>`;
@@ -323,7 +342,7 @@
     });
   }
 
-  function setSpeed(s, btn) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  function setSpeed(s, btn) { if(player && player.setPlaybackRate) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); showToast(`Speed: ${s}x`); } }
   function toggleFav(id) { appState.favorites.has(id) ? appState.favorites.delete(id) : appState.favorites.add(id); appState.save(); renderList(); }
   function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
   function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }
@@ -342,23 +361,23 @@
     document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
     document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode";
   }
-  function applySavedTheme() { if(localStorage.getItem("theme") === "dark") toggleTheme(); }
+  function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark"; document.body.classList.toggle("dark-mode", isDark); updateThemeUI(isDark); }
   
   function insertTimestamp() {
     const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
-    document.getElementById("notes-input").value += ts;
-    appState.notes[appState.currentId] = document.getElementById("notes-input").value;
+    const input = document.getElementById("notes-input");
+    input.value += ts;
+    appState.notes[appState.currentId] = input.value;
     appState.save();
   }
-  
+
   function toggleNoteMode() {
     appState.isNoteEditMode = !appState.isNoteEditMode;
     const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn");
     if(appState.isNoteEditMode) {
       input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View";
     } else {
-      updateNotesDisplay(input.value);
-      input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit";
+      updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit";
     }
   }
 
@@ -373,10 +392,35 @@
     a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click();
   }
 
-  function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle("active"); if(appState.currentId) document.getElementById("dm-title").textContent = appState.allData.find(d => d.id === appState.currentId).title; }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
+  function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+  
+  function generateAndShareQuote() {
+    const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first");
+    const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0,0,1080,1080); grad.addColorStop(0, '#1e3a8a'); grad.addColorStop(1, '#1e40af'); ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080);
+    ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 40; ctx.strokeRect(20,20,1040,1040);
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 70px Inter, sans-serif'; ctx.textAlign = 'center';
+    wrapText(ctx, `"${text}"`, 540, 480, 900, 95);
+    ctx.fillStyle = '#93c5fd'; ctx.font = '50px Inter'; ctx.fillText("Rabbi Zish Kohn", 540, 880);
+    ctx.font = '30px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim SI", 540, 950);
+    canvas.toBlob(b => {
+      const f = new File([b], "quote.png", {type: "image/png"});
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) {
+        navigator.share({files:[f]}).catch(()=>{});
+      } else {
+        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!");
+      }
+    });
+  }
+
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) { const words = text.split(' '); let line = ''; for(let n = 0; n < words.length; n++) { let testLine = line + words[n] + ' '; if (ctx.measureText(testLine).width > maxWidth) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line = testLine; } ctx.fillText(line, x, y); }
+  function debounceSearch() { clearTimeout(searchTimeout); searchTimeout = setTimeout(renderList, 150); }
+  function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); if(appState.currentId) document.getElementById("dm-title").textContent = appState.allData.find(d => d.id === appState.currentId).title; }
   function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
+  function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
 </script>
 </body>
 </html>
