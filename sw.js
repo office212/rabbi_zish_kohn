@@ -1,5 +1,5 @@
-/* App Version: 3.2.0 - Ironclad */
-const CACHE_NAME = 'mc-ironclad-v3.2.0';
+/* App Version: 3.2.1 - Ironclad Pro */
+const CACHE_NAME = 'mc-ironclad-v3.2.1';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -8,20 +8,17 @@ const CORE_ASSETS = [
   './icon-512.png'
 ];
 
+// 1. Installation - Cache shell assets
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      return Promise.all(
-        CORE_ASSETS.map(url => fetch(url).then(res => {
-          if (res.ok) return cache.put(url, res);
-          console.warn(`[SW] Failed to cache: ${url}`);
-        }).catch(err => console.error(`[SW] Fetch error for ${url}:`, err)))
-      );
+      return cache.addAll(CORE_ASSETS);
     })
   );
 });
 
+// 2. Activation - Clean old caches
 self.addEventListener('activate', event => {
   self.clients.claim();
   event.waitUntil(
@@ -31,30 +28,41 @@ self.addEventListener('activate', event => {
   );
 });
 
+// 3. Fetch Strategy
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
+  const url = new URL(event.request.url);
 
+  // ALWAYS BYPASS CACHE FOR YOUTUBE API CALLS
+  if (url.hostname.includes('googleapis.com')) {
+    return; // Let the browser handle it normally
+  }
+
+  // STRATEGY FOR INDEX.HTML: Network First, then Cache
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+          return response;
+        })
+        .catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
+
+  // STRATEGY FOR IMAGES AND OTHER ASSETS: Cache First, then Network
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
 
       return fetch(event.request).then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          // Cache YouTube thumbnails dynamically for offline view
-          if (response.ok && event.request.url.includes('ytimg.com')) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-          }
-          return response;
+        if (response.ok && (url.hostname.includes('ytimg.com') || response.type === 'basic')) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
         }
-
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
         return response;
-      }).catch(() => {
-        if (event.request.destination === 'document') return caches.match('./index.html');
-        return null;
-      });
+      }).catch(() => null);
     })
   );
 });
