@@ -33,12 +33,12 @@
     .autoplay-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
 
-    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
+    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; padding: 0; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
     .badge-main { background: var(--accent-glow); color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border: 1px solid var(--border-soft); }
 
-    .video-container { width: 100%; position: relative; padding-top: 56.25%; background: #000; }
+    .video-container { width: 100%; position: relative; padding-top: 56.25%; background: #000; margin: 0; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
     
     .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--border-soft); }
@@ -77,11 +77,6 @@
     .overlay.active { display: flex !important; }
     .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
     
-    #driving-mode { background: #000; flex-direction: column; text-align: center; }
-    .dm-controls { display: flex; gap: 30px; align-items: center; justify-content: center; margin: 40px 0; }
-    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .dm-btn.play { width: 110px; height: 110px; background: var(--accent); }
-    
     .share-dropdown { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 190px; z-index: 1000; overflow: hidden; }
     .share-dropdown.active { display: flex; }
     .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; }
@@ -89,6 +84,8 @@
     .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .empty-state-icon { color: var(--fav-color); font-size: 3rem; }
     .empty-state-text { font-weight: 600; color: var(--text-muted); line-height: 1.5; }
+
+    #install-banner { position: fixed; bottom: 80px; left: 20px; right: 20px; background: var(--accent); color: white; padding: 16px; border-radius: 16px; display: none; justify-content: space-between; align-items: center; z-index: 9999; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3); }
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; opacity: 0; transition: 0.4s; z-index: 10001; pointer-events: none; }
     .toast.show { opacity: 1; }
@@ -98,14 +95,12 @@
 </head>
 <body>
 
-<div id="driving-mode" class="overlay">
-  <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title">No Shiur Playing</div>
-  <div class="dm-controls">
-    <button class="dm-btn" onclick="seek(-30)">-30s</button>
-    <button class="dm-btn play" onclick="togglePlay()"><svg id="dm-play-icon" width="45" height="45" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
-    <button class="dm-btn" onclick="seek(30)">+30s</button>
+<div id="install-banner">
+  <div>
+    <div style="font-weight:700;">📱 Install App</div>
+    <div style="font-size:0.85rem; opacity:0.9;">For the best experience!</div>
   </div>
-  <button style="background:#334155; color:white; padding:12px 45px; border-radius:99px; border:none; cursor:pointer; font-weight:700;" onclick="toggleDrivingMode()">Exit Mode</button>
+  <button onclick="installApp()" style="background:white; color:var(--accent); padding:10px 20px; border-radius:99px; border:none; font-weight:700; cursor:pointer;">Install</button>
 </div>
 
 <div id="stats-overlay" class="overlay">
@@ -124,7 +119,7 @@
   <div class="modal">
     <button onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
     <h3 style="margin:0;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" dir="auto" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a quote..."></textarea>
+    <textarea id="quote-text" dir="auto" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
     <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Create Royal Image</button>
   </div>
 </div>
@@ -137,8 +132,7 @@
       <button onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
       <button onclick="resumeLast()" class="nav-btn resume-btn">▶️ Resume</button>
       <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn">⏭️ Auto Play: OFF</button>
-      <button onclick="toggleDrivingMode()" class="nav-btn nav-btn" style="background:rgba(0,0,0,0.2); color:white;">🚗 Audio Mode</button>
-      <button onclick="toggleTheme()" class="nav-btn nav-btn" style="background:rgba(255,255,255,0.2); color:white;" id="theme-btn">🌙 Dark Mode</button>
+      <button onclick="toggleTheme()" class="nav-btn theme-toggle" id="theme-btn">🌙 Dark Mode</button>
     </div>
   </div>
 </header>
@@ -156,6 +150,7 @@
             <div id="share-dropdown" class="share-dropdown">
               <button class="share-option" onclick="shareLink(false)">🔗 Copy App Link</button>
               <button class="share-option" onclick="shareLink(true)">⏱️ Link at Current Time</button>
+              <button class="share-option" onclick="shareToWhatsApp()">💬 Share to WhatsApp</button>
             </div>
           </div>
         </div>
@@ -195,7 +190,7 @@
 <div id="toast" class="toast"></div>
 
 <script>
-  // LOAD YOUTUBE API DYNAMICALLY
+  // 1. YouTube API Robust Loading
   (function loadYouTubeAPI() {
     if (window.YT && window.YT.Player) { onYouTubeIframeAPIReady(); return; }
     const tag = document.createElement('script');
@@ -205,7 +200,8 @@
   })();
 
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I", PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
-  
+  let deferredPrompt;
+
   const appState = {
     allData: JSON.parse(localStorage.getItem('mc_all_data') || '[]'),
     currentId: null, playerReady: false, 
@@ -243,7 +239,21 @@
     if(appState.allData.length > 0) { renderList(); showUI(); }
     fetchAllData(); updateAutoPlayUI(); applySavedTheme();
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.error);
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  }
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); deferredPrompt = e;
+    setTimeout(() => { document.getElementById('install-banner').style.display = 'flex'; }, 3000);
+  });
+
+  async function installApp() {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    document.getElementById('install-banner').style.display = 'none';
+    if (outcome === 'accepted') showToast('✅ Installed!');
   }
 
   function startWatchdog() {
@@ -283,7 +293,6 @@
     document.getElementById("player-title").textContent = item.title;
     document.getElementById("player-date").textContent = item.dateNice;
     document.getElementById("notes-input").value = appState.notes[id] || "";
-    document.getElementById("dm-title").textContent = item.title;
     updateNotesDisplay(appState.notes[id] || "");
     updateManualBtnUI();
     let start = (time !== null) ? parseInt(time) : (appState.progress[id] || 0);
@@ -311,24 +320,16 @@
         }
         updateLiveProgressBar(t, dur);
       }, 1000);
-      document.getElementById("dm-play-icon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-    } else { clearInterval(progressInterval); document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>'; }
+    } else { clearInterval(progressInterval); }
   }
 
   function renderList() {
     const list = document.getElementById("shiur-list"), filter = document.getElementById("search-input").value.toLowerCase();
     list.innerHTML = "";
     const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
-    
     if (appState.showFavoritesOnly && filtered.length === 0) {
-      list.innerHTML = `
-        <div class="empty-state">
-          <span class="empty-state-icon">❤️</span>
-          <div class="empty-state-text">No saved lessons.<br>Tap the heart on any shiur to save it here.</div>
-        </div>`;
-      return;
+      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons.<br>Tap the heart on any shiur to save it here.</div></div>`; return;
     }
-
     filtered.forEach((item) => {
       const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_'+item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
@@ -339,7 +340,6 @@
     });
   }
 
-  // --- LOGIC ---
   function generateAndShareQuote() {
     const text = document.getElementById('quote-text').value; if(!text.trim()) return;
     const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
@@ -370,13 +370,14 @@
   function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
-  function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); }
+  function toggleDrivingMode() { /* Logic for audio overlay */ }
   function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
   function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }
   window.onclick = () => { document.getElementById("share-dropdown").classList.remove("active"); };
   function shareLink(withTime) { if (!appState.currentId) return; let url = window.location.origin + window.location.pathname + '?v=' + appState.currentId; if(withTime) url += '&t=' + Math.floor(player.getCurrentTime()); if(navigator.share) navigator.share({title: 'Weekly Shiur', url: url}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); } }
+  function shareToWhatsApp() { if (!appState.currentId) return; const item = appState.allData.find(d => d.id === appState.currentId); const text = `🎓 ${item.title}\n\n${window.location.origin}?v=${appState.currentId}`; window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank'); }
   function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
   function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
 </script>
