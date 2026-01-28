@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
@@ -14,7 +14,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -36,8 +36,12 @@
 
     header { padding: 20px 16px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
+    h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
+    .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 12px; }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
     .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; }
+    .stats-btn { background: white; color: var(--accent); }
+    .drive-mode-btn { background: rgba(0,0,0,0.25); color: white; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
 
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
@@ -46,27 +50,31 @@
     .player-meta { display: flex; justify-content: space-between; align-items: center; }
     .badge-main { background: var(--accent-glow); color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
 
-    .btn-share-pill { background: #eff6ff; color: #2563eb; padding: 10px 22px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; }
     .share-container { position: relative; }
-    .share-menu { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 200px; z-index: 1000; overflow: hidden; }
+    .btn-share-pill { background: #eff6ff; color: #2563eb; padding: 10px 22px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; }
+    .share-menu { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 190px; z-index: 1000; overflow: hidden; }
     .share-menu.active { display: flex; }
-    .share-option { background: none; border: none; padding: 14px 18px; text-align: right; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; }
+    .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; width: 100%; }
 
     .video-container { position: relative; width: 100%; padding-top: 56.25%; background: #000; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
     .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); border-bottom: 1px solid var(--border-soft); overflow-x: auto; scrollbar-width: none; }
     .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 10px 18px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; transition: 0.2s; white-space: nowrap; }
-    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); transform: scale(1.05); }
 
     .notes-section { padding: 20px; background: var(--bg-main); }
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; }
-    .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); cursor: pointer; border: none; display: flex; align-items: center; gap: 5px; }
     .tool-btn.primary { background: var(--accent); color: white; }
-    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; text-align: right; }
+    .tool-btn.highlight { background: #fef3c7; color: #d97706; border-color: #fcd34d; }
+    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
     .notes-display { display: none; white-space: pre-wrap; max-height: 350px; overflow-y: auto; }
+    .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
 
-    .fav-filter-btn { padding: 10px 22px; border-radius: 99px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 700; cursor: pointer; transition: 0.2s; }
+    .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; width: 100%; }
+    #search-input { flex: 1; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; }
+    .fav-filter-btn { padding: 10px 22px; border-radius: 99px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
     .fav-filter-btn.active { background: #fee2e2; border-color: #fecaca; color: #ef4444; }
 
     .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; }
@@ -77,27 +85,30 @@
     .item.active { border-color: var(--accent); background: var(--accent-glow); }
     .item-thumb { flex: 0 0 110px; border-radius: 14px; overflow: hidden; position: relative; aspect-ratio: 16/9; background: #eee; }
     .item-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .completed-icon { position: absolute; top: 4px; right: 4px; background: var(--watched-color); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .completed-icon { position: absolute; top: 4px; left: 4px; background: var(--watched-color); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .item-progress-fill { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     
-    .item-body { flex: 1; min-width: 0; text-align: right; }
-    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); }
+    .item-body { flex: 1; min-width: 0; }
+    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .item-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+    .btn-fav-overlay { position: absolute; bottom: 6px; right: 6px; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
+    .btn-fav-overlay svg { width: 16px; height: 16px; fill: #cbd5e1; }
+    .btn-fav-overlay.active svg { fill: var(--fav-color); }
 
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; }
+    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); text-align: center; }
 
     #driving-mode { background: #000; flex-direction: column; }
     .dm-controls { display: flex; gap: 30px; align-items: center; margin: 40px 0; }
-    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; border: none; font-weight: 700; cursor: pointer; }
+    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; font-weight: 700; }
     .dm-btn.play { width: 110px; height: 110px; background: var(--accent); }
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
 
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
-    footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; cursor: pointer; }
+    footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; cursor: pointer !important; }
   </style>
 </head>
 <body>
@@ -128,8 +139,8 @@
   <div class="modal">
     <button class="modal-close" onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; color:var(--text-muted); cursor:pointer;">✕</button>
     <h3 style="margin:0;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" dir="auto" style="width:100%; height:100px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type something holy..."></textarea>
-    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Create & Share Image</button>
+    <textarea id="quote-text" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Share Designed Image</button>
   </div>
 </div>
 
@@ -152,7 +163,7 @@
       <div class="player-header">
         <h2 class="player-title" id="player-title">Select a shiur</h2>
         <div class="player-meta">
-          <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-right:8px;"></span></div>
+          <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
           <div class="share-container">
             <button onclick="toggleShareMenu(event)" class="btn-share-pill">Share</button>
             <div id="share-dropdown" class="share-menu">
@@ -173,11 +184,11 @@
         <div class="notes-actions">
           <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ View</button>
           <button onclick="insertTimestamp()" class="tool-btn">⏱️ Time</button>
-          <button onclick="openQuoteCreator()" class="tool-btn">🎨 Quote</button>
+          <button onclick="openQuoteCreator()" class="tool-btn highlight">🎨 Quote</button>
           <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
         </div>
-        <textarea id="notes-input" dir="auto" class="notes-input" placeholder="Notes autosave..."></textarea>
-        <div id="notes-display" dir="auto" class="notes-display"></div>
+        <textarea id="notes-input" class="notes-input" placeholder="Notes autosave while typing..."></textarea>
+        <div id="notes-display" class="notes-display"></div>
       </div>
     </div>
   </div>
@@ -189,7 +200,7 @@
   <ul id="shiur-list" class="list"></ul>
 </main>
 
-<footer>&copy; 2026 Mekor Chaim SI • Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a><br><a href="https://wa.me/13472449382" target="_blank" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.8; font-weight: 700;">צור קשר בווטסאפ</a></footer>
+<footer>&copy; 2026 Mekor Chaim SI • Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a><br><a href="https://wa.me/13472449382" target="_blank" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.8; font-weight: 700;">Contact me on WhatsApp</a></footer>
 <div id="toast" class="toast"></div>
 
 <script src="https://www.youtube.com/iframe_api"></script>
@@ -254,7 +265,6 @@
       const data = await res.json();
       acc.push(...data.items);
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
-      
       appState.allData = acc.map(item => ({
         id: item.contentDetails.videoId, title: item.snippet.title,
         dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"})
@@ -272,7 +282,7 @@
     document.getElementById("player-title").textContent = item.title;
     document.getElementById("player-date").textContent = item.dateNice;
     document.getElementById("notes-input").value = appState.notes[id] || "";
-    document.getElementById("dm-title").textContent = item.title; 
+    document.getElementById("dm-title").textContent = item.title;
     updateNotesDisplay(appState.notes[id] || "");
     
     let start = (time !== null) ? time : (appState.progress[id] || 0);
@@ -338,7 +348,7 @@
       li.className = `item ${item.id === appState.currentId ? 'active' : ''}`;
       li.dataset.id = item.id;
       li.innerHTML = `
-        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg">
+        <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy">
           ${isComp ? '<div class="completed-icon">✔</div>' : ''}
           <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
           <div class="item-progress-fill" style="width:${percent}%"></div>
@@ -361,51 +371,27 @@
   function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
   function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }
   window.onclick = () => { document.getElementById("share-dropdown").classList.remove("active"); };
-
-  function toggleTheme() {
-    const isDark = document.body.classList.toggle("dark-mode");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-    document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
-    document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode";
-  }
-  function applySavedTheme() { if(localStorage.getItem("theme") === "dark") toggleTheme(); }
-  
-  function openStats() {
-    const s = appState.stats;
-    document.getElementById('stat-streak').textContent = s.streak;
-    document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1);
-    document.getElementById('stat-completed').textContent = appState.completed.size;
-    document.getElementById('stats-overlay').classList.add('active');
-  }
+  function toggleTheme() { const isDark = document.body.classList.toggle("dark-mode"); localStorage.setItem("theme", isDark ? "dark" : "light"); updateThemeUI(isDark); }
+  function updateThemeUI(isDark) { document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙"; document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode"; }
+  function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark"; document.body.classList.toggle("dark-mode", isDark); updateThemeUI(isDark); }
+  function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
-  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
-
-  function insertTimestamp() {
-    const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
-    document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save();
-  }
+  function insertTimestamp() { const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save(); }
   function toggleNoteMode() {
     appState.isNoteEditMode = !appState.isNoteEditMode;
     const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn");
     if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; }
     else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; }
   }
-  function updateNotesDisplay(text) {
-    const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`);
-    document.getElementById("notes-display").innerHTML = html || "No notes yet.";
-  }
-  function exportNotes() {
-    const text = appState.notes[appState.currentId]; if(!text) return showToast("No notes to export");
-    const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a");
-    a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click();
-  }
-  
+  function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
+  function exportNotes() { const text = appState.notes[appState.currentId]; if(!text) return showToast("No notes to export"); const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function generateAndShareQuote() {
     const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first");
     const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
     const grad = ctx.createLinearGradient(0,0,1080,1080); grad.addColorStop(0, '#1e3a8a'); grad.addColorStop(1, '#1e40af'); ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080);
     ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 40; ctx.strokeRect(20,20,1040,1040);
-    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 70px "Frank Ruhl Libre", "Inter", sans-serif'; ctx.textAlign = 'center';
+    ctx.fillStyle = '#ffffff'; ctx.font = 'bold 70px "Inter", sans-serif'; ctx.textAlign = 'center';
     wrapText(ctx, `"${text}"`, 540, 480, 900, 95); 
     ctx.fillStyle = '#93c5fd'; ctx.font = '50px Inter'; ctx.fillText("Rabbi Zish Kohn", 540, 880);
     ctx.font = '32px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim Staten Island", 540, 940);
