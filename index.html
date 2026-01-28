@@ -45,6 +45,9 @@
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
 
+    .install-banner { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--card-bg); border-radius: 20px; padding: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-soft); display: none; align-items: center; gap: 15px; z-index: 10001; }
+    .install-icon-box { background: var(--accent); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
+
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
@@ -70,12 +73,9 @@
     .tool-btn.primary { background: var(--accent); color: white; }
     .tool-btn.highlight { background: #fef3c7; color: #d97706; }
     .tool-btn.done { background: #dcfce7; color: #166534; }
-    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
+    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; text-align: left; }
     .notes-display { display: none; white-space: pre-wrap; max-height: 350px; overflow-y: auto; }
-    .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
 
-    /* MODERN SEARCH UI */
-    .list-header { margin-bottom: 24px; display: flex; gap: 12px; align-items: center; width: 100%; }
     .search-wrapper { position: relative; flex: 1; }
     .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
     #search-input { width: 100%; padding: 15px 20px 15px 48px; border-radius: 99px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; box-shadow: var(--shadow-card); transition: 0.3s; }
@@ -96,7 +96,7 @@
     .completed-icon { position: absolute; top: 4px; left: 4px; background: var(--watched-color); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
     .item-progress-fill { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     
-    .item-body { flex: 1; min-width: 0; }
+    .item-body { flex: 1; min-width: 0; text-align: left; }
     .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
     .item-date { font-size: 0.8rem; color: var(--text-muted); }
     .btn-fav-overlay { position: absolute; bottom: 6px; right: 6px; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
@@ -120,6 +120,13 @@
   </style>
 </head>
 <body>
+
+<div id="install-prompt" class="install-banner">
+  <div class="install-icon-box">📲</div>
+  <div class="install-text">Get a faster experience. <b>Add to Home Screen</b>.</div>
+  <button id="btn-do-install" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:10px; font-weight:700; cursor:pointer;">Install</button>
+  <button onclick="document.getElementById('install-prompt').style.display='none'" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
+</div>
 
 <div id="driving-mode" class="overlay">
   <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title">No Shiur Playing</div>
@@ -223,10 +230,7 @@
   const PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
 
   const loadStats = () => {
-    try {
-        const s = JSON.parse(localStorage.getItem('mc_stats'));
-        return (s && typeof s === 'object') ? s : {totalSeconds:0, streak:0, lastVisit:"", dailySeconds:0};
-    } catch(e) { return {totalSeconds:0, streak:0, lastVisit:"", dailySeconds:0}; }
+    try { const s = JSON.parse(localStorage.getItem('mc_stats')); return (s && typeof s === 'object') ? s : {totalSeconds:0, streak:0, lastVisit:"", dailySeconds:0}; } catch(e) { return {totalSeconds:0, streak:0, lastVisit:"", dailySeconds:0}; }
   };
 
   const appState = {
@@ -239,6 +243,7 @@
     durations: JSON.parse(localStorage.getItem('mc_durations') || '{}'),
     stats: loadStats(),
     completed: new Set(JSON.parse(localStorage.getItem('mc_completed') || '[]')),
+    playerReady: false,
     save() {
       localStorage.setItem('mc_favorites', JSON.stringify([...this.favorites]));
       localStorage.setItem('mc_progress', JSON.stringify(this.progress));
@@ -256,29 +261,29 @@
   function onYouTubeIframeAPIReady() { initApp(); }
 
   async function initApp() {
-    if(appState.allData.length > 0) {
-        renderList();
-        document.getElementById("skeleton").style.display = "none";
-        document.getElementById("player-content").style.display = "block";
-    }
+    if(appState.allData.length > 0) { renderList(); document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block"; }
     
-    await fetchAllData();
+    fetchAllData(); // Refresh data from YouTube
+    
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
-      events: { 'onStateChange': onPlayerStateChange, 'onReady': onPlayerReady }
+      events: { 
+        'onStateChange': onPlayerStateChange, 
+        'onReady': (e) => { appState.playerReady = true; attemptInitialLoad(); } 
+      }
     });
-    updateStreak(); applySavedTheme(); updateAutoPlayUI();
+
+    updateStreak(); applySavedTheme(); updateAutoPlayUI(); initInstallPrompt();
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
   }
 
-  function onPlayerReady() { loadInitialVideo(); }
-
-  function loadInitialVideo() {
-    if (!player || !player.loadVideoById || appState.allData.length === 0) return;
+  function attemptInitialLoad() {
+    if(!appState.playerReady || appState.allData.length === 0) return;
     const p = new URLSearchParams(window.location.search);
     const v = p.get('v'), last = localStorage.getItem('lastWatched');
+    
     if (v) playVideo(v, false, parseInt(p.get('t')) || 0);
     else if (last && appState.allData.some(d => d.id === last)) playVideo(last, false);
     else if (appState.allData.length > 0) playVideo(appState.allData[0].id, false);
@@ -289,21 +294,26 @@
       const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
       const res = await fetch(url);
       const data = await res.json();
+      if (!data.items) throw new Error("No items");
       acc.push(...data.items);
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
-      const newData = acc.map(item => ({ id: item.contentDetails.videoId, title: item.snippet.title, pubDate: item.contentDetails.videoPublishedAt, dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}) })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
+      
+      const newData = acc.map(item => ({
+        id: item.contentDetails.videoId, title: item.snippet.title,
+        pubDate: item.contentDetails.videoPublishedAt,
+        dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"})
+      })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
+
       if(JSON.stringify(newData) !== JSON.stringify(appState.allData)) {
-          const latestDate = newData[0]?.pubDate || ""; const prevLatest = localStorage.getItem('mc_latest');
-          if (prevLatest && latestDate > prevLatest) { showToast("New Shiur Available! 🔥"); }
-          localStorage.setItem('mc_latest', latestDate);
           appState.allData = newData; appState.save(); renderList();
           document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
-          if (!appState.currentId) loadInitialVideo();
+          if (!appState.currentId) attemptInitialLoad();
       }
-    } catch(e) { console.error("Fetch failed"); }
+    } catch(e) { console.error("Communication error, showing cached data."); }
   }
 
   function playVideo(id, autoScroll, time = null) {
+    if(!appState.playerReady) { setTimeout(() => playVideo(id, autoScroll, time), 500); return; }
     appState.currentId = id; localStorage.setItem('lastWatched', id);
     const item = appState.allData.find(d => d.id === id);
     if(!item) return;
@@ -315,7 +325,7 @@
     updateNotesDisplay(appState.notes[id] || "");
     updateManualBtnUI();
     let start = (time !== null) ? time : (appState.progress[id] || 0);
-    if (player && player.loadVideoById) player.loadVideoById({ videoId: id, startSeconds: start });
+    player.loadVideoById({ videoId: id, startSeconds: start });
     renderList();
     if(autoScroll) window.scrollTo({top: 0, behavior: 'smooth'});
   }
@@ -334,7 +344,10 @@
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             renderList(); updateManualBtnUI();
           }
-          if (t >= dur - 2 && appState.autoPlay) { const idx = appState.allData.findIndex(d => d.id === appState.currentId); if (idx < appState.allData.length - 1) playVideo(appState.allData[idx + 1].id, false); }
+          if (t >= dur - 2 && appState.autoPlay) {
+             const idx = appState.allData.findIndex(d => d.id === appState.currentId);
+             if (idx < appState.allData.length - 1) playVideo(appState.allData[idx + 1].id, false);
+          }
         }
         appState.save(); updateLiveProgressBar(t, dur);
       }, 1000);
@@ -342,33 +355,23 @@
     } else { clearInterval(progressInterval); document.getElementById("dm-play-icon").innerHTML = '<path d="M8 5v14l11-7z"/>'; }
   }
 
-  function toggleManualComplete() {
-      if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId);
-      else { appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); }
-      appState.save(); renderList(); updateManualBtnUI();
-  }
-
-  function updateManualBtnUI() {
-      const btn = document.getElementById('btn-mark-done');
-      if(appState.completed.has(appState.currentId)) { btn.innerHTML = "✅ Completed"; btn.classList.add('done'); }
-      else { btn.innerHTML = "☐ Mark as Completed"; btn.classList.remove('done'); }
-  }
+  function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
 
   function renderList() {
     const list = document.getElementById("shiur-list"), filter = document.getElementById("search-input").value.toLowerCase();
     list.innerHTML = "";
-    const latestDate = localStorage.getItem('mc_latest');
     const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
+    
     if (appState.showFavoritesOnly && filtered.length === 0) {
       list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons. Tap the heart to save.</div></div>`; return;
     }
+
     filtered.forEach((item) => {
       const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_' + item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
-      const isNew = item.pubDate === latestDate && !isViewed;
       const li = document.createElement("li"); li.className = `item ${item.id === appState.currentId ? 'active' : ''}`; li.dataset.id = item.id;
       const durationText = dur > 0 ? ` • ${Math.round(dur/60)} min` : '';
-      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${durationText}</div></div>`;
+      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}${durationText}</div></div>`;
       li.onclick = () => playVideo(item.id, true); list.appendChild(li);
     });
   }
@@ -383,22 +386,23 @@
   function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark"; document.body.classList.toggle("dark-mode", isDark); updateThemeUI(isDark); }
   function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
-  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
+  function insertTimestamp() { const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save(); }
+  function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; } }
   function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
   function exportNotes() { const text = appState.notes[appState.currentId]; if(!text) return showToast("No notes to export"); const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function generateAndShareQuote() { const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first"); const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d'); const grad = ctx.createLinearGradient(0,0,1080,1080); grad.addColorStop(0, '#1e3a8a'); grad.addColorStop(1, '#1e40af'); ctx.fillStyle = grad; ctx.fillRect(0,0,1080,1080); ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 40; ctx.strokeRect(20,20,1040,1040); ctx.fillStyle = '#ffffff'; ctx.font = 'bold 70px "Inter", sans-serif'; ctx.textAlign = 'center'; wrapText(ctx, `"${text}"`, 540, 480, 900, 95); ctx.fillStyle = '#93c5fd'; ctx.font = '50px Inter'; ctx.fillText("Rabbi Zish Kohn", 540, 880); ctx.font = '32px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim Staten Island", 540, 940); canvas.toBlob(b => { const f = new File([b], "quote.png", {type: "image/png"}); if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) { navigator.share({files:[f]}).catch(()=>{}); } else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!"); } }); }
   function wrapText(ctx, text, x, y, maxWidth, lineHeight) { const words = text.split(' '); let line = ''; for(let n = 0; n < words.length; n++) { let testLine = line + words[n] + ' '; if (ctx.measureText(testLine).width > maxWidth) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line = testLine; } ctx.fillText(line, x, y); }
-  function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; } }
-  function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); showToast(`Auto Play ${appState.autoPlay ? 'Enabled' : 'Disabled'}`); }
-  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); }
-  function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
-  function insertTimestamp() { const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save(); }
-  function shareCurrent(withTime) { const item = appState.allData.find(d => d.id === appState.currentId); if(!item) return; let url = window.location.origin + window.location.pathname + '?v=' + item.id; if(withTime) url += '&t=' + Math.floor(player.getCurrentTime()); if(navigator.share) navigator.share({title: item.title, url: url}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); } }
   function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); document.getElementById("video-container").style.display = document.getElementById("driving-mode").classList.contains('active') ? 'none' : 'block'; }
   function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
   function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
+  function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); showToast(`Auto Play ${appState.autoPlay ? 'Enabled' : 'Disabled'}`); }
+  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); }
+  function toggleManualComplete() { if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId); else { appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } appState.save(); renderList(); updateManualBtnUI(); }
+  function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(appState.completed.has(appState.currentId)) { btn.innerHTML = "✅ Completed"; btn.classList.add('done'); } else { btn.innerHTML = "☐ Mark as Completed"; btn.classList.remove('done'); } }
+  function initInstallPrompt() { window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); appState.deferredPrompt = e; document.getElementById('install-prompt').style.display = 'flex'; }); document.getElementById('btn-do-install').onclick = async () => { if(!appState.deferredPrompt) return; appState.deferredPrompt.prompt(); await appState.deferredPrompt.userChoice; appState.deferredPrompt = null; document.getElementById('install-prompt').style.display = 'none'; }; }
 </script>
 </body>
 </html>
