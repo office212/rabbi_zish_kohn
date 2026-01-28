@@ -14,7 +14,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Frank+Ruhl+Libre:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -31,13 +31,11 @@
     }
 
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 100px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 100px; transition: background 0.3s ease; -webkit-tap-highlight-color: transparent; text-align: left; }
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
     header { padding: 20px 16px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
-    h1 { margin: 0; font-size: 1.4rem; font-weight: 700; }
-    .sub { font-size: 0.85rem; opacity: 0.9; margin: 4px 0 12px; }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
     .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; }
     .stats-btn { background: white; color: var(--accent); }
@@ -52,7 +50,7 @@
 
     .share-container { position: relative; }
     .btn-share-pill { background: #eff6ff; color: #2563eb; padding: 10px 22px; border-radius: 99px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; }
-    .share-menu { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 190px; z-index: 1000; overflow: hidden; }
+    .share-menu { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 200px; z-index: 1000; overflow: hidden; }
     .share-menu.active { display: flex; }
     .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; width: 100%; }
 
@@ -65,16 +63,14 @@
 
     .notes-section { padding: 20px; background: var(--bg-main); }
     .notes-actions { display: flex; gap: 8px; margin-bottom: 15px; }
-    .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); cursor: pointer; border: none; display: flex; align-items: center; gap: 5px; }
+    .tool-btn { padding: 10px 14px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); border: none; cursor: pointer; display: flex; align-items: center; gap: 5px; }
     .tool-btn.primary { background: var(--accent); color: white; }
-    .tool-btn.highlight { background: #fef3c7; color: #d97706; border-color: #fcd34d; }
-    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; }
+    .tool-btn.highlight { background: #fef3c7; color: #d97706; }
+    .notes-input, .notes-display { width: 100%; min-height: 120px; padding: 16px; border-radius: 16px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.95rem; background: var(--card-bg); line-height: 1.6; text-align: left; }
     .notes-display { display: none; white-space: pre-wrap; max-height: 350px; overflow-y: auto; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
 
-    .list-header { margin-bottom: 20px; display: flex; gap: 10px; align-items: center; width: 100%; }
-    #search-input { flex: 1; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border-soft); background: var(--card-bg); color: var(--text-main); outline: none; font-size: 1rem; }
-    .fav-filter-btn { padding: 10px 22px; border-radius: 99px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 700; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer; transition: 0.2s; }
+    .fav-filter-btn { padding: 10px 22px; border-radius: 99px; background: var(--card-bg); border: 1px solid var(--border-soft); color: var(--text-muted); font-weight: 700; cursor: pointer; transition: 0.2s; }
     .fav-filter-btn.active { background: #fee2e2; border-color: #fecaca; color: #ef4444; }
 
     .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; }
@@ -89,26 +85,26 @@
     .item-progress-fill { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--watched-color); width: 0%; transition: width 0.3s; }
     
     .item-body { flex: 1; min-width: 0; }
-    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-    .item-date { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; }
+    .item-title { font-size: 0.95rem; font-weight: 700; line-height: 1.4; margin-bottom: 4px; }
+    .item-date { font-size: 0.8rem; color: var(--text-muted); }
     .btn-fav-overlay { position: absolute; bottom: 6px; right: 6px; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
     .btn-fav-overlay svg { width: 16px; height: 16px; fill: #cbd5e1; }
     .btn-fav-overlay.active svg { fill: var(--fav-color); }
 
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
-    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); text-align: center; }
+    .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; }
 
     #driving-mode { background: #000; flex-direction: column; }
     .dm-controls { display: flex; gap: 30px; align-items: center; margin: 40px 0; }
-    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; border: none; font-weight: 700; }
+    .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; border: none; font-weight: 700; cursor: pointer; font-size: 1rem; }
     .dm-btn.play { width: 110px; height: 110px; background: var(--accent); }
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; transition: 0.4s; z-index: 10001; opacity: 0; pointer-events: none; }
     .toast.show { opacity: 1; }
 
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
-    footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; cursor: pointer !important; }
+    footer a { color: #2563eb !important; text-decoration: none !important; font-weight: 700 !important; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -139,8 +135,8 @@
   <div class="modal">
     <button class="modal-close" onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; color:var(--text-muted); cursor:pointer;">✕</button>
     <h3 style="margin:0;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
-    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Share Designed Image</button>
+    <textarea id="quote-text" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a quote..."></textarea>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Create & Share Image</button>
   </div>
 </div>
 
@@ -149,7 +145,7 @@
     <h1>Mekor Chaim SI</h1>
     <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
-      <button onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
+      <button id="btn-stats" onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
       <button onclick="toggleDrivingMode()" class="nav-btn drive-mode-btn">🚗 Audio Mode</button>
       <button onclick="toggleTheme()" class="nav-btn theme-toggle"><span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span></button>
     </div>
@@ -184,7 +180,7 @@
         <div class="notes-actions">
           <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ View</button>
           <button onclick="insertTimestamp()" class="tool-btn">⏱️ Time</button>
-          <button onclick="openQuoteCreator()" class="tool-btn highlight">🎨 Quote</button>
+          <button id="btn-quote" onclick="openQuoteCreator()" class="tool-btn highlight">🎨 Quote</button>
           <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
         </div>
         <textarea id="notes-input" class="notes-input" placeholder="Notes autosave while typing..."></textarea>
@@ -265,10 +261,13 @@
       const data = await res.json();
       acc.push(...data.items);
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
+      
+      // SORT BY DATE: NEWEST AT TOP
       appState.allData = acc.map(item => ({
         id: item.contentDetails.videoId, title: item.snippet.title,
+        pubDate: item.contentDetails.videoPublishedAt,
         dateNice: new Date(item.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"})
-      })).reverse(); 
+      })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
 
       renderList(); document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
     } catch(e) { console.error(e); }
@@ -305,7 +304,7 @@
           appState.durations[appState.currentId] = dur;
           if (t > dur * 0.9 && !appState.completed.has(appState.currentId)) {
             appState.completed.add(appState.currentId); 
-            showToast("Shiur Completed! 🙌"); 
+            showToast("Lesson Completed! 🙌"); 
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
             renderList();
           }
@@ -337,7 +336,7 @@
     );
     
     if (appState.showFavoritesOnly && filtered.length === 0) {
-      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved shiurim.<br>Tap the heart to save.</div></div>`; return;
+      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons.<br>Tap the heart to save.</div></div>`; return;
     }
 
     filtered.forEach((item) => {
@@ -350,8 +349,8 @@
       li.innerHTML = `
         <div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy">
           ${isComp ? '<div class="completed-icon">✔</div>' : ''}
-          <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
           <div class="item-progress-fill" style="width:${percent}%"></div>
+          <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>
         </div>
         <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}</div></div>`;
       li.onclick = () => playVideo(item.id, true);
@@ -371,12 +370,30 @@
   function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
   function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }
   window.onclick = () => { document.getElementById("share-dropdown").classList.remove("active"); };
-  function toggleTheme() { const isDark = document.body.classList.toggle("dark-mode"); localStorage.setItem("theme", isDark ? "dark" : "light"); updateThemeUI(isDark); }
-  function updateThemeUI(isDark) { document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙"; document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode"; }
+
+  function toggleTheme() {
+    const isDark = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙";
+    document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode";
+  }
   function applySavedTheme() { const isDark = localStorage.getItem("theme") === "dark"; document.body.classList.toggle("dark-mode", isDark); updateThemeUI(isDark); }
-  function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
+  function updateThemeUI(isDark) { document.getElementById("theme-icon").textContent = isDark ? "☀️" : "🌙"; document.getElementById("theme-text").textContent = isDark ? "Light Mode" : "Dark Mode"; }
+  
+  function openStats() {
+    const s = appState.stats;
+    document.getElementById('stat-streak').textContent = s.streak || 0;
+    document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1);
+    document.getElementById('stat-completed').textContent = appState.completed.size;
+    document.getElementById('stats-overlay').classList.add('active');
+  }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
-  function insertTimestamp() { const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save(); }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
+
+  function insertTimestamp() {
+    const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `;
+    document.getElementById("notes-input").value += ts; appState.notes[appState.currentId] = document.getElementById("notes-input").value; appState.save();
+  }
   function toggleNoteMode() {
     appState.isNoteEditMode = !appState.isNoteEditMode;
     const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn");
@@ -385,7 +402,7 @@
   }
   function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
   function exportNotes() { const text = appState.notes[appState.currentId]; if(!text) return showToast("No notes to export"); const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
-  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
+  
   function generateAndShareQuote() {
     const text = document.getElementById('quote-text').value; if(!text.trim()) return showToast("Type quote first");
     const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
@@ -397,11 +414,8 @@
     ctx.font = '32px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim Staten Island", 540, 940);
     canvas.toBlob(b => {
       const f = new File([b], "quote.png", {type: "image/png"});
-      if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) {
-        navigator.share({files:[f]}).catch(()=>{});
-      } else {
-        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Downloaded!");
-      }
+      if(navigator.share && navigator.canShare && navigator.canShare({files:[f]})) { navigator.share({files:[f]}).catch(()=>{}); }
+      else { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'quote.png'; a.click(); showToast("Image Saved!"); }
     });
   }
   function wrapText(ctx, text, x, y, maxWidth, lineHeight) { const words = text.split(' '); let line = ''; for(let n = 0; n < words.length; n++) { let testLine = line + words[n] + ' '; if (ctx.measureText(testLine).width > maxWidth) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line = testLine; } ctx.fillText(line, x, y); }
