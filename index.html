@@ -45,9 +45,6 @@
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
     .theme-toggle { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); }
 
-    .install-banner { position: fixed; bottom: 20px; left: 20px; right: 20px; background: var(--card-bg); border-radius: 20px; padding: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.2); border: 1px solid var(--border-soft); display: none; align-items: center; gap: 15px; z-index: 10001; }
-    .install-icon-box { background: var(--accent); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.2rem; }
-
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
@@ -120,13 +117,6 @@
   </style>
 </head>
 <body>
-
-<div id="install-prompt" class="install-banner">
-  <div class="install-icon-box">📲</div>
-  <div class="install-text">Get a faster experience. <b>Add to Home Screen</b>.</div>
-  <button id="btn-do-install" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:10px; font-weight:700; cursor:pointer;">Install</button>
-  <button onclick="document.getElementById('install-prompt').style.display='none'" style="background:none; border:none; font-size:1.2rem; cursor:pointer;">✕</button>
-</div>
 
 <div id="driving-mode" class="overlay">
   <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title">No Shiur Playing</div>
@@ -243,7 +233,7 @@
     durations: JSON.parse(localStorage.getItem('mc_durations') || '{}'),
     stats: loadStats(),
     completed: new Set(JSON.parse(localStorage.getItem('mc_completed') || '[]')),
-    playerReady: false,
+    playerReady: false, dataReady: false, initialLoadDone: false,
     save() {
       localStorage.setItem('mc_favorites', JSON.stringify([...this.favorites]));
       localStorage.setItem('mc_progress', JSON.stringify(this.progress));
@@ -261,29 +251,43 @@
   function onYouTubeIframeAPIReady() { initApp(); }
 
   async function initApp() {
-    if(appState.allData.length > 0) { renderList(); document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block"; }
-    
-    fetchAllData(); // Refresh data from YouTube
-    
+    // 1. Load from cache immediately
+    if(appState.allData.length > 0) {
+        appState.dataReady = true;
+        renderList();
+        document.getElementById("skeleton").style.display = "none";
+        document.getElementById("player-content").style.display = "block";
+    }
+
+    // 2. Fetch fresh data from YouTube
+    fetchAllData();
+
+    // 3. Init Player
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1 },
       events: { 
-        'onStateChange': onPlayerStateChange, 
-        'onReady': (e) => { appState.playerReady = true; attemptInitialLoad(); } 
+        'onStateChange': onPlayerStateChange,
+        'onReady': (e) => { appState.playerReady = true; }
       }
     });
 
-    updateStreak(); applySavedTheme(); updateAutoPlayUI(); initInstallPrompt();
+    // 4. Critical loop to ensure first load
+    const loadLoop = setInterval(() => {
+        if (appState.playerReady && appState.dataReady && !appState.initialLoadDone) {
+            attemptInitialLoad();
+            appState.initialLoadDone = true;
+            clearInterval(loadLoop);
+        }
+    }, 300);
+
+    updateStreak(); applySavedTheme(); updateAutoPlayUI();
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
   }
 
   function attemptInitialLoad() {
-    if(!appState.playerReady || appState.allData.length === 0) return;
     const p = new URLSearchParams(window.location.search);
     const v = p.get('v'), last = localStorage.getItem('lastWatched');
-    
     if (v) playVideo(v, false, parseInt(p.get('t')) || 0);
     else if (last && appState.allData.some(d => d.id === last)) playVideo(last, false);
     else if (appState.allData.length > 0) playVideo(appState.allData[0].id, false);
@@ -294,7 +298,7 @@
       const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&maxResults=50&playlistId=${PLAYLIST_ID}&key=${API_KEY}&pageToken=${token}`;
       const res = await fetch(url);
       const data = await res.json();
-      if (!data.items) throw new Error("No items");
+      if (!data.items) throw new Error("API Limit or Error");
       acc.push(...data.items);
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
       
@@ -305,15 +309,18 @@
       })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate)); 
 
       if(JSON.stringify(newData) !== JSON.stringify(appState.allData)) {
-          appState.allData = newData; appState.save(); renderList();
-          document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block";
-          if (!appState.currentId) attemptInitialLoad();
+          appState.allData = newData;
+          appState.dataReady = true;
+          appState.save();
+          renderList();
+          document.getElementById("skeleton").style.display = "none";
+          document.getElementById("player-content").style.display = "block";
       }
-    } catch(e) { console.error("Communication error, showing cached data."); }
+    } catch(e) { console.warn("Showing cached data due to API issue."); }
   }
 
   function playVideo(id, autoScroll, time = null) {
-    if(!appState.playerReady) { setTimeout(() => playVideo(id, autoScroll, time), 500); return; }
+    if(!appState.playerReady) return; // Prevent calling before player is ready
     appState.currentId = id; localStorage.setItem('lastWatched', id);
     const item = appState.allData.find(d => d.id === id);
     if(!item) return;
@@ -360,18 +367,18 @@
   function renderList() {
     const list = document.getElementById("shiur-list"), filter = document.getElementById("search-input").value.toLowerCase();
     list.innerHTML = "";
+    const latestDate = localStorage.getItem('mc_latest');
     const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
-    
     if (appState.showFavoritesOnly && filtered.length === 0) {
-      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons. Tap the heart to save.</div></div>`; return;
+      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved shiurim.</div></div>`; return;
     }
-
     filtered.forEach((item) => {
       const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_' + item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
+      const isNew = item.pubDate === latestDate && !isViewed;
       const li = document.createElement("li"); li.className = `item ${item.id === appState.currentId ? 'active' : ''}`; li.dataset.id = item.id;
       const durationText = dur > 0 ? ` • ${Math.round(dur/60)} min` : '';
-      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg" loading="lazy"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}</div><div class="item-date">${item.dateNice}${durationText}</div></div>`;
+      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${durationText}</div></div>`;
       li.onclick = () => playVideo(item.id, true); list.appendChild(li);
     });
   }
@@ -399,10 +406,9 @@
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
   function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
   function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); showToast(`Auto Play ${appState.autoPlay ? 'Enabled' : 'Disabled'}`); }
-  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); }
+  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); if(btn) { btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); } }
   function toggleManualComplete() { if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId); else { appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } appState.save(); renderList(); updateManualBtnUI(); }
-  function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(appState.completed.has(appState.currentId)) { btn.innerHTML = "✅ Completed"; btn.classList.add('done'); } else { btn.innerHTML = "☐ Mark as Completed"; btn.classList.remove('done'); } }
-  function initInstallPrompt() { window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); appState.deferredPrompt = e; document.getElementById('install-prompt').style.display = 'flex'; }); document.getElementById('btn-do-install').onclick = async () => { if(!appState.deferredPrompt) return; appState.deferredPrompt.prompt(); await appState.deferredPrompt.userChoice; appState.deferredPrompt = null; document.getElementById('install-prompt').style.display = 'none'; }; }
+  function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(btn) { if(appState.completed.has(appState.currentId)) { btn.innerHTML = "✅ Completed"; btn.classList.add('done'); } else { btn.innerHTML = "☐ Mark as Completed"; btn.classList.remove('done'); } } }
 </script>
 </body>
 </html>
