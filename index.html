@@ -22,7 +22,7 @@
       --border-soft: #1e293b; --accent: #60a5fa; --header-bg: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
     }
     * { box-sizing: border-box; }
-    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 100px; transition: background 0.3s; text-align: left; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 100px; text-align: left; transition: background 0.3s; }
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
     header { padding: 20px 16px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
@@ -40,6 +40,7 @@
 
     .video-container { width: 100%; position: relative; padding-top: 56.25%; background: #000; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    
     .speed-btns { display: flex; gap: 8px; padding: 15px 20px; background: var(--bg-main); overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--border-soft); }
     .speed-btn { background: var(--card-bg); color: var(--text-muted); padding: 10px 18px; border-radius: 12px; font-size: 0.75rem; font-weight: 700; border: 1px solid var(--border-soft); cursor: pointer; }
     .speed-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
@@ -77,12 +78,17 @@
     .modal { background: var(--card-bg); width: 100%; max-width: 400px; border-radius: 30px; padding: 28px; position: relative; text-align: center; border: 1px solid var(--border-soft); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
     
     #driving-mode { background: #000; flex-direction: column; text-align: center; }
+    .dm-controls { display: flex; gap: 30px; align-items: center; justify-content: center; margin: 40px 0; }
     .dm-btn { width: 85px; height: 85px; border-radius: 50%; background: #1e293b; color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .dm-btn.play { width: 110px; height: 110px; background: var(--accent); }
     
     .share-dropdown { position: absolute; top: 110%; right: 0; background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); display: none; flex-direction: column; min-width: 190px; z-index: 1000; overflow: hidden; }
     .share-dropdown.active { display: flex; }
     .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; }
+
+    .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .empty-state-icon { color: var(--fav-color); font-size: 3rem; }
+    .empty-state-text { font-weight: 600; color: var(--text-muted); line-height: 1.5; }
 
     .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 99px; font-weight: 600; opacity: 0; transition: 0.4s; z-index: 10001; pointer-events: none; }
     .toast.show { opacity: 1; }
@@ -94,7 +100,7 @@
 
 <div id="driving-mode" class="overlay">
   <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title">No Shiur Playing</div>
-  <div style="display:flex; gap:30px; align-items:center; justify-content:center; margin:40px 0;">
+  <div class="dm-controls">
     <button class="dm-btn" onclick="seek(-30)">-30s</button>
     <button class="dm-btn play" onclick="togglePlay()"><svg id="dm-play-icon" width="45" height="45" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     <button class="dm-btn" onclick="seek(30)">+30s</button>
@@ -132,7 +138,7 @@
       <button onclick="resumeLast()" class="nav-btn resume-btn">▶️ Resume</button>
       <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn">⏭️ Auto Play: OFF</button>
       <button onclick="toggleDrivingMode()" class="nav-btn nav-btn" style="background:rgba(0,0,0,0.2); color:white;">🚗 Audio Mode</button>
-      <button onclick="toggleTheme()" class="nav-btn nav-btn" style="background:rgba(255,255,255,0.2); color:white;" id="theme-btn">🌙 Theme</button>
+      <button onclick="toggleTheme()" class="nav-btn nav-btn" style="background:rgba(255,255,255,0.2); color:white;" id="theme-btn">🌙 Dark Mode</button>
     </div>
   </div>
 </header>
@@ -189,7 +195,7 @@
 <div id="toast" class="toast"></div>
 
 <script>
-  // 1. DYNAMIC YOUTUBE API LOADING (Grok/Claude Suggestion)
+  // LOAD YOUTUBE API DYNAMICALLY
   (function loadYouTubeAPI() {
     if (window.YT && window.YT.Player) { onYouTubeIframeAPIReady(); return; }
     const tag = document.createElement('script');
@@ -199,9 +205,10 @@
   })();
 
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I", PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
+  
   const appState = {
     allData: JSON.parse(localStorage.getItem('mc_all_data') || '[]'),
-    currentId: null, playerReady: false, playerInitAttempts: 0,
+    currentId: null, playerReady: false, 
     autoPlay: localStorage.getItem('mc_autoplay') === 'true',
     favorites: new Set(JSON.parse(localStorage.getItem('mc_favorites') || '[]')),
     progress: JSON.parse(localStorage.getItem('mc_progress') || '{}'),
@@ -223,21 +230,11 @@
 
   let player = null, progressInterval = null;
 
-  function onYouTubeIframeAPIReady() { tryInitPlayer(); }
-
-  function tryInitPlayer() {
-    appState.playerInitAttempts++;
-    if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
-        if (appState.playerInitAttempts < 5) setTimeout(tryInitPlayer, 500);
-        return;
-    }
+  function onYouTubeIframeAPIReady() {
     player = new YT.Player('player-placeholder', {
       height: '100%', width: '100%', videoId: '',
       playerVars: { 'playsinline': 1, 'rel': 0, 'modestbranding': 1, 'origin': window.location.origin },
-      events: { 
-        'onReady': () => { appState.playerReady = true; startWatchdog(); }, 
-        'onStateChange': onPlayerStateChange 
-      }
+      events: { 'onReady': () => { appState.playerReady = true; startWatchdog(); }, 'onStateChange': onPlayerStateChange }
     });
     initApp();
   }
@@ -246,7 +243,7 @@
     if(appState.allData.length > 0) { renderList(); showUI(); }
     fetchAllData(); updateAutoPlayUI(); applySavedTheme();
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(console.error);
   }
 
   function startWatchdog() {
@@ -322,7 +319,16 @@
     const list = document.getElementById("shiur-list"), filter = document.getElementById("search-input").value.toLowerCase();
     list.innerHTML = "";
     const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
-    if (appState.showFavoritesOnly && filtered.length === 0) { list.innerHTML = `<div class="empty-state">No saved lessons.</div>`; return; }
+    
+    if (appState.showFavoritesOnly && filtered.length === 0) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <span class="empty-state-icon">❤️</span>
+          <div class="empty-state-text">No saved lessons.<br>Tap the heart on any shiur to save it here.</div>
+        </div>`;
+      return;
+    }
+
     filtered.forEach((item) => {
       const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_'+item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
@@ -333,19 +339,7 @@
     });
   }
 
-  // --- FEATURES ---
-  function resumeLast() { const last = localStorage.getItem('lastWatched'); if (last && appState.allData.some(d => d.id === last)) { playVideo(last, true); showToast("Resuming..."); } }
-  function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); }
-  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); if(btn) { btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); } }
-  function toggleTheme() { const isDark = document.body.classList.toggle("dark-mode"); updateThemeUI(isDark); }
-  function updateThemeUI(isDark) { const btn = document.getElementById('theme-btn'); if(btn) btn.innerHTML = isDark ? "☀️ Light Mode" : "🌙 Dark Mode"; localStorage.setItem('theme', isDark ? 'dark' : 'light'); }
-  function applySavedTheme() { if(localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); updateThemeUI(true); } }
-  function toggleFav(id) { appState.favorites.has(id) ? appState.favorites.delete(id) : appState.favorites.add(id); appState.save(); renderList(); }
-  function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
-  function insertTimestamp() { if(!player || !player.getCurrentTime) return; const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.save(); }
-  function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; } }
-  function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
-  function exportNotes() { const text = document.getElementById("notes-input").value; if(!text) return; const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
+  // --- LOGIC ---
   function generateAndShareQuote() {
     const text = document.getElementById('quote-text').value; if(!text.trim()) return;
     const canvas = document.createElement('canvas'); canvas.width = 1080; canvas.height = 1080; const ctx = canvas.getContext('2d');
@@ -356,22 +350,35 @@
     ctx.font = '32px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fillText("Mekor Chaim Staten Island", 540, 940);
     canvas.toBlob(b => { const f = new File([b], "quote.png", {type: "image/png"}); if(navigator.share) navigator.share({files:[f]}).catch(console.error); });
   }
+
   function wrapText(ctx, text, x, y, maxWidth, lineHeight) { const words = text.split(' '); let line = ''; for(let n = 0; n < words.length; n++) { let testLine = line + words[n] + ' '; if (ctx.measureText(testLine).width > maxWidth) { ctx.fillText(line, x, y); line = words[n] + ' '; y += lineHeight; } else line = testLine; } ctx.fillText(line, x, y); }
+  function toggleTheme() { const isDark = document.body.classList.toggle("dark-mode"); updateThemeUI(isDark); }
+  function updateThemeUI(isDark) { const btn = document.getElementById('theme-btn'); if(btn) btn.innerHTML = isDark ? "☀️ Light Mode" : "🌙 Dark Mode"; localStorage.setItem('theme', isDark ? 'dark' : 'light'); }
+  function applySavedTheme() { if(localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); updateThemeUI(true); } }
+  function toggleFav(id) { appState.favorites.has(id) ? appState.favorites.delete(id) : appState.favorites.add(id); appState.save(); renderList(); }
+  function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
+  function setSpeed(s, btn) { if(player && player.setPlaybackRate) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); } }
+  function insertTimestamp() { if(!player || !player.getCurrentTime) return; const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.save(); }
+  function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; } }
+  function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
+  function exportNotes() { const text = document.getElementById("notes-input").value; if(!text) { showToast("No notes to export"); return; } const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
+  function resumeLast() { const last = localStorage.getItem('lastWatched'); if (last && appState.allData.some(d => d.id === last)) { playVideo(last, true); showToast("Resuming..."); } }
+  function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); }
+  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); if(btn) { btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); } }
+  function toggleManualComplete() { if(appState.currentId) { if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId); else { appState.completed.add(appState.currentId); confetti(); } appState.save(); renderList(); updateManualBtnUI(); } }
+  function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(btn) { btn.innerHTML = appState.completed.has(appState.currentId) ? "✅ Completed" : "☐ Mark Done"; } }
+  function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
+  function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+  function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
   function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); }
   function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
-  function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
-  function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }
   window.onclick = () => { document.getElementById("share-dropdown").classList.remove("active"); };
   function shareLink(withTime) { if (!appState.currentId) return; let url = window.location.origin + window.location.pathname + '?v=' + appState.currentId; if(withTime) url += '&t=' + Math.floor(player.getCurrentTime()); if(navigator.share) navigator.share({title: 'Weekly Shiur', url: url}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); } }
-  function setSpeed(s, btn) { if(player && player.setPlaybackRate) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); } }
-  function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
   function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
-  function toggleManualComplete() { if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId); else { appState.completed.add(appState.currentId); confetti(); } appState.save(); renderList(); updateManualBtnUI(); }
-  function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(btn) { btn.innerHTML = appState.completed.has(appState.currentId) ? "✅ Completed" : "☐ Mark Done"; } }
   function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
-  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
