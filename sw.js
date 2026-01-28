@@ -1,5 +1,5 @@
-/* App Version: 3.2.2 - Absolute Fix */
-const CACHE_NAME = 'mc-v3.2.2';
+/* SW Version: 3.2.3 - Final Pro */
+const CACHE_NAME = 'mc-ironclad-v3.2.3';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -13,7 +13,7 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  // BYPASS ALL GOOGLE/YOUTUBE API CALLS - NEVER CACHE THEM
+  // NEVER CACHE API CALLS
   if (url.hostname.includes('googleapis.com') || url.hostname.includes('youtube.com')) return;
 
   e.respondWith(
