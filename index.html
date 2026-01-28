@@ -23,19 +23,27 @@
     }
     * { box-sizing: border-box; }
     body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg-main); color: var(--text-main); padding-bottom: 100px; text-align: left; transition: background 0.3s; }
+    
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
-    header { padding: 20px 16px; }
+    /* MOBILE FULL WIDTH FIX */
+    @media (max-width: 600px) {
+      header, main { padding: 0; }
+      .header-inner { border-radius: 0 0 24px 24px; }
+      .player-card { border-radius: 0; border-left: none; border-right: none; margin-bottom: 16px; }
+      .list-header { padding: 0 16px; }
+      #shiur-list { padding: 0 16px; }
+    }
+
+    header { padding-top: 20px; padding-bottom: 16px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
-    
     .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; }
     .stats-btn { background: white; color: var(--accent); }
     .resume-btn { background: #10b981; color: white; }
     .autoplay-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
 
-    /* PLAYER CARD FIX: REMOVED PADDING FOR FULL WIDTH VIDEO */
     .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; padding: 0 !important; }
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
@@ -59,6 +67,7 @@
     .notes-display { display: none; white-space: pre-wrap; text-align: left; }
     .ts-link { color: var(--accent); font-weight: 700; text-decoration: underline; cursor: pointer; background: var(--accent-glow); padding: 2px 4px; border-radius: 4px; }
 
+    .list-header { margin-bottom: 24px; display: flex; gap: 12px; align-items: center; width: 100%; }
     .search-wrapper { position: relative; flex: 1; }
     #search-input { width: 100%; padding: 15px 20px 15px 48px; border-radius: 99px; border: 1px solid var(--border-soft); background: var(--card-bg); outline: none; box-shadow: var(--shadow-card); }
     .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 1.1rem; }
@@ -74,7 +83,6 @@
     .btn-fav-overlay.active svg { fill: var(--fav-color); }
     .completed-icon { position: absolute; top: 4px; left: 4px; background: var(--watched-color); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; z-index: 5; }
     .item-progress-fill { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--watched-color); width: 0%; transition: width 0.3s; }
-    .new-badge { background: var(--gold); color: white; padding: 2px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 800; margin-left: 8px; vertical-align: middle; }
 
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); padding: 20px; }
     .overlay.active { display: flex !important; }
@@ -84,8 +92,7 @@
     .share-dropdown.active { display: flex; }
     .share-option { background: none; border: none; padding: 14px 18px; text-align: left; font-size: 0.85rem; font-weight: 600; color: var(--text-main); border-bottom: 1px solid var(--border-soft); cursor: pointer; }
 
-    /* EMPTY STATE (SAVED) DESIGN */
-    .empty-state { padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .empty-state { width: 100%; padding: 50px 20px; text-align: center; border: 2px dashed #cbd5e1; border-radius: 28px; background: var(--card-bg); margin-top: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
     .empty-state-icon { color: var(--fav-color); font-size: 3rem; }
     .empty-state-text { font-weight: 600; color: var(--text-muted); line-height: 1.5; }
 
@@ -180,8 +187,8 @@
     </div>
   </div>
 
-  <div class="list-header" style="display:flex; gap:12px; align-items:center;">
-    <div class="search-wrapper" style="flex:1;">
+  <div class="list-header">
+    <div class="search-wrapper">
       <span class="search-icon">🔍</span>
       <input id="search-input" type="search" placeholder="Search topics or dates..." oninput="renderList()">
     </div>
@@ -248,7 +255,7 @@
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault(); deferredPrompt = e;
-    setTimeout(() => { document.getElementById('install-banner').style.display = 'flex'; }, 3000);
+    setTimeout(() => { document.getElementById('install-banner').style.display = 'flex'; }, 4000);
   });
 
   async function installApp() {
@@ -270,8 +277,8 @@
           playVideo(id, false);
         } else { clearInterval(watchdog); }
       }
-    }, 800);
-    setTimeout(() => clearInterval(watchdog), 12000);
+    }, 1000);
+    setTimeout(() => clearInterval(watchdog), 15000);
   }
 
   function showUI() { document.getElementById("skeleton").style.display = "none"; document.getElementById("player-content").style.display = "block"; }
@@ -314,7 +321,7 @@
         if(dur > 0) {
           appState.durations[appState.currentId] = dur;
           if (t > dur * 0.9 && !appState.completed.has(appState.currentId)) {
-            appState.completed.add(appState.currentId); confetti({ particleCount: 100, spread: 70 });
+            appState.completed.add(appState.currentId); confetti();
             renderList(); updateManualBtnUI();
           }
           if (t >= dur - 2 && appState.autoPlay) {
@@ -336,18 +343,17 @@
       list.innerHTML = `
         <div class="empty-state">
           <span class="empty-state-icon">❤️</span>
-          <div class="empty-state-text">No saved lessons.<br>Tap the heart on any shiur to save it here.</div>
+          <div class="empty-state-text">No saved lessons.</div>
         </div>`;
       return;
     }
-
     filtered.forEach((item) => {
       const prog = appState.progress[item.id] || 0, dur = appState.durations[item.id] || 0, isComp = appState.completed.has(item.id), isViewed = localStorage.getItem('mc_viewed_'+item.id);
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
       const isNew = item.pubDate === localStorage.getItem('mc_latest') && !isViewed;
       const li = document.createElement("li"); li.className = `item ${item.id === appState.currentId ? 'active' : ''}`;
       li.dataset.id = item.id;
-      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
+      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
       li.onclick = () => playVideo(item.id, true); list.appendChild(li);
     });
   }
@@ -382,13 +388,16 @@
   function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
+  function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); }
+  function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
+  function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
+  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }
   window.onclick = () => { document.getElementById("share-dropdown").classList.remove("active"); };
   function shareLink(withTime) { if (!appState.currentId) return; let url = window.location.origin + window.location.pathname + '?v=' + appState.currentId; if(withTime) url += '&t=' + Math.floor(player.getCurrentTime()); if(navigator.share) navigator.share({title: 'Weekly Shiur', url: url}); else { navigator.clipboard.writeText(url); showToast("Link Copied!"); } }
   function shareToWhatsApp() { if (!appState.currentId) return; const item = appState.allData.find(d => d.id === appState.currentId); const text = `🎓 ${item.title}\n\n${window.location.origin}?v=${appState.currentId}`; window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank'); }
   function updateLiveProgressBar(t, dur) { const bar = document.querySelector(`.item[data-id="${appState.currentId}"] .item-progress-fill`); if(bar && dur > 0) bar.style.width = (t/dur)*100 + '%'; }
   function updateStreak() { const today = new Date().toISOString().split('T')[0]; if (appState.stats.lastVisit !== today) { if (appState.stats.dailySeconds >= 120) { const yesterday = new Date(Date.now()-86400000).toISOString().split('T')[0]; appState.stats.streak = (appState.stats.lastVisit === yesterday) ? appState.stats.streak + 1 : 1; } appState.stats.dailySeconds = 0; appState.stats.lastVisit = today; appState.save(); } }
-  function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </body>
