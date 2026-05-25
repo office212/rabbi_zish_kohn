@@ -275,10 +275,15 @@
         const title = document.getElementById("player-title").textContent;
         if (title === "Loading..." || title === "Select a shiur") {
           const params = new URLSearchParams(window.location.search);
-          const v = params.get('v'), t = params.get('t'), last = localStorage.getItem('lastWatched');
-          if (v && appState.allData.some(d => d.id === v)) playVideo(v, false, t ? parseInt(t) : null);
-          else if (last && appState.allData.some(d => d.id === last)) playVideo(last, false);
-          else playVideo(appState.allData[0].id, false);
+          const v = params.get('v'), t = params.get('t');
+          
+          // אם נכנסו דרך קישור שיתוף עם מזהה סרטון ספציפי - נפעיל אותו, אחרת נטען תמיד את הסרטון הראשון ברשימה (הכי חדש)
+          if (v && appState.allData.some(d => d.id === v)) {
+            playVideo(v, false, t ? parseInt(t) : null);
+          } else { 
+            playVideo(appState.allData[0].id, false); 
+          }
+          
         } else { clearInterval(watchdog); }
       }
     }, 1000);
