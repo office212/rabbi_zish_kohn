@@ -1,6 +1,12 @@
-/* SW Version: 3.4.0 - Invisible Shield */
-const CACHE_NAME = 'mc-app-v3.4.0';
-const ASSETS = ['./manifest.json', './icon-192.png', './icon-512.png'];
+/* SW Version: 3.4.1 - Offline Support */
+const CACHE_NAME = 'mc-app-v3.4.1';
+const ASSETS = [
+  './', 
+  './index.html', 
+  './manifest.json', 
+  './icon-192.png', 
+  './icon-512.png'
+];
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -12,6 +18,23 @@ self.addEventListener('activate', e => {
   return clients.claim();
 });
 
-// ZERO INTERFERENCE: Let the browser handle all networking.
-// This is the only way to be 100% sure there are no grey screens.
-self.addEventListener('fetch', e => { return; });
+// יירוט בקשות הרשת וטיפול באופליין (Network First)
+self.addEventListener('fetch', e => {
+  // נטפל רק בבקשות GET רגילות (לא בבקשות ל-API של יוטיוב למשל)
+  if (e.request.method !== 'GET' || !e.request.url.startsWith('http')) return;
+
+  e.respondWith(
+    fetch(e.request)
+      .then(networkResponse => {
+        // יש קליטה: שומרים את הגרסה החדשה ב-Cache ומציגים אותה
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(e.request, networkResponse.clone());
+          return networkResponse;
+        });
+      })
+      .catch(() => {
+        // אין קליטה: שולפים את העמוד/הקבצים מה-Cache
+        return caches.match(e.request);
+      })
+  );
+});
