@@ -26,24 +26,34 @@
     
     header, main, footer { width: 100%; max-width: 800px; margin: 0 auto; padding: 0 16px; }
 
-    /* CINEMA MODE FIX */
-    @media (max-width: 600px) {
-      header, main { padding: 0; }
-      .header-inner { border-radius: 0 0 24px 24px; }
-      .player-card { border-radius: 0; border-left: none; border-right: none; margin-bottom: 16px; }
-      .list-header, #shiur-list { padding: 0 16px; }
-    }
-
     header { padding-top: 20px; padding-bottom: 16px; }
     .header-inner { background: var(--header-bg); border-radius: 24px; padding: 24px; color: white; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2); }
     .header-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
     .nav-btn { border-radius: 99px; font-size: 0.75rem; font-weight: 600; padding: 10px 16px; display: inline-flex; align-items: center; gap: 6px; border: none; cursor: pointer; transition: 0.2s; }
+    
     .stats-btn { background: white; color: var(--accent); }
     .resume-btn { background: #10b981; color: white; }
     .autoplay-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
+    .theme-btn, .audio-btn { background: rgba(255,255,255,0.2); color: white; }
 
-    .player-card { background: var(--card-bg); border-radius: 24px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); overflow: hidden; margin-bottom: 24px; position: relative; padding: 0 !important; }
+    /* Touch Feedback Animation */
+    .nav-btn:active, .tool-btn:active, .dm-btn:active, .item:active, .fav-filter-btn:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+
+    .player-card { 
+      background: var(--card-bg); 
+      border-radius: 24px; 
+      box-shadow: var(--shadow-card); 
+      border: 1px solid var(--border-soft); 
+      overflow: hidden; 
+      margin-bottom: 24px; 
+      position: relative; 
+      padding: 0 !important; 
+    }
+    
     .player-header { padding: 20px; border-bottom: 1px solid var(--border-soft); }
     .player-title { font-size: 1.15rem; font-weight: 700; margin: 0 0 12px; line-height: 1.4; }
     .badge-main { background: var(--accent-glow); color: var(--accent); padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; border: 1px solid var(--border-soft); }
@@ -107,6 +117,46 @@
     .toast.show { opacity: 1; }
 
     footer { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-top: 50px; padding: 20px 0 60px; }
+
+    /* --- MOBILE UPGRADES (Bottom Nav & Cinema Fix) --- */
+    @media (max-width: 600px) {
+      header, main { padding: 0; }
+      body { padding-bottom: 90px; } /* Room for bottom nav */
+      
+      .header-inner { border-radius: 0 0 24px 24px; padding-bottom: 24px; }
+      
+      /* Bottom Navigation Bar */
+      .header-controls {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--card-bg);
+        margin: 0;
+        padding: 12px;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 8px;
+        z-index: 9990;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--border-soft);
+        scrollbar-width: none; /* Hide scrollbar on Firefox */
+      }
+      .header-controls::-webkit-scrollbar { display: none; /* Hide scrollbar on Chrome/Safari */ }
+      
+      /* Re-styling nav buttons for the bottom bar */
+      .nav-btn { flex: 0 0 auto; color: var(--text-main); background: var(--bg-main); border: 1px solid var(--border-soft); }
+      .nav-btn.stats-btn { background: #eff6ff; color: var(--accent); border-color: #bfdbfe; }
+      .nav-btn.resume-btn { background: #10b981; color: white; border-color: #10b981; }
+      .nav-btn.autoplay-btn { background: var(--bg-main); }
+      .nav-btn.autoplay-btn.active { background: #dcfce7; color: #166534; border-color: #86efac; }
+      .theme-btn, .audio-btn { background: var(--bg-main); color: var(--text-main); }
+
+      .player-card { border-radius: 0; border-left: none; border-right: none; margin-bottom: 16px; }
+      .list-header, #shiur-list { padding: 0 16px; }
+      #install-banner { bottom: 90px; } /* Keep install banner above the new bottom nav */
+    }
   </style>
 </head>
 <body>
@@ -142,7 +192,7 @@
   <div class="modal">
     <button onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
     <h3 style="margin:0;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" dir="auto" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
+    <textarea id="quote-text" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
     <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Create Royal Image</button>
   </div>
 </div>
@@ -155,8 +205,8 @@
       <button onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
       <button onclick="resumeLast()" class="nav-btn resume-btn">▶️ Resume</button>
       <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn">⏭️ Auto Play: OFF</button>
-      <button onclick="toggleDrivingMode()" class="nav-btn" style="background:rgba(0,0,0,0.2); color:white;">🚗 Audio Mode</button>
-      <button onclick="toggleTheme()" class="nav-btn" id="theme-btn" style="background:rgba(255,255,255,0.2); color:white;">🌙 Theme</button>
+      <button onclick="toggleDrivingMode()" class="nav-btn audio-btn">🚗 Audio Mode</button>
+      <button onclick="toggleTheme()" class="nav-btn theme-btn" id="theme-btn">🌙 Theme</button>
     </div>
   </div>
 </header>
@@ -194,8 +244,8 @@
           <button id="btn-mark-done" onclick="toggleManualComplete()" class="tool-btn done">☐ Mark Done</button>
           <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
         </div>
-        <textarea id="notes-input" dir="auto" class="notes-input" placeholder="Notes autosave..."></textarea>
-        <div id="notes-display" dir="auto" class="notes-display"></div>
+        <textarea id="notes-input" class="notes-input" placeholder="Notes autosave..."></textarea>
+        <div id="notes-display" class="notes-display"></div>
       </div>
     </div>
   </div>
@@ -277,7 +327,6 @@
           const params = new URLSearchParams(window.location.search);
           const v = params.get('v'), t = params.get('t');
           
-          // אם נכנסו דרך קישור שיתוף עם מזהה סרטון ספציפי - נפעיל אותו, אחרת נטען תמיד את הסרטון הראשון ברשימה (הכי חדש)
           if (v && appState.allData.some(d => d.id === v)) {
             playVideo(v, false, t ? parseInt(t) : null);
           } else { 
