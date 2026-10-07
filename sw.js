@@ -1,11 +1,12 @@
-/* SW Version: 3.4.1 - Offline Support */
-const CACHE_NAME = 'mc-app-v3.4.1';
+/* SW Version: 3.4.2 - Offline Support */
+const CACHE_NAME = 'mc-app-v3.4.2';
 const ASSETS = [
   './', 
   './index.html', 
   './manifest.json', 
   './icon-192.png', 
-  './icon-512.png'
+  './icon-512.png',
+  './icon-maskable-512.png'
 ];
 
 self.addEventListener('install', e => {
@@ -18,22 +19,22 @@ self.addEventListener('activate', e => {
   return clients.claim();
 });
 
-// יירוט בקשות הרשת וטיפול באופליין (Network First)
+// ×××¨×× ××§×©××ª ××¨×©×ª ××××¤×× ××××¤×××× (Network First)
 self.addEventListener('fetch', e => {
-  // נטפל רק בבקשות GET רגילות (לא בבקשות ל-API של יוטיוב למשל)
+  // × ××¤× ×¨×§ ×××§×©××ª GET ×¨×××××ª (×× ×××§×©××ª ×-API ×©× ×××××× ×××©×)
   if (e.request.method !== 'GET' || !e.request.url.startsWith('http')) return;
 
   e.respondWith(
     fetch(e.request)
       .then(networkResponse => {
-        // יש קליטה: שומרים את הגרסה החדשה ב-Cache ומציגים אותה
+        // ××© ×§××××: ×©×××¨×× ××ª ×××¨×¡× ××××©× ×-Cache ×××¦×××× ×××ª×
         return caches.open(CACHE_NAME).then(cache => {
           cache.put(e.request, networkResponse.clone());
           return networkResponse;
         });
       })
       .catch(() => {
-        // אין קליטה: שולפים את העמוד/הקבצים מה-Cache
+        // ××× ×§××××: ×©×××¤×× ××ª ××¢×××/××§××¦×× ××-Cache
         return caches.match(e.request);
       })
   );

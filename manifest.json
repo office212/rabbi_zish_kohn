@@ -1,10 +1,12 @@
 {
   "name": "Mekor Chaim Shiurim",
   "short_name": "Shiurim",
+  "description": "Weekly shiurim by Rabbi Zish Kohn - Mekor Chaim Staten Island",
+  "id": "./",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#2166ff",
+  "theme_color": "#2563eb",
   "orientation": "portrait",
   "gcm_sender_id": "482941778795",
   "icons": [
@@ -19,6 +21,12 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
