@@ -172,6 +172,10 @@
       .list-header, #shiur-list { padding: 0 16px; }
       #install-banner { bottom: 90px; } /* Keep install banner above the new bottom nav */
     }
+  .lang-row { display: flex; justify-content: flex-end; margin-bottom: 10px; }
+  .lang-switcher { display: inline-flex; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 99px; padding: 3px; gap: 2px; }
+  .lang-opt { border: none; background: transparent; color: rgba(255,255,255,0.8); font-weight: 700; font-size: 0.8rem; padding: 8px 14px; border-radius: 99px; cursor: pointer; transition: 0.2s; font-family: inherit; white-space: nowrap; }
+  .lang-opt.active { background: white; color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
   /* --- RTL (Hebrew) overrides --- */
   [dir="rtl"] body { text-align: right; }
   [dir="rtl"] .search-icon { left: auto; right: 18px; }
@@ -226,6 +230,7 @@
 
 <header>
   <div class="header-inner">
+    <div class="lang-row"><div class="lang-switcher"><button onclick="setLang('he')" id="lang-he" class="lang-opt">🇮🇱 עברית</button><button onclick="setLang('en')" id="lang-en" class="lang-opt">🇺🇸 English</button></div></div>
     <h1 data-i18n="appName">Mekor Chaim SI</h1>
     <div class="sub" data-i18n="appSub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
@@ -234,7 +239,6 @@
       <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn"></button>
       <button onclick="toggleDrivingMode()" class="nav-btn audio-btn">🚗 <span data-i18n="audioMode">Audio Mode</span></button>
       <button onclick="toggleTheme()" class="nav-btn theme-btn" id="theme-btn">🌙 <span data-i18n="darkMode">Dark Mode</span></button>
-      <button onclick="toggleLang()" class="nav-btn lang-btn" id="lang-btn" title="עברית / English">🇮🇱</button>
     </div>
   </div>
 </header>
@@ -332,13 +336,14 @@
     document.title = t('pageTitle');
     document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
     document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
-    document.getElementById('lang-btn').textContent = lang === 'he' ? '🇺🇸' : '🇮🇱';
+    document.getElementById('lang-he').classList.toggle('active', lang === 'he');
+    document.getElementById('lang-en').classList.toggle('active', lang !== 'he');
     if(!appState.currentId) document.getElementById('dm-title').textContent = t('noShiur');
     updateThemeUI(document.body.classList.contains('dark-mode'));
     updateAutoPlayUI(); updateNoteBtnUI(); updateManualBtnUI(); renderList();
     updateNotesDisplay(document.getElementById('notes-input').value);
   }
-  function toggleLang(){ applyLang((localStorage.getItem('mc_lang') || 'en') === 'he' ? 'en' : 'he'); }
+  function setLang(lang){ applyLang(lang); }
   function updateNoteBtnUI(){ const b = document.getElementById('note-mode-btn'); if(b) b.innerHTML = appState.isNoteEditMode ? "✏️ " + t("edit") : "👁️ " + t("view"); }
 
   let deferredPrompt;
