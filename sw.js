@@ -19,22 +19,22 @@ self.addEventListener('activate', e => {
   return clients.claim();
 });
 
-// ×××¨×× ××§×©××ª ××¨×©×ª ××××¤×× ××××¤×××× (Network First)
+// יירוט בקשות הרשת וטיפול באופליין (Network First)
 self.addEventListener('fetch', e => {
-  // × ××¤× ×¨×§ ×××§×©××ª GET ×¨×××××ª (×× ×××§×©××ª ×-API ×©× ×××××× ×××©×)
+  // נטפל רק בבקשות GET רגילות (לא בבקשות ל-API של יוטיוב למשל)
   if (e.request.method !== 'GET' || !e.request.url.startsWith('http')) return;
 
   e.respondWith(
     fetch(e.request)
       .then(networkResponse => {
-        // ××© ×§××××: ×©×××¨×× ××ª ×××¨×¡× ××××©× ×-Cache ×××¦×××× ×××ª×
+        // יש קליטה: שומרים את הגרסה החדשה ב-Cache ומציגים אותה
         return caches.open(CACHE_NAME).then(cache => {
           cache.put(e.request, networkResponse.clone());
           return networkResponse;
         });
       })
       .catch(() => {
-        // ××× ×§××××: ×©×××¤×× ××ª ××¢×××/××§××¦×× ××-Cache
+        // אין קליטה: שולפים את העמוד/הקבצים מה-Cache
         return caches.match(e.request);
       })
   );
