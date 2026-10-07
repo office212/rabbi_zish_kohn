@@ -19,6 +19,7 @@
         serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
         promptOptions: { slidedown: { prompts: [ { type: "push", autoPrompt: true, text: txt, delay: { pageViews: 1, timeDelay: 10 } } ] } }
       });
+      await OneSignal.Notifications.setDefaultUrl("https://office212.github.io/rabbi_zish_kohn/");
     });
   </script>
   <meta name="theme-color" content="#2563eb">
