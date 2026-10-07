@@ -331,7 +331,7 @@
       darkMode:"Dark Mode", lightMode:"Light Mode", installTitle:"Install App", installSub:"For the best experience!", installBtn:"Install",
       noShiur:"No Shiur Playing", exitMode:"Exit Mode", myStats:"My Torah Stats", streak:"Streak", hours:"Hours", completed:"Completed",
       shareQuote:"Share a Quote", quotePh:"Type a holy word...", createImage:"Create Royal Image", torah:"Torah", share:"Share",
-      copyLink:"Copy App Link", linkWithTime:"Link with Current Time", shareWA:"Share to WhatsApp", notifBtn:"Notifications", notifOn:"Notifications already on", notifBlocked:"Notifications are blocked in browser settings", emailTitle:"Email updates", emailSub:"Get an email when a new shiur is published.", emailPh:"Your email address", emailBtn:"Subscribe", emailOk:"Check your inbox to confirm!", emailBad:"Enter a valid email address", view:"View", edit:"Edit",
+      copyLink:"Copy App Link", linkWithTime:"Link with Current Time", shareWA:"Share to WhatsApp", notifBtn:"Notifications", notifOn:"Notifications already on", notifBlocked:"Notifications are blocked in browser settings", emailTitle:"Email updates", emailSub:"Get an email when a new shiur is published.", emailPh:"Your email address", emailBtn:"Subscribe", emailBad:"Enter a valid email address", emailSubject:"New subscriber — shiur email updates", emailBodyPrefix:"Please add this email to the distribution list: ", emailSent:"Opening your email app — press send!", view:"View", edit:"Edit",
       timeBtn:"Time", quoteBtn:"Quote", markDone:"Mark Done", doneState:"Completed", exportBtn:"Export", notesPh:"Notes autosave...",
       noNotes:"No notes yet.", searchPh:"Search topics...", saved:"Saved", noSaved:"No saved lessons.", linkCopied:"Link Copied!",
       resuming:"Resuming...", noNotesExport:"No notes to export", loadFail:"Couldn't load the latest shiurim. Showing saved list.",
@@ -341,7 +341,7 @@
       darkMode:"מצב כהה", lightMode:"מצב בהיר", installTitle:"התקן אפליקציה", installSub:"לחוויה הטובה ביותר!", installBtn:"התקן",
       noShiur:"אין שיעור מתנגן", exitMode:"יציאה", myStats:"הסטטיסטיקה שלי", streak:"רצף", hours:"שעות", completed:"הושלמו",
       shareQuote:"שתף ציטוט", quotePh:"כתוב דבר תורה...", createImage:"צור תמונה", torah:"תורה", share:"שתף",
-      copyLink:"העתק קישור", linkWithTime:"קישור עם זמן נוכחי", shareWA:"שתף בוואטסאפ", notifBtn:"התראות", notifOn:"ההתראות כבר פעילות", notifBlocked:"ההתראות חסומות בהגדרות הדפדפן", emailTitle:"עדכוני אימייל", emailSub:"קבל אימייל כששיעור חדש מתפרסם.", emailPh:"כתובת האימייל שלך", emailBtn:"הירשם", emailOk:"בדוק את תיבת האימייל לאישור!", emailBad:"הכנס כתובת אימייל תקינה", view:"צפה", edit:"ערוך",
+      copyLink:"העתק קישור", linkWithTime:"קישור עם זמן נוכחי", shareWA:"שתף בוואטסאפ", notifBtn:"התראות", notifOn:"ההתראות כבר פעילות", notifBlocked:"ההתראות חסומות בהגדרות הדפדפן", emailTitle:"עדכוני אימייל", emailSub:"קבל אימייל כששיעור חדש מתפרסם.", emailPh:"כתובת האימייל שלך", emailBtn:"הירשם", emailBad:"הכנס כתובת אימייל תקינה", emailSubject:"נרשם חדש — עדכוני שיעורים באימייל", emailBodyPrefix:"נא להוסיף את האימייל הזה לרשימת התפוצה: ", emailSent:"פותח את אפליקציית האימייל — לחץ שלח!", view:"צפה", edit:"ערוך",
       timeBtn:"זמן", quoteBtn:"ציטוט", markDone:"סמן כהושלם", doneState:"הושלם", exportBtn:"ייצא", notesPh:"הערות נשמרות אוטומטית...",
       noNotes:"אין הערות עדיין.", searchPh:"חפש נושאים...", saved:"שמורים", noSaved:"אין שיעורים שמורים.", linkCopied:"הקישור הועתק!",
       resuming:"ממשיך...", noNotesExport:"אין הערות לייצוא", loadFail:"לא ניתן לטעון שיעורים חדשים. מציג רשימה שמורה.",
@@ -522,11 +522,11 @@ ${getFullUrl()}?v=${appState.currentId}`;
   function subscribeEmail(){
     const input = document.getElementById("email-input"), email = input.value.trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ showToast(t("emailBad")); return; }
-    window.OneSignalDeferred = window.OneSignalDeferred || [];
-    OneSignalDeferred.push(async function(OneSignal){
-      try { await OneSignal.User.addEmail(email); input.value = ""; showToast(t("emailOk")); }
-      catch(e){ showToast(t("emailBad")); }
-    });
+    const subject = encodeURIComponent(t("emailSubject"));
+    const body = encodeURIComponent(t("emailBodyPrefix") + email);
+    input.value = "";
+    showToast(t("emailSent"));
+    window.location.href = "mailto:mekorchaimsi@gmail.com?subject=" + subject + "&body=" + body;
   }
   function promptNotifications(){
     window.OneSignalDeferred = window.OneSignalDeferred || [];
