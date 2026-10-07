@@ -181,6 +181,11 @@
   .lang-switcher { display: inline-flex; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 99px; padding: 3px; gap: 2px; }
   .lang-opt { border: none; background: transparent; color: rgba(255,255,255,0.8); font-weight: 700; font-size: 0.8rem; padding: 8px 14px; border-radius: 99px; cursor: pointer; transition: 0.2s; font-family: inherit; white-space: nowrap; }
   .lang-opt.active { background: white; color: var(--accent); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .email-card { background: var(--card-bg); border: 1px solid var(--border-soft); border-radius: 24px; box-shadow: var(--shadow-card); padding: 20px; margin-bottom: 24px; }
+  .email-row { display: flex; gap: 8px; margin-top: 12px; }
+  #email-input { flex: 1; min-width: 0; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-soft); font-family: inherit; font-size: 0.9rem; background: var(--bg-main); color: var(--text-main); outline: none; }
+  .email-btn { background: var(--accent); color: white; border: none; padding: 12px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; font-family: inherit; }
+  @media (max-width: 600px) { .email-card { margin-left: 16px; margin-right: 16px; } }
   /* --- RTL (Hebrew) overrides --- */
   [dir="rtl"] body { text-align: right; }
   [dir="rtl"] .search-icon { left: auto; right: 18px; }
@@ -293,6 +298,14 @@
     <button id="fav-filter-btn" class="fav-filter-btn" onclick="toggleFavFilter()"><span data-i18n="saved">Saved</span> ❤️</button>
   </div>
   <ul id="shiur-list" class="list"></ul>
+  <div class="email-card">
+    <div style="font-weight:800; font-size:1rem;">📧 <span data-i18n="emailTitle">Email updates</span></div>
+    <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;" data-i18n="emailSub">Get an email when a new shiur is published.</div>
+    <div class="email-row">
+      <input id="email-input" type="email" data-i18n-ph="emailPh" placeholder="Your email address" />
+      <button class="email-btn" onclick="subscribeEmail()"><span data-i18n="emailBtn">Subscribe</span></button>
+    </div>
+  </div>
 </main>
 
 <footer>
@@ -318,7 +331,7 @@
       darkMode:"Dark Mode", lightMode:"Light Mode", installTitle:"Install App", installSub:"For the best experience!", installBtn:"Install",
       noShiur:"No Shiur Playing", exitMode:"Exit Mode", myStats:"My Torah Stats", streak:"Streak", hours:"Hours", completed:"Completed",
       shareQuote:"Share a Quote", quotePh:"Type a holy word...", createImage:"Create Royal Image", torah:"Torah", share:"Share",
-      copyLink:"Copy App Link", linkWithTime:"Link with Current Time", shareWA:"Share to WhatsApp", notifBtn:"Notifications", notifOn:"Notifications already on", notifBlocked:"Notifications are blocked in browser settings", view:"View", edit:"Edit",
+      copyLink:"Copy App Link", linkWithTime:"Link with Current Time", shareWA:"Share to WhatsApp", notifBtn:"Notifications", notifOn:"Notifications already on", notifBlocked:"Notifications are blocked in browser settings", emailTitle:"Email updates", emailSub:"Get an email when a new shiur is published.", emailPh:"Your email address", emailBtn:"Subscribe", emailOk:"Check your inbox to confirm!", emailBad:"Enter a valid email address", view:"View", edit:"Edit",
       timeBtn:"Time", quoteBtn:"Quote", markDone:"Mark Done", doneState:"Completed", exportBtn:"Export", notesPh:"Notes autosave...",
       noNotes:"No notes yet.", searchPh:"Search topics...", saved:"Saved", noSaved:"No saved lessons.", linkCopied:"Link Copied!",
       resuming:"Resuming...", noNotesExport:"No notes to export", loadFail:"Couldn't load the latest shiurim. Showing saved list.",
@@ -328,7 +341,7 @@
       darkMode:"מצב כהה", lightMode:"מצב בהיר", installTitle:"התקן אפליקציה", installSub:"לחוויה הטובה ביותר!", installBtn:"התקן",
       noShiur:"אין שיעור מתנגן", exitMode:"יציאה", myStats:"הסטטיסטיקה שלי", streak:"רצף", hours:"שעות", completed:"הושלמו",
       shareQuote:"שתף ציטוט", quotePh:"כתוב דבר תורה...", createImage:"צור תמונה", torah:"תורה", share:"שתף",
-      copyLink:"העתק קישור", linkWithTime:"קישור עם זמן נוכחי", shareWA:"שתף בוואטסאפ", notifBtn:"התראות", notifOn:"ההתראות כבר פעילות", notifBlocked:"ההתראות חסומות בהגדרות הדפדפן", view:"צפה", edit:"ערוך",
+      copyLink:"העתק קישור", linkWithTime:"קישור עם זמן נוכחי", shareWA:"שתף בוואטסאפ", notifBtn:"התראות", notifOn:"ההתראות כבר פעילות", notifBlocked:"ההתראות חסומות בהגדרות הדפדפן", emailTitle:"עדכוני אימייל", emailSub:"קבל אימייל כששיעור חדש מתפרסם.", emailPh:"כתובת האימייל שלך", emailBtn:"הירשם", emailOk:"בדוק את תיבת האימייל לאישור!", emailBad:"הכנס כתובת אימייל תקינה", view:"צפה", edit:"ערוך",
       timeBtn:"זמן", quoteBtn:"ציטוט", markDone:"סמן כהושלם", doneState:"הושלם", exportBtn:"ייצא", notesPh:"הערות נשמרות אוטומטית...",
       noNotes:"אין הערות עדיין.", searchPh:"חפש נושאים...", saved:"שמורים", noSaved:"אין שיעורים שמורים.", linkCopied:"הקישור הועתק!",
       resuming:"ממשיך...", noNotesExport:"אין הערות לייצוא", loadFail:"לא ניתן לטעון שיעורים חדשים. מציג רשימה שמורה.",
@@ -506,6 +519,15 @@ ${getFullUrl()}?v=${appState.currentId}`;
     document.getElementById("share-dropdown").classList.remove("active");
   }
 
+  function subscribeEmail(){
+    const input = document.getElementById("email-input"), email = input.value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ showToast(t("emailBad")); return; }
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal){
+      try { await OneSignal.User.addEmail(email); input.value = ""; showToast(t("emailOk")); }
+      catch(e){ showToast(t("emailBad")); }
+    });
+  }
   function promptNotifications(){
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     OneSignalDeferred.push(async function(OneSignal){
