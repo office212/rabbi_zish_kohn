@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Weekly Shiur - Mekor Chaim SI</title>
   <link rel="manifest" href="manifest.json">
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal) {
+      const lang = localStorage.getItem('mc_lang') || 'en';
+      const txt = lang === 'he'
+        ? { actionMessage: "קבל התראה כששיעור חדש מתפרסם", acceptButton: "אשר", cancelButton: "לא תודה" }
+        : { actionMessage: "Get notified when a new shiur is published", acceptButton: "Allow", cancelButton: "No thanks" };
+      await OneSignal.init({
+        appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
+        promptOptions: { slidedown: { prompts: [ { type: "push", autoPrompt: true, text: txt, delay: { pageViews: 1, timeDelay: 10 } } ] } }
+      });
+    });
+  </script>
   <meta name="theme-color" content="#2563eb">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="icon" href="icon-192.png">
@@ -158,33 +172,45 @@
       .list-header, #shiur-list { padding: 0 16px; }
       #install-banner { bottom: 90px; } /* Keep install banner above the new bottom nav */
     }
+  /* --- RTL (Hebrew) overrides --- */
+  [dir="rtl"] body { text-align: right; }
+  [dir="rtl"] .search-icon { left: auto; right: 18px; }
+  [dir="rtl"] #search-input { padding: 15px 48px 15px 20px; }
+  [dir="rtl"] .share-dropdown { right: auto; left: 0; }
+  [dir="rtl"] .share-option { text-align: right; }
+  [dir="rtl"] .notes-input, [dir="rtl"] .notes-display { text-align: right; }
+  [dir="rtl"] .new-badge { margin-left: 0; margin-right: 8px; }
+  [dir="rtl"] .btn-fav-overlay { right: auto; left: 6px; }
+  [dir="rtl"] .completed-icon { left: auto; right: 4px; }
+  [dir="rtl"] #player-date { margin-left: 0 !important; margin-right: 8px !important; }
+  [dir="rtl"] h1, [dir="rtl"] .player-title { font-family: 'Frank Ruhl Libre', serif; }
   </style>
 </head>
 <body>
 
 <div id="install-banner">
-  <div><div style="font-weight:700;">📱 Install App</div><div style="font-size:0.85rem; opacity:0.9;">For the best experience!</div></div>
-  <button onclick="installApp()" style="background:white; color:var(--accent); padding:10px 20px; border-radius:99px; border:none; font-weight:700; cursor:pointer;">Install</button>
+  <div><div style="font-weight:700;">📱 <span data-i18n="installTitle">Install App</span></div><div style="font-size:0.85rem; opacity:0.9;" data-i18n="installSub">For the best experience!</div></div>
+  <button onclick="installApp()" style="background:white; color:var(--accent); padding:10px 20px; border-radius:99px; border:none; font-weight:700; cursor:pointer;"><span data-i18n="installBtn">Install</span></button>
 </div>
 
 <div id="driving-mode" class="overlay">
-  <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title">No Shiur Playing</div>
+  <div style="color: #94a3b8; font-weight: 600; margin-bottom: 20px; font-size: 1.1rem; padding: 0 20px;" id="dm-title" data-i18n="noShiur">No Shiur Playing</div>
   <div class="dm-controls">
     <button class="dm-btn" onclick="seek(-30)">-30s</button>
     <button class="dm-btn play" onclick="togglePlay()"><svg id="dm-play-icon" width="45" height="45" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
     <button class="dm-btn" onclick="seek(30)">+30s</button>
   </div>
-  <button style="background:#334155; color:white; padding:12px 45px; border-radius:99px; border:none; cursor:pointer; font-weight:700;" onclick="toggleDrivingMode()">Exit Mode</button>
+  <button style="background:#334155; color:white; padding:12px 45px; border-radius:99px; border:none; cursor:pointer; font-weight:700;" onclick="toggleDrivingMode()"><span data-i18n="exitMode">Exit Mode</span></button>
 </div>
 
 <div id="stats-overlay" class="overlay">
   <div class="modal">
     <button onclick="closeOverlay('stats-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
-    <h3 style="margin-top:0;">My Torah Stats 📊</h3>
+    <h3 style="margin-top:0;"><span data-i18n="myStats">My Torah Stats</span> 📊</h3>
     <div style="display:flex; justify-content:space-around; text-align:center; margin-top:20px;">
-      <div><span id="stat-streak" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Streak</span></div>
-      <div><span id="stat-hours" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Hours</span></div>
-      <div><span id="stat-completed" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);">Completed</span></div>
+      <div><span id="stat-streak" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);" data-i18n="streak">Streak</span></div>
+      <div><span id="stat-hours" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);" data-i18n="hours">Hours</span></div>
+      <div><span id="stat-completed" style="font-size:1.8rem; font-weight:800; color:var(--accent); display:block;">0</span><span style="font-size:0.7rem; color:var(--text-muted);" data-i18n="completed">Completed</span></div>
     </div>
   </div>
 </div>
@@ -192,22 +218,23 @@
 <div id="quote-overlay" class="overlay">
   <div class="modal">
     <button onclick="closeOverlay('quote-overlay')" style="position:absolute; top:15px; right:15px; background:none; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
-    <h3 style="margin:0;">Share a Quote 🎨</h3>
-    <textarea id="quote-text" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" placeholder="Type a holy word..."></textarea>
-    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;">Create Royal Image</button>
+    <h3 style="margin:0;"><span data-i18n="shareQuote">Share a Quote</span> 🎨</h3>
+    <textarea id="quote-text" style="width:100%; height:120px; margin-top:15px; border-radius:12px; padding:12px; border:1px solid var(--border-soft); font-family:inherit; resize:none;" data-i18n-ph="quotePh" placeholder="Type a holy word..."></textarea>
+    <button onclick="generateAndShareQuote()" style="width:100%; background:var(--accent); color:white; border:none; padding:12px; border-radius:12px; font-weight:700; margin-top:15px; cursor:pointer;"><span data-i18n="createImage">Create Royal Image</span></button>
   </div>
 </div>
 
 <header>
   <div class="header-inner">
-    <h1>Mekor Chaim SI</h1>
-    <div class="sub">Weekly Shiurim - Rabbi Zish Kohn</div>
+    <h1 data-i18n="appName">Mekor Chaim SI</h1>
+    <div class="sub" data-i18n="appSub">Weekly Shiurim - Rabbi Zish Kohn</div>
     <div class="header-controls">
-      <button onclick="openStats()" class="nav-btn stats-btn">📊 Stats</button>
-      <button onclick="resumeLast()" class="nav-btn resume-btn">▶️ Resume</button>
-      <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn">⏭️ Auto Play: OFF</button>
-      <button onclick="toggleDrivingMode()" class="nav-btn audio-btn">🚗 Audio Mode</button>
-      <button onclick="toggleTheme()" class="nav-btn theme-btn" id="theme-btn">🌙 Theme</button>
+      <button onclick="openStats()" class="nav-btn stats-btn">📊 <span data-i18n="stats">Stats</span></button>
+      <button onclick="resumeLast()" class="nav-btn resume-btn">▶️ <span data-i18n="resume">Resume</span></button>
+      <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn"></button>
+      <button onclick="toggleDrivingMode()" class="nav-btn audio-btn">🚗 <span data-i18n="audioMode">Audio Mode</span></button>
+      <button onclick="toggleTheme()" class="nav-btn theme-btn" id="theme-btn">🌙 <span data-i18n="darkMode">Dark Mode</span></button>
+      <button onclick="toggleLang()" class="nav-btn lang-btn" id="lang-btn" title="עברית / English">🇮🇱</button>
     </div>
   </div>
 </header>
@@ -219,13 +246,13 @@
       <div class="player-header">
         <h2 class="player-title" id="player-title">Loading...</h2>
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div><span class="badge-main">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
+          <div><span class="badge-main" data-i18n="torah">Torah</span> <span id="player-date" style="font-size:0.8rem; color:var(--text-muted); margin-left:8px;"></span></div>
           <div style="position:relative;">
-            <button onclick="toggleShareMenu(event)" style="background:#eff6ff; color:#2563eb; padding:8px 20px; border-radius:99px; border:none; font-weight:700; cursor:pointer;">Share</button>
+            <button onclick="toggleShareMenu(event)" style="background:#eff6ff; color:#2563eb; padding:8px 20px; border-radius:99px; border:none; font-weight:700; cursor:pointer;"><span data-i18n="share">Share</span></button>
             <div id="share-dropdown" class="share-dropdown">
-              <button class="share-option" onclick="shareLink(false)">🔗 Copy App Link</button>
-              <button class="share-option" onclick="shareLink(true)">⏱️ Link with Current Time</button>
-              <button class="share-option" onclick="shareToWhatsApp()">💬 Share to WhatsApp</button>
+              <button class="share-option" onclick="shareLink(false)">🔗 <span data-i18n="copyLink">Copy App Link</span></button>
+              <button class="share-option" onclick="shareLink(true)">⏱️ <span data-i18n="linkWithTime">Link with Current Time</span></button>
+              <button class="share-option" onclick="shareToWhatsApp()">💬 <span data-i18n="shareWA">Share to WhatsApp</span></button>
             </div>
           </div>
         </div>
@@ -239,28 +266,28 @@
       </div>
       <div class="notes-section">
         <div class="notes-actions">
-          <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ View</button>
-          <button onclick="insertTimestamp()" class="tool-btn time">⏱️ Time</button>
-          <button onclick="openQuoteCreator()" class="tool-btn" style="background:#fef3c7; color:#d97706;">🎨 Quote</button>
-          <button id="btn-mark-done" onclick="toggleManualComplete()" class="tool-btn done">☐ Mark Done</button>
-          <button onclick="exportNotes()" class="tool-btn">💾 Export</button>
+          <button onclick="toggleNoteMode()" id="note-mode-btn" class="tool-btn primary">👁️ <span data-i18n="view">View</span></button>
+          <button onclick="insertTimestamp()" class="tool-btn time">⏱️ <span data-i18n="timeBtn">Time</span></button>
+          <button onclick="openQuoteCreator()" class="tool-btn" style="background:#fef3c7; color:#d97706;">🎨 <span data-i18n="quoteBtn">Quote</span></button>
+          <button id="btn-mark-done" onclick="toggleManualComplete()" class="tool-btn done">☐ <span data-i18n="markDone">Mark Done</span></button>
+          <button onclick="exportNotes()" class="tool-btn">💾 <span data-i18n="exportBtn">Export</span></button>
         </div>
-        <textarea id="notes-input" class="notes-input" placeholder="Notes autosave..."></textarea>
+        <textarea id="notes-input" class="notes-input" data-i18n-ph="notesPh" placeholder="Notes autosave..."></textarea>
         <div id="notes-display" class="notes-display"></div>
       </div>
     </div>
   </div>
 
   <div class="list-header" style="display:flex; gap:12px; align-items:center;">
-    <div class="search-wrapper" style="flex:1;"><span class="search-icon">🔍</span><input id="search-input" type="search" placeholder="Search topics..." oninput="renderList()"></div>
-    <button id="fav-filter-btn" class="fav-filter-btn" onclick="toggleFavFilter()">Saved ❤️</button>
+    <div class="search-wrapper" style="flex:1;"><span class="search-icon">🔍</span><input id="search-input" type="search" data-i18n-ph="searchPh" placeholder="Search topics..." oninput="renderList()"></div>
+    <button id="fav-filter-btn" class="fav-filter-btn" onclick="toggleFavFilter()"><span data-i18n="saved">Saved</span> ❤️</button>
   </div>
   <ul id="shiur-list" class="list"></ul>
 </main>
 
 <footer>
-  &copy; 2026 Mekor Chaim SI • Built by <a href="mailto:ccdesign.nys@gmail.com">CC Design</a><br>
-  <a href="https://wa.me/13472449382" target="_blank" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.8; font-weight: 700; display: inline-block;">Contact me on WhatsApp</a>
+  &copy; 2026 <span data-i18n="footerName">Mekor Chaim SI</span> • <span data-i18n="builtBy">Built by</span> <a href="mailto:ccdesign.nys@gmail.com">CC Design</a><br>
+  <a href="https://wa.me/13472449382" target="_blank" style="font-size: 0.75rem; margin-top: 5px; opacity: 0.8; font-weight: 700; display: inline-block;"><span data-i18n="contactWA">Contact me on WhatsApp</span></a>
 </footer>
 <div id="toast" class="toast"></div>
 
@@ -275,6 +302,45 @@
   })();
 
   const API_KEY = "AIzaSyCTwayKPsc9hlF-ewhl_23DB8fbG7N3k4I", PLAYLIST_ID = "PL5_QJLfJsSyaMFbbQVSWX5TY6nL0Snm3q";
+  const I18N = {
+    en: { pageTitle:"Weekly Shiur - Mekor Chaim SI", appName:"Mekor Chaim SI", appSub:"Weekly Shiurim - Rabbi Zish Kohn",
+      stats:"Stats", resume:"Resume", autoplayOn:"Auto Play: ON", autoplayOff:"Auto Play: OFF", audioMode:"Audio Mode",
+      darkMode:"Dark Mode", lightMode:"Light Mode", installTitle:"Install App", installSub:"For the best experience!", installBtn:"Install",
+      noShiur:"No Shiur Playing", exitMode:"Exit Mode", myStats:"My Torah Stats", streak:"Streak", hours:"Hours", completed:"Completed",
+      shareQuote:"Share a Quote", quotePh:"Type a holy word...", createImage:"Create Royal Image", torah:"Torah", share:"Share",
+      copyLink:"Copy App Link", linkWithTime:"Link with Current Time", shareWA:"Share to WhatsApp", view:"View", edit:"Edit",
+      timeBtn:"Time", quoteBtn:"Quote", markDone:"Mark Done", doneState:"Completed", exportBtn:"Export", notesPh:"Notes autosave...",
+      noNotes:"No notes yet.", searchPh:"Search topics...", saved:"Saved", noSaved:"No saved lessons.", linkCopied:"Link Copied!",
+      resuming:"Resuming...", noNotesExport:"No notes to export", loadFail:"Couldn't load the latest shiurim. Showing saved list.",
+      newBadge:"NEW", footerName:"Mekor Chaim SI", builtBy:"Built by", contactWA:"Contact me on WhatsApp" },
+    he: { pageTitle:"שיעור שבועי - מקור חיים", appName:"מקור חיים", appSub:"שיעורים שבועיים - הרב זיש כהן",
+      stats:"סטטיסטיקה", resume:"המשך", autoplayOn:"ניגון אוטומטי: פעיל", autoplayOff:"ניגון אוטומטי: כבוי", audioMode:"מצב שמע",
+      darkMode:"מצב כהה", lightMode:"מצב בהיר", installTitle:"התקן אפליקציה", installSub:"לחוויה הטובה ביותר!", installBtn:"התקן",
+      noShiur:"אין שיעור מתנגן", exitMode:"יציאה", myStats:"הסטטיסטיקה שלי", streak:"רצף", hours:"שעות", completed:"הושלמו",
+      shareQuote:"שתף ציטוט", quotePh:"כתוב דבר תורה...", createImage:"צור תמונה", torah:"תורה", share:"שתף",
+      copyLink:"העתק קישור", linkWithTime:"קישור עם זמן נוכחי", shareWA:"שתף בוואטסאפ", view:"צפה", edit:"ערוך",
+      timeBtn:"זמן", quoteBtn:"ציטוט", markDone:"סמן כהושלם", doneState:"הושלם", exportBtn:"ייצא", notesPh:"הערות נשמרות אוטומטית...",
+      noNotes:"אין הערות עדיין.", searchPh:"חפש נושאים...", saved:"שמורים", noSaved:"אין שיעורים שמורים.", linkCopied:"הקישור הועתק!",
+      resuming:"ממשיך...", noNotesExport:"אין הערות לייצוא", loadFail:"לא ניתן לטעון שיעורים חדשים. מציג רשימה שמורה.",
+      newBadge:"חדש", footerName:"מקור חיים", builtBy:"נבנה ע״י", contactWA:"צור קשר בוואטסאפ" }
+  };
+  function t(k){ const l = localStorage.getItem('mc_lang') || 'en'; return (I18N[l] && I18N[l][k]) || I18N.en[k] || k; }
+  function applyLang(lang){
+    localStorage.setItem('mc_lang', lang);
+    document.documentElement.lang = lang === 'he' ? 'he' : 'en';
+    document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+    document.title = t('pageTitle');
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+    document.getElementById('lang-btn').textContent = lang === 'he' ? '🇺🇸' : '🇮🇱';
+    if(!appState.currentId) document.getElementById('dm-title').textContent = t('noShiur');
+    updateThemeUI(document.body.classList.contains('dark-mode'));
+    updateAutoPlayUI(); updateNoteBtnUI(); updateManualBtnUI(); renderList();
+    updateNotesDisplay(document.getElementById('notes-input').value);
+  }
+  function toggleLang(){ applyLang((localStorage.getItem('mc_lang') || 'en') === 'he' ? 'en' : 'he'); }
+  function updateNoteBtnUI(){ const b = document.getElementById('note-mode-btn'); if(b) b.innerHTML = appState.isNoteEditMode ? "✏️ " + t("edit") : "👁️ " + t("view"); }
+
   let deferredPrompt;
 
   const appState = {
@@ -315,9 +381,9 @@
 
   function initApp() {
     if(appState.allData.length > 0) { renderList(); showUI(); }
-    fetchAllData(); updateAutoPlayUI(); applySavedTheme();
+    fetchAllData(); applySavedTheme(); applyLang(localStorage.getItem('mc_lang') || 'en');
     window.addEventListener('beforeunload', () => { updateStreak(); appState.save(); });
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('./OneSignalSDKWorker.js').catch(()=>{});
   }
 
   function startWatchdog() {
@@ -350,7 +416,7 @@
       if (data.nextPageToken) return fetchAllData(data.nextPageToken, acc);
       const newData = acc.map(i => ({ id: i.contentDetails.videoId, title: i.snippet.title, pubDate: i.contentDetails.videoPublishedAt, dateNice: new Date(i.contentDetails.videoPublishedAt).toLocaleDateString("en-US", {year:"numeric", month:"short", day:"numeric"}) })).sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
       if(JSON.stringify(newData) !== JSON.stringify(appState.allData)) { appState.allData = newData; appState.save(); renderList(); showUI(); }
-    } catch(e) { showUI(); if(appState.allData.length === 0) showToast("Couldn't load the latest shiurim. Showing saved list."); }
+    } catch(e) { showUI(); if(appState.allData.length === 0) showToast(t("loadFail")); }
   }
 
   function playVideo(id, autoScroll, time = null) {
@@ -395,7 +461,7 @@
     list.innerHTML = "";
     const filtered = appState.allData.filter(i => (i.title.toLowerCase().includes(filter) || i.dateNice.toLowerCase().includes(filter)) && (!appState.showFavoritesOnly || appState.favorites.has(i.id)));
     if (appState.showFavoritesOnly && filtered.length === 0) { 
-      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">No saved lessons.</div></div>`; 
+      list.innerHTML = `<div class="empty-state"><span class="empty-state-icon">❤️</span><div class="empty-state-text">${t("noSaved")}</div></div>`; 
       return; 
     }
     filtered.forEach((item) => {
@@ -403,7 +469,7 @@
       let percent = isComp ? 100 : (dur > 0 ? (prog/dur)*100 : 0);
       const isNew = item.pubDate === localStorage.getItem('mc_latest') && !isViewed;
       const li = document.createElement("li"); li.className = `item ${item.id === appState.currentId ? 'active' : ''}`; li.dataset.id = item.id;
-      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">NEW</span>' : ''}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
+      li.innerHTML = `<div class="item-thumb"><img src="https://i.ytimg.com/vi/${item.id}/mqdefault.jpg"> ${isComp ? '<div class="completed-icon">✔</div>' : ''} <button class="btn-fav-overlay ${appState.favorites.has(item.id)?'active':''}" onclick="event.stopPropagation(); toggleFav('${item.id}')"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button> <div class="item-progress-fill" style="width:${percent}%"></div> </div> <div class="item-body"><div class="item-title">${item.title}${isNew ? '<span class="new-badge">' + t("newBadge") + '</span>' : ''}</div><div class="item-date">${item.dateNice}${dur ? ' • '+Math.round(dur/60)+' min' : ''}</div></div>`;
       li.onclick = () => playVideo(item.id, true); list.appendChild(li);
     });
   }
@@ -415,7 +481,7 @@
     let url = getFullUrl() + '?v=' + appState.currentId;
     if(withTime) url += '&t=' + Math.floor(player.getCurrentTime());
     if(navigator.share) navigator.share({title: 'Weekly Shiur', url: url});
-    else { navigator.clipboard.writeText(url); showToast("Link Copied!"); }
+    else { navigator.clipboard.writeText(url); showToast(t("linkCopied")); }
     document.getElementById("share-dropdown").classList.remove("active");
   }
 
@@ -435,20 +501,20 @@ ${getFullUrl()}?v=${appState.currentId}`;
   function openQuoteCreator() { document.getElementById('quote-overlay').classList.add('active'); }
   function closeOverlay(id) { document.getElementById(id).classList.remove('active'); }
   function toggleTheme() { const isDark = document.body.classList.toggle("dark-mode"); updateThemeUI(isDark); }
-  function updateThemeUI(isDark) { const btn = document.getElementById('theme-btn'); if(btn) btn.innerHTML = isDark ? "☀️ Light Mode" : "🌙 Dark Mode"; localStorage.setItem('theme', isDark ? 'dark' : 'light'); }
+  function updateThemeUI(isDark) { const btn = document.getElementById('theme-btn'); if(btn) btn.innerHTML = isDark ? "☀️ " + t("lightMode") : "🌙 " + t("darkMode"); localStorage.setItem('theme', isDark ? 'dark' : 'light'); }
   function applySavedTheme() { if(localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark-mode'); updateThemeUI(true); } }
   function toggleFav(id) { appState.favorites.has(id) ? appState.favorites.delete(id) : appState.favorites.add(id); appState.save(); renderList(); }
   function toggleFavFilter() { appState.showFavoritesOnly = !appState.showFavoritesOnly; document.getElementById("fav-filter-btn").classList.toggle('active'); renderList(); }
   function setSpeed(s, btn) { if(player && player.setPlaybackRate) { player.setPlaybackRate(s); document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); } }
   function insertTimestamp() { if(!player || !player.getCurrentTime) return; const t = Math.floor(player.getCurrentTime()), ts = `[${Math.floor(t/60)}:${(t%60).toString().padStart(2,'0')}] `; document.getElementById("notes-input").value += ts; appState.save(); }
-  function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; btn.innerHTML = "👁️ View"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; btn.innerHTML = "✏️ Edit"; } }
-  function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || "No notes yet."; }
-  function exportNotes() { const text = document.getElementById("notes-input").value; if(!text) { showToast("No notes to export"); return; } const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
-  function resumeLast() { const last = localStorage.getItem('lastWatched'); if (last && appState.allData.some(d => d.id === last)) { playVideo(last, true); showToast("Resuming..."); } }
+  function toggleNoteMode() { appState.isNoteEditMode = !appState.isNoteEditMode; const input = document.getElementById("notes-input"), display = document.getElementById("notes-display"), btn = document.getElementById("note-mode-btn"); if(appState.isNoteEditMode) { input.style.display = "block"; display.style.display = "none"; } else { updateNotesDisplay(input.value); input.style.display = "none"; display.style.display = "block"; } updateNoteBtnUI(); }
+  function updateNotesDisplay(text) { const html = text.replace(/\[(\d+):(\d+)\]/g, (match, m, s) => `<span class="ts-link" onclick="player.seekTo(${parseInt(m)*60+parseInt(s)}, true)">${match}</span>`); document.getElementById("notes-display").innerHTML = html || t("noNotes"); }
+  function exportNotes() { const text = document.getElementById("notes-input").value; if(!text) { showToast(t("noNotesExport")); return; } const blob = new Blob([text], {type: "text/plain"}), a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "shiur_notes.txt"; a.click(); }
+  function resumeLast() { const last = localStorage.getItem('lastWatched'); if (last && appState.allData.some(d => d.id === last)) { playVideo(last, true); showToast(t("resuming")); } }
   function toggleAutoPlay() { appState.autoPlay = !appState.autoPlay; appState.save(); updateAutoPlayUI(); }
-  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); if(btn) { btn.textContent = appState.autoPlay ? "⏭️ Auto Play: ON" : "⏭️ Auto Play: OFF"; btn.classList.toggle('active', appState.autoPlay); } }
+  function updateAutoPlayUI() { const btn = document.getElementById('autoplay-toggle'); if(btn) { btn.innerHTML = "⏭️ " + t(appState.autoPlay ? "autoplayOn" : "autoplayOff"); btn.classList.toggle('active', appState.autoPlay); } }
   function toggleManualComplete() { if(appState.currentId) { if(appState.completed.has(appState.currentId)) appState.completed.delete(appState.currentId); else { appState.completed.add(appState.currentId); confetti(); } appState.save(); renderList(); updateManualBtnUI(); } }
-  function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(btn) { btn.innerHTML = appState.completed.has(appState.currentId) ? "✅ Completed" : "☐ Mark Done"; } }
+  function updateManualBtnUI() { const btn = document.getElementById('btn-mark-done'); if(btn) { btn.innerHTML = appState.completed.has(appState.currentId) ? "✅ " + t("doneState") : "☐ " + t("markDone"); } }
   function openStats() { const s = appState.stats; document.getElementById('stat-streak').textContent = s.streak; document.getElementById('stat-hours').textContent = (s.totalSeconds/3600).toFixed(1); document.getElementById('stat-completed').textContent = appState.completed.size; document.getElementById('stats-overlay').classList.add('active'); }
   function showToast(m) { const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),3000); }
   function toggleShareMenu(e) { e.stopPropagation(); document.getElementById("share-dropdown").classList.toggle("active"); }

@@ -1,5 +1,5 @@
-/* SW Version: 3.4.2 - Offline Support */
-const CACHE_NAME = 'mc-app-v3.4.2';
+/* SW Version: 3.4.3 - Offline Support */
+const CACHE_NAME = 'mc-app-v3.4.3';
 const ASSETS = [
   './', 
   './index.html', 
