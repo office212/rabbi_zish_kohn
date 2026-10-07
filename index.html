@@ -15,6 +15,8 @@
         : { actionMessage: "Get notified when a new shiur is published", acceptButton: "Allow", cancelButton: "No thanks" };
       await OneSignal.init({
         appId: "b7989270-b49e-4c93-8199-dfb666f8b3f5",
+        serviceWorkerPath: "/rabbi_zish_kohn/OneSignalSDKWorker.js",
+        serviceWorkerParam: { scope: "/rabbi_zish_kohn/" },
         promptOptions: { slidedown: { prompts: [ { type: "push", autoPrompt: true, text: txt, delay: { pageViews: 1, timeDelay: 10 } } ] } }
       });
     });
@@ -51,6 +53,7 @@
     .autoplay-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
     .autoplay-btn.active { background: #10b981; border-color: #10b981; }
     .theme-btn, .audio-btn { background: rgba(255,255,255,0.2); color: white; }
+    .notif-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); }
 
     /* Touch Feedback Animation */
     .nav-btn:active, .tool-btn:active, .dm-btn:active, .item:active, .fav-filter-btn:active {
@@ -167,6 +170,7 @@
       .nav-btn.autoplay-btn { background: var(--bg-main); }
       .nav-btn.autoplay-btn.active { background: #dcfce7; color: #166534; border-color: #86efac; }
       .theme-btn, .audio-btn { background: var(--bg-main); color: var(--text-main); }
+      .nav-btn.notif-btn { background: var(--bg-main); }
 
       .player-card { border-radius: 0; border-left: none; border-right: none; margin-bottom: 16px; }
       .list-header, #shiur-list { padding: 0 16px; }
@@ -238,6 +242,7 @@
       <button onclick="resumeLast()" class="nav-btn resume-btn">▶️ <span data-i18n="resume">Resume</span></button>
       <button id="autoplay-toggle" onclick="toggleAutoPlay()" class="nav-btn autoplay-btn"></button>
       <button onclick="toggleDrivingMode()" class="nav-btn audio-btn">🚗 <span data-i18n="audioMode">Audio Mode</span></button>
+      <button onclick="promptNotifications()" class="nav-btn notif-btn" id="notif-btn">🔔 <span data-i18n="notifBtn">Notifications</span></button>
       <button onclick="toggleTheme()" class="nav-btn theme-btn" id="theme-btn">🌙 <span data-i18n="darkMode">Dark Mode</span></button>
     </div>
   </div>
@@ -312,7 +317,7 @@
       darkMode:"Dark Mode", lightMode:"Light Mode", installTitle:"Install App", installSub:"For the best experience!", installBtn:"Install",
       noShiur:"No Shiur Playing", exitMode:"Exit Mode", myStats:"My Torah Stats", streak:"Streak", hours:"Hours", completed:"Completed",
       shareQuote:"Share a Quote", quotePh:"Type a holy word...", createImage:"Create Royal Image", torah:"Torah", share:"Share",
-      copyLink:"Copy App Link", linkWithTime:"Link with Current Time", shareWA:"Share to WhatsApp", view:"View", edit:"Edit",
+      copyLink:"Copy App Link", linkWithTime:"Link with Current Time", shareWA:"Share to WhatsApp", notifBtn:"Notifications", notifOn:"Notifications already on", notifBlocked:"Notifications are blocked in browser settings", view:"View", edit:"Edit",
       timeBtn:"Time", quoteBtn:"Quote", markDone:"Mark Done", doneState:"Completed", exportBtn:"Export", notesPh:"Notes autosave...",
       noNotes:"No notes yet.", searchPh:"Search topics...", saved:"Saved", noSaved:"No saved lessons.", linkCopied:"Link Copied!",
       resuming:"Resuming...", noNotesExport:"No notes to export", loadFail:"Couldn't load the latest shiurim. Showing saved list.",
@@ -322,7 +327,7 @@
       darkMode:"מצב כהה", lightMode:"מצב בהיר", installTitle:"התקן אפליקציה", installSub:"לחוויה הטובה ביותר!", installBtn:"התקן",
       noShiur:"אין שיעור מתנגן", exitMode:"יציאה", myStats:"הסטטיסטיקה שלי", streak:"רצף", hours:"שעות", completed:"הושלמו",
       shareQuote:"שתף ציטוט", quotePh:"כתוב דבר תורה...", createImage:"צור תמונה", torah:"תורה", share:"שתף",
-      copyLink:"העתק קישור", linkWithTime:"קישור עם זמן נוכחי", shareWA:"שתף בוואטסאפ", view:"צפה", edit:"ערוך",
+      copyLink:"העתק קישור", linkWithTime:"קישור עם זמן נוכחי", shareWA:"שתף בוואטסאפ", notifBtn:"התראות", notifOn:"ההתראות כבר פעילות", notifBlocked:"ההתראות חסומות בהגדרות הדפדפן", view:"צפה", edit:"ערוך",
       timeBtn:"זמן", quoteBtn:"ציטוט", markDone:"סמן כהושלם", doneState:"הושלם", exportBtn:"ייצא", notesPh:"הערות נשמרות אוטומטית...",
       noNotes:"אין הערות עדיין.", searchPh:"חפש נושאים...", saved:"שמורים", noSaved:"אין שיעורים שמורים.", linkCopied:"הקישור הועתק!",
       resuming:"ממשיך...", noNotesExport:"אין הערות לייצוא", loadFail:"לא ניתן לטעון שיעורים חדשים. מציג רשימה שמורה.",
@@ -500,6 +505,16 @@ ${getFullUrl()}?v=${appState.currentId}`;
     document.getElementById("share-dropdown").classList.remove("active");
   }
 
+  function promptNotifications(){
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(async function(OneSignal){
+      try {
+        if(OneSignal.Notifications.permissionNative === 'denied'){ showToast(t("notifBlocked")); return; }
+        if(OneSignal.Notifications.permission){ showToast(t("notifOn")); return; }
+        await OneSignal.Notifications.requestPermission();
+      } catch(e){ showToast(t("notifBlocked")); }
+    });
+  }
   function toggleDrivingMode() { document.getElementById("driving-mode").classList.toggle('active'); }
   function togglePlay() { player.getPlayerState() === 1 ? player.pauseVideo() : player.playVideo(); }
   function seek(s) { player.seekTo(player.getCurrentTime() + s, true); }
