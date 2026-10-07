@@ -293,11 +293,6 @@
     </div>
   </div>
 
-  <div class="list-header" style="display:flex; gap:12px; align-items:center;">
-    <div class="search-wrapper" style="flex:1;"><span class="search-icon">🔍</span><input id="search-input" type="search" data-i18n-ph="searchPh" placeholder="Search topics..." oninput="renderList()"></div>
-    <button id="fav-filter-btn" class="fav-filter-btn" onclick="toggleFavFilter()"><span data-i18n="saved">Saved</span> ❤️</button>
-  </div>
-  <ul id="shiur-list" class="list"></ul>
   <div class="email-card">
     <div style="font-weight:800; font-size:1rem;">📧 <span data-i18n="emailTitle">Email updates</span></div>
     <div style="font-size:0.85rem; color:var(--text-muted); margin-top:6px;" data-i18n="emailSub">Get an email when a new shiur is published.</div>
@@ -306,6 +301,11 @@
       <button class="email-btn" onclick="subscribeEmail()"><span data-i18n="emailBtn">Subscribe</span></button>
     </div>
   </div>
+  <div class="list-header" style="display:flex; gap:12px; align-items:center;">
+    <div class="search-wrapper" style="flex:1;"><span class="search-icon">🔍</span><input id="search-input" type="search" data-i18n-ph="searchPh" placeholder="Search topics..." oninput="renderList()"></div>
+    <button id="fav-filter-btn" class="fav-filter-btn" onclick="toggleFavFilter()"><span data-i18n="saved">Saved</span> ❤️</button>
+  </div>
+  <ul id="shiur-list" class="list"></ul>
 </main>
 
 <footer>
